@@ -109,6 +109,14 @@
 		-1px -1px 1px black;
 }
 
+.showItem{
+	display:block
+}
+
+.hideItem{
+	display:none
+}
+
 .potree_message {
 	width: 500px;
 	background-color: var(--bg-color);
@@ -508,6 +516,9 @@ body {
 #invertBtn {
 	background-color:#515151;width:280px;height:30px;font-size:20px;color:#ffffff; font-weight:300;border-radius:10px;padding:0px;margin:0px;border:0px;margin-top:20px
 }
+.ui-button:hover {
+	background:#666666
+}
 .button-icon {
 	background-color:#515151;
 	width: 36px;
@@ -519,7 +530,7 @@ body {
 }
 
 .button-icon:hover {
-	background-color:green;
+	background-color:#666666;
 	/* filter: drop-shadow(0px 0px 4px white); */
 }
 
@@ -740,16 +751,8 @@ body {
 	width: 100% !important;
 }
 
-.ui-state-default {
-	/* background: #ffffff !important; */
-	/* border: 1px solid black; */
-	/* border-radius:100% !important; */
-	/* color: black; */
-}
-
-
 .ui-state-active {
-	background: #c6c9ca !important;
+	background: #efefef !important;
 	color: black !important;
 }
 
@@ -758,10 +761,6 @@ body {
 	height: 100%;
 	width: 100%;
 }
-
-
-
-
 .zs_widget {
 	padding: 2px;
 	height: 4em;

@@ -59038,18 +59038,18 @@ void main() {
 	const ClassificationScheme = {
 
 		DEFAULT: {
-			0:       { visible: true, name: 'never classified'  , color: [0.5,  0.5,  0.5,  1.0] },
-			1:       { visible: true, name: 'unclassified'      , color: [0.5,  0.5,  0.5,  1.0] },
-			2:       { visible: true, name: 'ground'            , color: [0.63, 0.32, 0.18, 1.0] },
-			3:       { visible: true, name: 'low vegetation'    , color: [0.0,  1.0,  0.0,  1.0] },
-			4:       { visible: true, name: 'medium vegetation' , color: [0.0,  0.8,  0.0,  1.0] },
-			5:       { visible: true, name: 'high vegetation'   , color: [0.0,  0.6,  0.0,  1.0] },
-			6:       { visible: true, name: 'building'          , color: [1.0,  0.66, 0.0,  1.0] },
-			7:       { visible: true, name: 'low point(noise)'  , color: [1.0,  0.0,  1.0,  1.0] },
-			8:       { visible: true, name: 'key-point'         , color: [1.0,  0.0,  0.0,  1.0] },
-			9:       { visible: true, name: 'water'             , color: [0.0,  0.0,  1.0,  1.0] },
-			12:      { visible: true, name: 'overlap'           , color: [1.0,  1.0,  0.0,  1.0] },
-			DEFAULT: { visible: true, name: 'default'           , color: [0.3,  0.6,  0.6,  0.5] },
+			0:       { visible: true, name: 'Never classified'  , color: [0.5,  0.5,  0.5,  1.0] },
+			1:       { visible: true, name: 'Unclassified'      , color: [0.5,  0.5,  0.5,  1.0] },
+			2:       { visible: true, name: 'Ground'            , color: [0.63, 0.32, 0.18, 1.0] },
+			3:       { visible: true, name: 'Low vegetation'    , color: [0.0,  1.0,  0.0,  1.0] },
+			4:       { visible: true, name: 'Medium vegetation' , color: [0.0,  0.8,  0.0,  1.0] },
+			5:       { visible: true, name: 'High vegetation'   , color: [0.0,  0.6,  0.0,  1.0] },
+			6:       { visible: true, name: 'Building'          , color: [1.0,  0.66, 0.0,  1.0] },
+			7:       { visible: true, name: 'Low point (noise)'  , color: [1.0,  0.0,  1.0,  1.0] },
+			8:       { visible: true, name: 'Key-point'         , color: [1.0,  0.0,  0.0,  1.0] },
+			9:       { visible: true, name: 'Water'             , color: [0.0,  0.0,  1.0,  1.0] },
+			12:      { visible: true, name: 'Overlap'           , color: [1.0,  1.0,  0.0,  1.0] },
+			DEFAULT: { visible: true, name: 'Default'           , color: [0.3,  0.6,  0.6,  0.5] },
 		}
 	};
 
@@ -79292,7 +79292,7 @@ ENDSEC
 
 			{ // SHOW / HIDE Measurements
 				let elShow = $("#measurement_options_show");
-				elShow.selectgroup({title: "Show/Hide labels"});
+				elShow.selectgroup({title:""});
 
 				elShow.find("input").click( (e) => {
 					const show = e.target.value === "SHOW";
@@ -80107,9 +80107,9 @@ ENDSEC
 
 				let element = $(`
 				<li>
-					<label style="whitespace: nowrap; display: flex">
+					<label style="whitespace: nowrap; display: flex;align-items:center; margin-bottom:4px">
 						<input id="${inputID}" type="checkbox" ${checked}/>
-						<span style="flex-grow: 1">${name}</span>
+						<span style="flex-grow: 1;font-size:16px">${name}</span>
 						<input id="${colorPickerID}" style="zoom: 0.5" />
 					</label>
 				</li>
@@ -80151,9 +80151,9 @@ ENDSEC
 			const addToggleAllButton = () => { // toggle all button
 				const element = $(`
 				<li>
-					<label style="whitespace: nowrap">
+					<label style="whitespace: nowrap;display:flex; margin-bottom:13px">
 						<input id="toggleClassificationFilters" type="checkbox" checked/>
-						<span>show/hide all</span>
+						<span style='font-size:16px'>Show/hide all</span>
 					</label>
 				</li>
 			`);
@@ -90341,7 +90341,7 @@ ENDSEC
 				let elFieldset = $(`
 				<fieldset style="border: none; margin: 0px; padding: 0px;margin-top:10px">
 					<legend>${groupTitle}</legend>
-					<span style="display: flex; flex-wrap:wrap; width:242px">
+					<span style="display: flex; flex-wrap:wrap; ">
 					</span>
 				</fieldset>
 			`);
@@ -90350,23 +90350,16 @@ ENDSEC
 				for(let elButton of elButtons){
 					elButtonContainer.append(elButton);
 				}
-
 				elButtonContainer.find("label").each( (index, value) => {
 					$(value).css("margin", "0px");
 					$(value).css("margin-right", "10px");
 					$(value).css('margin-bottom', '10px');
 					$(value).css("border-radius", "100px");
 					$(value).css('font-size', "16px")
-
 				});
-				
-
-
+			
 				elGroup.empty();
 				elGroup.append(elFieldset);
-
-
-
 			}
 		});
 	})(jQuery);

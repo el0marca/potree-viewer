@@ -1,6 +1,7 @@
 import s from './PotreeView.module.css'
 import React from "react";
 import f from '../img/icons/menu_button.svg'
+// import * as THREE from "../three.js/build/three.module.js";
 // import dd from 'xml-js'
 import convertJSONToXML from 'xml-js'
 const Potree = window.Potree;

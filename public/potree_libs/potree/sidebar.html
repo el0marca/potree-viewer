@@ -31,15 +31,20 @@
 	<div>
 		<div id="view-type" style="display:block">
 			<div style="display:flex;flex-direction:row; justify-content: space-between; margin-top: 42px;">
-				<div style="color:#ffffff">
-					Show/Hide labels
+				<div style="color:#ffffff;display:flex;align-items: center;flex:1">
+					Labels
 				</div>
-				<div>toggle</div>
+				<div style="flex:2">
+					<selectgroup id="measurement_options_show">
+						<option id="measurement_options_show_yes" value="SHOW">Show</option>
+						<option id="measurement_options_show_no" value="HIDE">Hide</option>
+					</selectgroup>
+				</div>
 			</div>
 
 			<div style="margin-top:38px">
 				<div style="color:#ffffff">Number of points</div>
-				<div style="margin-top:20px" id="lblPointBudget"></div>
+				<div style="margin-top:20px; font-size: 16px;color:#efefef" id="lblPointBudget"></div>
 				<div style="margin-top:15px" id="sldPointBudget"></div>
 			</div>
 
@@ -72,7 +77,8 @@
 				<div id="scene_object_properties"></div>
 			</div>
 		</div>
-		<div id="potree_menu" class="accordion">
+		<div style="height:100px"></div>
+		<div style='display:none' id="potree_menu" class="accordion">
 			<!-- APPEARANCE -->
 			<h3 id="menu_appearance"><span data-i18n="tb.rendering_opt"></span></h3>
 			<div>
@@ -122,8 +128,8 @@
 				</ul>
 			</div>
 			<!-- TOOLS -->
-			<h3 id="menu_tools"><span data-i18n="tb.tools_opt"></span></h3>
-			<div class="pv-menu-list">
+			<h3 style='display:none' id="menu_tools"><span data-i18n="tb.tools_opt"></span></h3>
+			<div style='display:none' class="pv-menu-list">
 				<div class="divider"><span>Measurement</span></div>
 				<li>
 					<selectgroup id="measurement_options_show">
@@ -154,8 +160,8 @@
 				</li>
 			</div>
 			<!-- SCENE -->
-			<h3 id="menu_scene"><span data-i18n="tb.scene_opt"></span></h3>
-			<div class="pv-menu-list">
+			<h3 style='display:none' id="menu_scene"><span data-i18n="tb.scene_opt"></span></h3>
+			<div style='display:none' class="pv-menu-list">
 				<div id="scene_export"></div>
 				<div class="divider"><span>Objects</span></div>
 				<div id="scene_objects"></div>
@@ -163,8 +169,8 @@
 				<div id="scene_object_properties"></div>
 			</div>
 			<!-- Classification -->
-			<h3 id="menu_filters"><span data-i18n="tb.filters_opt"></span></h3>
-			<div>
+			<h3 style='display:none' id="menu_filters"><span data-i18n="tb.filters_opt"></span></h3>
+			<div style='display:none'>
 				<div class="divider"><span>Classification</span></div>
 				<ul id="classificationList" class="pv-menu-list"></ul>
 				<div class="divider"><span>Returns</span></div>

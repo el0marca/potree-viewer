@@ -75,7 +75,8 @@
     replaceInput = [
         "<div class='sp-replacer'>",
             "<div class='sp-preview'><div class='sp-preview-inner'></div></div>",
-            "<div class='sp-dd'>&#9660</div>",
+            // "<div class='sp-dd'>&#9660</div>",
+            "<img src='./potree_libs/potree/resources/icons/expandBtn.svg' alt='fddfdfd'>",
         "</div>"
     ].join(''),
     markup = (function () {

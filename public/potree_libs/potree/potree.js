@@ -74086,9 +74086,6 @@ ENDSEC
 					<td><span>${x}</span></td>
 					<td><span>${y}</span></td>
 					<td><span>${z}</span></td>
-					<td align="right" style="width: 25%">
-						<img name="copy" title="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>
-					</td>
 				</tr>
 			`);
 
@@ -74154,18 +74151,12 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable">
+			<div style='border-bottom:1px solid #272727; height:50px; display:flex;align-items:center;padding:0px 20px'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3'>Distance</div>
+			</div>
 				<span class="coordinates_table_container"></span>
-				<br>
 				<table id="distances_table" class="measurement_value_table"></table>
-
-				<!-- ACTIONS -->
-				<div style="display: flex; margin-top: 12px">
-					<span>
-						<input type="button" name="make_profile" value="profile from measure" />
-					</span>
-					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
-				</div>
 			</div>
 		`);
 
@@ -74325,8 +74316,17 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable">
+			<div style='border-bottom:1px solid #272727; height:50px; display:flex;align-items:center;padding:0px 20px'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1"><img  src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'></div>
+			<div style='flex:5;display:flex; justify-content:space-between;'>
+			<div style='font-size:20px;font-weight:300'>Angle</div>
+			<div id='minimizeProperties'><img src='./potree_libs/potree/resources/icons/minimizeBtn.svg' alt='minimize'></div>
+			</div>
+			</div>
+			</div>
 				<span class="coordinates_table_container"></span>
-				<br>
 				<table class="measurement_value_table">
 					<tr>
 						<th>\u03b1</th>
@@ -74339,13 +74339,6 @@ ENDSEC
 						<td align="center" id="angle_cell_gamma" style="width: 33%"></td>
 					</tr>
 				</table>
-
-				<!-- ACTIONS -->
-				<div style="display: flex; margin-top: 12px">
-					<span></span>
-					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
-				</div>
 			</div>
 		`);
 
@@ -74560,9 +74553,6 @@ ENDSEC
 						<td align="center" id="angle_cell_alpha" style="width: 33%"></td>
 						<td align="center" id="angle_cell_betta" style="width: 33%"></td>
 						<td align="center" id="angle_cell_gamma" style="width: 33%"></td>
-						<td align="right" style="width: 25%">
-							<img name="copyRotation" title="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>
-						</td>
 					</tr>
 				</table>
 
@@ -74577,46 +74567,11 @@ ENDSEC
 						<td align="center" id="cell_length" style="width: 33%"></td>
 						<td align="center" id="cell_width" style="width: 33%"></td>
 						<td align="center" id="cell_height" style="width: 33%"></td>
-						<td align="right" style="width: 25%">
-							<img name="copyScale" title="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>
-						</td>
 					</tr>
 				</table>
-
-				<br>
+				<div style='padding:20px 20px 0px 20px'>
 				<span style="font-weight: bold">Volume: </span>
 				<span id="measurement_volume"></span>
-
-				<!--
-				<li>
-					<label style="whitespace: nowrap">
-						<input id="volume_show" type="checkbox"/>
-						<span>show volume</span>
-					</label>
-				</li>-->
-
-				<li>
-					<label style="whitespace: nowrap">
-						<input id="volume_clip" type="checkbox"/>
-						<span>make clip volume</span>
-					</label>
-				</li>
-
-				<li style="margin-top: 10px">
-					<input name="download_volume" type="button" value="prepare download" style="width: 100%" />
-					<div name="download_message"></div>
-				</li>
-
-
-				<!-- ACTIONS -->
-				<li style="display: grid; grid-template-columns: auto auto; grid-column-gap: 5px; margin-top: 10px">
-					<input id="volume_reset_orientation" type="button" value="reset orientation"/>
-					<input id="volume_make_uniform" type="button" value="make uniform"/>
-				</li>
-				<div style="display: flex; margin-top: 12px">
-					<span></span>
-					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
 				</div>
 			</div>
 		`);
@@ -75208,9 +75163,6 @@ ENDSEC
 					<td align="center" id="camera_position_x" style="width: 25%"></td>
 					<td align="center" id="camera_position_y" style="width: 25%"></td>
 					<td align="center" id="camera_position_z" style="width: 25%"></td>
-					<td align="right" id="copy_camera_position" style="width: 25%">
-						<img name="copyPosition" title="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>
-					</td>
 				</tr>
 				<tr>
 					<th colspan="3">target</th>
@@ -75220,9 +75172,6 @@ ENDSEC
 					<td align="center" id="camera_target_x" style="width: 25%"></td>
 					<td align="center" id="camera_target_y" style="width: 25%"></td>
 					<td align="center" id="camera_target_z" style="width: 25%"></td>
-					<td align="right" id="copy_camera_target" style="width: 25%">
-						<img name="copyTarget" title="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>
-					</td>
 				</tr>
 			</table>
 		</div>
@@ -75293,9 +75242,6 @@ ENDSEC
 					<td align="center" id="annotation_position_x" style="width: 25%"></td>
 					<td align="center" id="annotation_position_y" style="width: 25%"></td>
 					<td align="center" id="annotation_position_z" style="width: 25%"></td>
-					<td align="right" id="copy_annotation_position" style="width: 25%">
-						<img name="copyPosition" title="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>
-					</td>
 				</tr>
 
 			</table>
@@ -75593,8 +75539,8 @@ ENDSEC
 			let material = pointcloud.material;
 
 			let panel = $(`
-			<div style="position:absolute; bottom:40px; left:0px;right:0px;height:450px" class="scene_content selectable">
-				<div style='display:flex;flex-direction:row;height:64px;border-bottom:1px solid #272727;align-items:center;padding:0px 20px;flex:1'>
+			<div style="position:absolute; bottom:40px; left:0px;right:0px" class="scene_content selectable">
+				<div style='display:flex;flex-direction:row;height:50px;border-bottom:1px solid #272727;align-items:center;padding:0px 20px;flex:1'>
 				<div style='font-size:20px;color:#efefef';font-weight: Futura PT;flex:2>Properties</div>
 				<div id="scene_objects" style='flex:3;background-color:red;width:60px'></div>
 				</div>

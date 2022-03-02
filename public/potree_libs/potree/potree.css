@@ -414,17 +414,24 @@ border-radius:10px 10px 0px 0px;
 }
 
 .measurement_content {
-	padding: 5px 15px 5px 10px;
-	display: none;
+	background-color:#414141!important;
+	position:absolute;
+	bottom:40px;
+	left:0px;
+	right: 0px;
+	font-size: 16px;
+	border-radius: 10px 10px 0px 0px;
+	padding-bottom:20px;
 }
 
 .propertypanel_content {
 	padding: 5px 15px 5px 10px;
-	/*background-color: rgba(0, 0, 0, 0.4);*/
 }
 
 .measurement_value_table {
-	width: 100%;
+	font-size:16px;
+	padding:20px 20px 0px 20px;
+	width:100%
 }
 #optPointSizing-menu {
 	background-color:#515151;
@@ -443,6 +450,7 @@ border-radius:10px 10px 0px 0px;
 
 #scene_object_properties {
 	margin: 0px;
+	font-size: 16px;
 }
 #properties{
 	padding:20px;
@@ -736,17 +744,26 @@ border-radius:10px 10px 0px 0px;
 .jstree-themeicon-custom {
 	background-size: 16px !important;
 }
-
+.jstree_children{
+	display:flex;
+	justify-content:space-around;
+	height:36px
+}
 .jstree-default .jstree-clicked {
 	background-color: #515151 !important;
+	border-radius:10px!important;
+	width:207px!important
 }
-
+.measurements_anchor{
+	width:207!important
+}
+#pointclouds_anchor:hover{
+	width:207!important
+}
 .jstree-default .jstree-hovered {
 	background-color: #414141 !important;
-}
-
-.jstree-anchor {
-	width: 100% !important;
+	border-radius:10px!important;
+	width:207px!important
 }
 
 .ui-state-active {

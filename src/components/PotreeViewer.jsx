@@ -1,9 +1,9 @@
 import s from './PotreeView.module.css'
 import React from "react";
-import f from '../img/icons/menu_button.svg'
+import toggleBtn from '../img/icons/menu_button.svg'
 // import * as THREE from "../three.js/build/three.module.js";
 // import dd from 'xml-js'
-import convertJSONToXML from 'xml-js'
+// import convertJSONToXML from 'xml-js'
 const Potree = window.Potree;
 
 const PotreeViewer = () => {
@@ -120,7 +120,7 @@ const PotreeViewer = () => {
         }}
       >
         <div id='toggleButton' className={s.toggleButton}>
-        <img src={f} alt="toggleButton" />
+        <img src={toggleBtn} alt="toggleButton" />
         </div>
         <li id="tools"></li>
       </div>

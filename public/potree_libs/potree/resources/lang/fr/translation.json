@@ -27,7 +27,7 @@
         "earth_control": "Earth"
     },
     "appearance": {
-        "nb_max_pts": "Nb points max", 
+        "nb_max_pts": "Nombre de points", 
         "point_size": "Taille des points",
         "point_opacity": "Opacité",
         "field_view": "Angle de vue",

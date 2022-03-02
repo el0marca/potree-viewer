@@ -1,21 +1,12 @@
 <div id="sidebar_root" class="">
 	<div id="sidebar_header">
-		<div style="flex:1;">languages</div>
+		<div style="flex:1;">
+			<!-- <div id="potree_languages"></div> -->
+		</div>
 		<div style="flex:1;display:flex;justify-content: center;align-items: center;">
 			<img src="/potree_libs/potree/resources/icons/logo.svg" alt="f">
 		</div>
 		<div style="flex:1">settings</div>
-
-		<!-- <span id="potree_branding" class="potree_sidebar_brand">
-			<a href="http://potree.org" target="_blank">potree.org</a>
-			<span style="margin: 0px 3px; color: #9AA1A4"> - </span>
-			<a href="https://github.com/potree/potree" target="_blank">github</a>
-			<span style="margin: 0px 3px; color: #9AA1A4"> - </span>
-			<a href="https://twitter.com/m_schuetz" target="_blank">twitter</a>
-			<span style="flex-grow: 1"></span>
-			<span id="potree_version_number" style="color: #9AA1A4; font-size: 80%; font-weight: 100"></span>
-		</span>
-		<div id="potree_languages" style="font-family:arial;"></div> -->
 	</div>
 	<div id="sidebar-type" style="display:flex;flex-direction:row; justify-content: space-around;margin-top:24px; width: 280px;height: 38px;padding: 4px;background: #272727;border-radius:10px
 	">
@@ -43,9 +34,12 @@
 			</div>
 
 			<div style="margin-top:38px">
-				<div style="color:#ffffff">Number of points</div>
+				<div data-i18n="appearance.nb_max_pts" style="color:#ffffff"></div>
 				<div style="margin-top:20px; font-size: 16px;color:#efefef" id="lblPointBudget"></div>
 				<div style="margin-top:15px" id="sldPointBudget"></div>
+				<!-- <span data-i18n="appearance.nb_max_pts"></span><br>
+					<span id="lblPointBudget"></span> <div id="sldPointBudget"></div> -->
+				
 			</div>
 
 			<div style="font-size:20px; margin-top:35px">
@@ -69,10 +63,8 @@
 			</div> -->
 		</div>
 		<div id="layers-type" style="display:none">
-			<h3 id="menu_scene">
-			</h3>
+			<h3 id="menu_scene"></h3>
 			<div class="pv-menu-list">
-				<!-- <div class="divider"><span>Objects</span></div> -->
 				<div id="scene_objects"></div>
 				<div id="scene_object_properties"></div>
 			</div>

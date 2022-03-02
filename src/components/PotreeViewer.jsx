@@ -95,19 +95,15 @@ const PotreeViewer = () => {
       viewer.toggleSidebar();
     });
 
-    Potree.loadPointCloud(pointCloudUrl).then(
-      (e) => {
-        // let scene = viewer.scene;
-        let pointcloud = e.pointcloud;
-        let material = pointcloud.material;
-        material.activeAttributeName = "rgba";
-        material.minSize = 2;
-        material.pointSizeType = Potree.PointSizeType.FIXED;
-        viewer.scene.addPointCloud(pointcloud);
-        viewer.fitToScreen();
-      },
-      (e) => console.err("ERROR: ", e)
-    );
+    Potree.loadPointCloud(pointCloudUrl, 'pointcloud', (e)=>{
+      let pointcloud = e.pointcloud;
+      let material = pointcloud.material;
+      material.activeAttributeName = "rgba";
+      material.minSize = 2;
+      material.pointSizeType = Potree.PointSizeType.FIXED;
+      viewer.scene.addPointCloud(pointcloud);
+      viewer.fitToScreen();
+    })
   }, [pointCloudUrl, potreeContainerDiv]);
 
   return (

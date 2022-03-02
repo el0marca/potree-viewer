@@ -55403,9 +55403,9 @@
 				} else if (!measurement.showDistances && !measurement.showArea && measurement.showAngles) {
 					return `${Potree.resourcePath}/icons/angle.svg`;
 				} else if (measurement.showHeight) {
-					return `${Potree.resourcePath}/icons/height.png`;
+					return `${Potree.resourcePath}/icons/distance.svg`;
 				} else {
-					return `${Potree.resourcePath}/icons/cirle.svg`;
+					return `${Potree.resourcePath}/icons/point.svg`;
 				}
 			} else if (measurement instanceof Profile) {
 				return `${Potree.resourcePath}/icons/profile.svg`;
@@ -75593,23 +75593,28 @@ ENDSEC
 			let material = pointcloud.material;
 
 			let panel = $(`
-			<div class="scene_content selectable">
-				<ul class="pv-menu-list">
-
-				<li>
-				<span data-i18n="appearance.point_size"></span>:&nbsp;<span id="lblPointSize"></span> <div id="sldPointSize"></div>
+			<div style="position:absolute; bottom:40px; left:0px;right:0px;height:450px" class="scene_content selectable">
+				<div style='display:flex;flex-direction:row;height:64px;border-bottom:1px solid #272727;align-items:center;padding:0px 20px;flex:1'>
+				<div style='font-size:20px;color:#efefef';font-weight: Futura PT;flex:2>Properties</div>
+				<div id="scene_objects" style='flex:3;background-color:red;width:60px'></div>
+				</div>
+				<ul id='properties' class="pv-menu-list">
+				<li style='padding-bottom:20px'>
+					<span style='margin-bottom:15px' data-i18n="appearance.point_size"></span>:&nbsp;<span id="lblPointSize"></span> 
+					<div style='margin-top:15px' id="sldPointSize"></div>
 				</li>
-				<li>
-				<span data-i18n="appearance.min_point_size"></span>:&nbsp;<span id="lblMinPointSize"></span> <div id="sldMinPointSize"></div>
+				<li style='padding-bottom:20px'>
+				<span data-i18n="appearance.min_point_size"></span>:&nbsp;<span id="lblMinPointSize"></span>
+				<div style='margin-top:15px' id="sldMinPointSize"></div>
 				</li>
 
 				<!-- SIZE TYPE -->
-				<li>
-					<label for="optPointSizing" class="pv-select-label" data-i18n="appearance.point_size_type">Point Sizing </label>
+				<li style='margin-bottom:20px'>
+					<label style="margin-bottom:15px" for="optPointSizing" class="pv-select-label" data-i18n="appearance.point_size_type">Point Sizing </label>
 					<select id="optPointSizing" name="optPointSizing">
-						<option>FIXED</option>
-						<option>ATTENUATED</option>
-						<option>ADAPTIVE</option>
+						<option>Fixed</option>
+						<option>Attenuated</option>
+						<option>Adaptive</option>
 					</select>
 				</li>
 
@@ -75617,9 +75622,9 @@ ENDSEC
 				<li>
 					<label for="optShape" class="pv-select-label" data-i18n="appearance.point_shape"></label><br>
 					<select id="optShape" name="optShape">
-						<option>SQUARE</option>
-						<option>CIRCLE</option>
-						<option>PARABOLOID</option>
+						<option>Square</option>
+						<option>Circle</option>
+						<option>Paraboloid</option>
 					</select>
 				</li>
 
@@ -75628,17 +75633,13 @@ ENDSEC
 				</li>
 				
 				<!-- OPACITY -->
-				<li><span data-i18n="appearance.point_opacity"></span>:<span id="lblOpacity"></span><div id="sldOpacity"></div></li>
+				<li style='margin:20px 0px 20px 0px'><span data-i18n="appearance.point_opacity"></span>:<span id="lblOpacity"></span><div style='margin-top:15px' id="sldOpacity"></div></li>
 
-				<div class="divider">
-					<span>Attribute</span>
-				</div>
-
-				<li>
+				<li style='display:none'>
 					<select id="optMaterial" name="optMaterial"></select>
 				</li>
 
-				<div id="materials.composite_weight_container">
+				<div style='display:none' id="materials.composite_weight_container">
 					<div class="divider">
 						<span>Attribute Weights</span>
 					</div>
@@ -75652,13 +75653,9 @@ ENDSEC
 				</div>
 
 				<div id="materials.rgb_container">
-					<div class="divider">
-						<span>RGB</span>
-					</div>
-
-					<li>Gamma: <span id="lblRGBGamma"></span> <div id="sldRGBGamma"></div>	</li>
-					<li>Brightness: <span id="lblRGBBrightness"></span> <div id="sldRGBBrightness"></div>	</li>
-					<li>Contrast: <span id="lblRGBContrast"></span> <div id="sldRGBContrast"></div>	</li>
+					<li style='display:none'>Gamma: <span id="lblRGBGamma"></span> <div id="sldRGBGamma"></div>	</li>
+					<li style='display:none'>Brightness: <span id="lblRGBBrightness"></span> <div id="sldRGBBrightness"></div>	</li>
+					<li style='display:none'>Contrast: <span id="lblRGBContrast"></span> <div id="sldRGBContrast"></div></li>
 				</div>
 
 				<div id="materials.extra_container">
@@ -75745,8 +75742,6 @@ ENDSEC
 						<span>Indices</span>
 					</div>
 				</div>
-
-
 				</ul>
 			</div>
 		`);
@@ -79137,7 +79132,7 @@ ENDSEC
 
 			// HEIGHT
 			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/height.png',
+				Potree.resourcePath + '/icons/height.svg',
 				'[title]tt.height_measurement',
 				() => {
 					$('#menu_measurements').next().slideDown();
@@ -80109,7 +80104,7 @@ ENDSEC
 				<li>
 					<label style="whitespace: nowrap; display: flex;align-items:center; margin-bottom:4px">
 						<input id="${inputID}" type="checkbox" ${checked}/>
-						<span style="flex-grow: 1;font-size:16px">${name}</span>
+						<span style="flex-grow: 1;font-size:16px;color:#EFEFEF";font-weight:300>${name}</span>
 						<input id="${colorPickerID}" style="zoom: 0.5" />
 					</label>
 				</li>
@@ -80268,7 +80263,7 @@ ENDSEC
 				elLanguages.append(element);
 
 				if(i < languages.length - 1){
-					elLanguages.append($(document.createTextNode(' - ')));	
+					elLanguages.append($(document.createTextNode('-')));	
 				}
 			}
 

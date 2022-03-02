@@ -49,7 +49,7 @@
 		"camera_animation": "Camera Animation"
 	},
 	"appearance": {
-		"nb_max_pts": "Point budget", 
+		"nb_max_pts": "Number of points", 
 		"point_size": "Point size",
 		"min_point_size": "Minimum size",
 		"point_opacity": "Opacity",

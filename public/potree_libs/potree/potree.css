@@ -411,14 +411,18 @@ body {
 .scene_content {
 background-color:#414141;
 border-radius:10px 10px 0px 0px;
+position:fixed;
+bottom:0px;
+left:0px;
+width:320px;
 }
 
 .measurement_content {
 	background-color:#414141!important;
-	position:absolute;
-	bottom:40px;
+	position:fixed;
+	bottom:0px;
 	left:0px;
-	right: 0px;
+	width:320px;
 	font-size: 16px;
 	border-radius: 10px 10px 0px 0px;
 	padding-bottom:20px;
@@ -452,9 +456,40 @@ border-radius:10px 10px 0px 0px;
 	margin: 0px;
 	font-size: 16px;
 }
-#properties{
-	padding:20px;
+.fake{
+	display:inline-block;
+	width:22px;
+	height:22px;
+	border-radius:100%;
+	background-color:#272727;
+	position:relative;
+	margin-right:12px
+}
+.fake::before{
+	content:'';
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%, -50%);
+	display:block;
+	width:12px;
+	height:12px;
+	border-radius:100%;
+	background-color:#efefef;
+	opacity:0;
+	transition:0.2s
+}
+
+.checkbox:checked + .fake::before {
+opacity:1;
+
+}
+#properties {
+	padding: 15px 20px;
 	font-size: 16px;
+}
+.checkbox {
+	display:none
 }
 .pv-panel-heading {
 	padding: 4px !important;
@@ -754,11 +789,10 @@ border-radius:10px 10px 0px 0px;
 	border-radius:10px!important;
 	width:207px!important
 }
-.measurements_anchor{
-	width:207!important
-}
-#pointclouds_anchor:hover{
-	width:207!important
+.jstree-anchor{
+	width:207px!important;
+	padding:5px!important;
+	font-family: Futura PT;
 }
 .jstree-default .jstree-hovered {
 	background-color: #414141 !important;

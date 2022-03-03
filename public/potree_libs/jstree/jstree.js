@@ -4990,9 +4990,9 @@
  * It also supports tri-state behavior, meaning that if a node has a few of its children checked it will be rendered as undetermined, and state will be propagated up.
  */
 
-	// var _i = document.createElement('I');
-	// _i.className = 'jstree-icon jstree-checkbox';
-	// _i.setAttribute('role', 'presentation');
+	var _i = document.createElement('I');
+	_i.className = 'jstree-icon jstree-checkbox';
+	_i.setAttribute('role', 'presentation');
 	/**
 	 * stores all defaults for the checkbox plugin
 	 * @name $.jstree.defaults.checkbox
@@ -5004,7 +5004,7 @@
 		 * @name $.jstree.defaults.checkbox.visible
 		 * @plugin checkbox
 		 */
-		visible				: true,
+		visible: true,
 		/**
 		 * a boolean indicating if checkboxes should cascade down and have an undetermined state. Defaults to `true`.
 		 * @name $.jstree.defaults.checkbox.three_state
@@ -5458,9 +5458,9 @@
 				}
 				if(tmp) {
 					if(!this.settings.checkbox.tie_selection && this._model.data[obj.id].state.checked) { tmp.className += ' jstree-checked'; }
-					// icon = _i.cloneNode(false);
-					// if(this._model.data[obj.id].state.checkbox_disabled) { icon.className += ' jstree-checkbox-disabled'; }
-					// tmp.insertBefore(icon, tmp.childNodes[0]);
+					icon = _i.cloneNode(false);
+					if(this._model.data[obj.id].state.checkbox_disabled) { icon.className += ' jstree-checkbox-disabled'; }
+					tmp.insertBefore(icon, tmp.childNodes[0]);
 				}
 			}
 			if(!is_callback && this.settings.checkbox.cascade.indexOf('undetermined') !== -1) {

@@ -75539,23 +75539,23 @@ ENDSEC
 			let material = pointcloud.material;
 
 			let panel = $(`
-			<div style="position:absolute; bottom:40px; left:0px;right:0px" class="scene_content selectable">
-				<div style='display:flex;flex-direction:row;height:50px;border-bottom:1px solid #272727;align-items:center;padding:0px 20px;flex:1'>
+			<div class="scene_content selectable">
+				<div style='display:flex;flex-direction:row;height:40px;border-bottom:1px solid #272727;align-items:center;padding:0px 20px;flex:1'>
 				<div style='font-size:20px;color:#efefef';font-weight: Futura PT;flex:2>Properties</div>
 				<div id="scene_objects" style='flex:3;background-color:red;width:60px'></div>
 				</div>
 				<ul id='properties' class="pv-menu-list">
-				<li style='padding-bottom:20px'>
+				<li style='padding-bottom:15px'>
 					<span style='margin-bottom:15px' data-i18n="appearance.point_size"></span>:&nbsp;<span id="lblPointSize"></span> 
 					<div style='margin-top:15px' id="sldPointSize"></div>
 				</li>
-				<li style='padding-bottom:20px'>
+				<li style='padding-bottom:15px'>
 				<span data-i18n="appearance.min_point_size"></span>:&nbsp;<span id="lblMinPointSize"></span>
 				<div style='margin-top:15px' id="sldMinPointSize"></div>
 				</li>
 
 				<!-- SIZE TYPE -->
-				<li style='margin-bottom:20px'>
+				<li style='margin-bottom:15px'>
 					<label style="margin-bottom:15px" for="optPointSizing" class="pv-select-label" data-i18n="appearance.point_size_type">Point Sizing </label>
 					<select id="optPointSizing" name="optPointSizing">
 						<option>Fixed</option>
@@ -75579,7 +75579,7 @@ ENDSEC
 				</li>
 				
 				<!-- OPACITY -->
-				<li style='margin:20px 0px 20px 0px'><span data-i18n="appearance.point_opacity"></span>:<span id="lblOpacity"></span><div style='margin-top:15px' id="sldOpacity"></div></li>
+				<li style='margin:20px 0px 20px 0px'><span data-i18n="appearance.point_opacity"></span>: <span id="lblOpacity"></span><div style='margin-top:15px' id="sldOpacity"></div></li>
 
 				<li style='display:none'>
 					<select id="optMaterial" name="optMaterial"></select>
@@ -80049,7 +80049,8 @@ ENDSEC
 				let element = $(`
 				<li>
 					<label style="whitespace: nowrap; display: flex;align-items:center; margin-bottom:4px">
-						<input id="${inputID}" type="checkbox" ${checked}/>
+						<input id="${inputID}" class='checkbox' type="checkbox" ${checked}/>
+						<span class='fake'></span>
 						<span style="flex-grow: 1;font-size:16px;color:#EFEFEF";font-weight:300>${name}</span>
 						<input id="${colorPickerID}" style="zoom: 0.5" />
 					</label>
@@ -80092,8 +80093,9 @@ ENDSEC
 			const addToggleAllButton = () => { // toggle all button
 				const element = $(`
 				<li>
-					<label style="whitespace: nowrap;display:flex; margin-bottom:13px">
-						<input id="toggleClassificationFilters" type="checkbox" checked/>
+					<label style="whitespace: nowrap;display:flex; margin-bottom:12px">
+						<input id="toggleClassificationFilters" class='checkbox' type="checkbox" checked/>
+						<span class='fake'></span>
 						<span style='font-size:16px'>Show/hide all</span>
 					</label>
 				</li>

@@ -296,7 +296,15 @@
 .jstree-default .jstree-wholerow {
   transition: background-color 0.15s, box-shadow 0.15s;
 }
-
+#pointclouds_anchor {
+  pointer-events: none
+}
+#measurements_anchor{
+  pointer-events:none
+}
+#annotations_anchor{
+  pointer-events:none
+}
 .jstree-default .jstree-context {
   background: #e7f4f9;
   border-radius: 2px;
@@ -394,6 +402,7 @@
   width: 24px;
   height: 24px;
   line-height: 24px;
+  margin-right: 5px;
 }
 .jstree-default.jstree-rtl .jstree-node {
   margin-right: 24px;
@@ -446,16 +455,23 @@
 .jstree-default .jstree-checkbox {
   background-position: -164px -4px;
 }
+.jstree-checkbox{
+  pointer-events: visible!important;
+  margin-right: 5px;
+}
 .jstree-default .jstree-checkbox:hover {
   background-position: -164px -36px;
+  margin-right:5px
 }
 .jstree-default.jstree-checkbox-selection .jstree-clicked > .jstree-checkbox,
 .jstree-default .jstree-checked > .jstree-checkbox {
   background-position: -228px -4px;
+  margin-right: 5px;
 }
 .jstree-default.jstree-checkbox-selection .jstree-clicked > .jstree-checkbox:hover,
 .jstree-default .jstree-checked > .jstree-checkbox:hover {
   background-position: -228px -36px;
+  margin-right: 5px;
 }
 .jstree-default .jstree-anchor > .jstree-undetermined {
   background-position: -196px -4px;

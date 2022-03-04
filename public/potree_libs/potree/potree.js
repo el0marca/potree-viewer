@@ -75539,10 +75539,12 @@ ENDSEC
 			let material = pointcloud.material;
 
 			let panel = $(`
-			<div class="scene_content selectable">
+			<div id='scene_content' class="scene_content selectable">
 				<div style='display:flex;flex-direction:row;height:40px;border-bottom:1px solid #272727;align-items:center;padding:0px 20px;flex:1'>
 				<div style='font-size:20px;color:#efefef';font-weight: Futura PT;flex:2>Properties</div>
-				<div id="scene_objects" style='flex:3;background-color:red;width:60px'></div>
+				<div style='flex:3;display:flex;justify-content:flex-end'>
+				<div id='toggleSceneProperties'><img src='./potree_libs/potree/resources/icons/propertiesMinBtn.svg'></div>
+				</div>
 				</div>
 				<ul id='properties' class="pv-menu-list">
 				<li style='padding-bottom:15px'>
@@ -75694,6 +75696,22 @@ ENDSEC
 
 			panel.i18n();
 			this.container.append(panel);
+
+			let toggleScenePropBtn = document.getElementById('toggleSceneProperties');
+			let sceneContent = document.getElementById('scene_content');
+
+			toggleScenePropBtn.addEventListener('click', ()=>{
+				if(sceneContent.classList.contains('minimizeSceneProperties')){
+					sceneContent.classList.add('maximizeSceneProperties');
+					sceneContent.classList.remove('minimizeSceneProperties');
+					toggleScenePropBtn.classList.remove('rotateBtn')
+				}
+				else {
+					sceneContent.classList.add('minimizeSceneProperties');
+					sceneContent.classList.remove('maximizeSceneProperties');
+					toggleScenePropBtn.classList.add('rotateBtn')
+				}
+			})
 
 			{ // POINT SIZE
 				let sldPointSize = panel.find(`#sldPointSize`);
@@ -80048,10 +80066,10 @@ ENDSEC
 
 				let element = $(`
 				<li>
-					<label style="whitespace: nowrap; display: flex;align-items:center; margin-bottom:4px">
+					<label style="whitespace: nowrap; display: flex;align-items:center; margin-bottom:4px;cursor:pointer;">
 						<input id="${inputID}" class='checkbox' type="checkbox" ${checked}/>
 						<span class='fake'></span>
-						<span style="flex-grow: 1;font-size:16px;color:#EFEFEF";font-weight:300>${name}</span>
+						<span style="flex-grow: 1;font-size:16px;color:#EFEFEF;font-weight:300;cursor:pointer";>${name}</span>
 						<input id="${colorPickerID}" style="zoom: 0.5" />
 					</label>
 				</li>
@@ -80093,7 +80111,7 @@ ENDSEC
 			const addToggleAllButton = () => { // toggle all button
 				const element = $(`
 				<li>
-					<label style="whitespace: nowrap;display:flex; margin-bottom:12px">
+					<label style="whitespace: nowrap;display:flex; margin-bottom:10px;cursor:pointer">
 						<input id="toggleClassificationFilters" class='checkbox' type="checkbox" checked/>
 						<span class='fake'></span>
 						<span style='font-size:16px'>Show/hide all</span>
@@ -88945,8 +88963,6 @@ ENDSEC
 				imgMapToggle.style.display = 'none';
 				imgMapToggle.onclick = e => { this.toggleMap(); };
 				imgMapToggle.id = 'potree_map_toggle';
-
-				
 
 				let elButtons = $("#potree_quick_buttons").get(0);
 

@@ -645,6 +645,7 @@
 			_temp1.setAttribute('tabindex','-1');
 			_temp2 = document.createElement('I');
 			_temp2.className = 'jstree-icon jstree-themeicon';
+			// _temp2.style.display='none'
 			_temp2.setAttribute('role', 'presentation');
 			_temp1.appendChild(_temp2);
 			_node.appendChild(_temp1);

@@ -84,18 +84,18 @@ const PotreeViewer = () => {
 
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
-    viewer.setPointBudget(1 * 1000 * 10000);
+    viewer.setPointBudget(2 * 100 * 10000);
     viewer.setClipTask(Potree.ClipTask.SHOW_INSIDE);
     viewer.loadSettingsFromURL();
     viewer.setControls(viewer.orbitControls);
     console.log({ viewer });
-    viewer.setDescription("Point cloud");
+    // viewer.setDescription("Point cloud");
     viewer.loadGUI(() => {
       viewer.setLanguage("en");
       viewer.toggleSidebar();
     });
 
-    Potree.loadPointCloud(pointCloudUrl, 'pointcloud', (e)=>{
+    Potree.loadPointCloud('http://5.9.65.151/mschuetz/potree/resources/pointclouds/riegl/retz/cloud.js', 'pointcloud', (e)=>{
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
       material.activeAttributeName = "rgba";
@@ -112,7 +112,6 @@ const PotreeViewer = () => {
         ref={potreeContainerDiv}
         id="potree_render_area"
         style={{
-          position: "absolute",
           width: "100%",
           height: "100%",
           left: "0px",
@@ -123,6 +122,7 @@ const PotreeViewer = () => {
         <img src={toggleBtn} alt="toggleButton" />
         </div>
         <li id="tools"></li>
+        {/* <div id='scene_object_properties'></div> */}
       </div>
       <div id="potree_sidebar_container"></div>
     </div>

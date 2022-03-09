@@ -173,18 +173,6 @@
 	float: left;
 }
 
-.toggleButton {
-	position: absolute;
-	background: #515151;
-	width: 20px;
-	height: 40px;
-	z-index: 100;
-	cursor: pointer;
-	top: 20px;
-	border-radius: 0px 10px 10px 0px;
-	left: -4px;
-}
-
 .potree_mmenu_toggle img{
 	height: 10px;
 }
@@ -376,18 +364,15 @@ body {
 	opacity: 0.7;
 }
 #tools{
-	position: absolute;
-	top:85px;
-	left:25px;
+	position: fixed;
+	top:10px;
+	left:50%;
+	transform:translate(-50%, 0px);
 	z-index: 99999;
-	width:36px;
-	height:446px;
+	padding-left: 5px;
 	background-color:#333333;
 	display: flex;
 	justify-content: center;
-	align-items:flex-start;
-	flex-wrap: wrap;
-	padding:5px;
 	border-radius:10px
 
 }
@@ -438,18 +423,51 @@ transition:0.2s
 .measurement_content {
 	background-color:#414141!important;
 	position:fixed;
-	bottom:0px;
-	left:0px;
+	top:20px;
+	right:-320px;
 	width:320px;
 	font-size: 16px;
-	border-radius: 10px 10px 0px 0px;
-	padding-bottom:20px;
+	border-radius: 10px 0px 0px 10px;
+	z-index: 99999999999999;
+	padding-bottom: 15px;
 }
 
-.propertypanel_content {
-	padding: 5px 15px 5px 10px;
+.properties_header{
+	border-bottom:1px solid #272727; 
+	height:50px; 
+	display:flex;
+	align-items:center;
+	padding:0px 20px
 }
 
+.showMeasurements {
+	right:0px;
+	transition:0.2s
+}
+
+.hideMeasurements {
+	right:-320px;
+	transition:0.2s
+}
+#height_label {
+	margin:20px
+}
+#measurementsToggleBtn{
+	width:20px; 
+	height:40px;
+	position:absolute; 
+	left:-20px;
+	top:20px;
+	background-color:#515151;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	border-radius:10px 0px 0px 10px;
+	cursor:pointer;
+}
+#measurementsToggleBtn:hover{
+	background-color:#666666;
+}
 .measurement_value_table {
 	font-size:16px;
 	padding:20px 20px 0px 20px;
@@ -572,10 +590,10 @@ opacity:1;
 	cursor:pointer
 }
 #invertBtn:hover {
-	cursor:pointer;
-	background-color:#666666
+	background-color:#666666;
 }
 #invertBtn {
+	cursor:pointer;
 	background-color:#515151;
 	width:275px;
 	height:30px;
@@ -599,6 +617,7 @@ opacity:1;
 	display: flex;
 	align-items:center;
 	justify-content: center;
+	margin:5px 5px 5px 0px
 }
 
 .button-icon:hover {
@@ -879,9 +898,10 @@ opacity:1;
 #potree_sidebar_container {
 	padding: 20px;
 	position: absolute;
-	z-index: 0;
+	z-index: 99999999990;
 	width: 280px;
 	height: 100%;
+	left:0px;
 	overflow-y: scroll;
 	background: #333333;
 	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);

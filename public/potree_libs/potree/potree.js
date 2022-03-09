@@ -74150,12 +74150,19 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable">
-			<div style='border-bottom:1px solid #272727; height:50px; display:flex;align-items:center;padding:0px 20px'>
+			<div class="measurement_content selectable showMeasurements">
+			<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
-			<div style='flex:3'>Distance</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex; justify-content:center;align-items:center">
+				<img style='width:20px;height:20px' src='./potree_libs/potree/resources/icons/distance.svg' alt='angle'>
 			</div>
-				<span class="coordinates_table_container"></span>
+			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Distance</div>
+			</div>
+		</div>
+			<span class="coordinates_table_container"></span>
 				<table id="distances_table" class="measurement_value_table"></table>
 			</div>
 		`);
@@ -74229,17 +74236,21 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable">
+			<div class="measurement_content selectable showMeasurements">
+			<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+			<div class='properties_header'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex;justify-content:center;align-items:center">
+				<img src='./potree_libs/potree/resources/icons/point.svg' alt='point'>
+			</div>
+			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Point</div>
+			</div>
+			</div>
 				<span class="coordinates_table_container"></span>
 				<br>
 				<span class="attributes_table_container"></span>
-
-				<!-- ACTIONS -->
-				<div style="display: flex; margin-top: 12px">
-					<span></span>
-					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
-				</div>
 			</div>
 		`);
 
@@ -74272,18 +74283,23 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable">
+			<div class="measurement_content selectable showMeasurements">
+			<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'>
+			</div>
+			<div class='properties_header'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex; justify-content:center;align-items:center">
+				<img  src='./potree_libs/potree/resources/icons/area.svg' alt='angle'>
+			</div>
+			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Area</div>
+			</div>
+			</div>
 				<span class="coordinates_table_container"></span>
 				<br>
-				<span style="font-weight: bold">Area: </span>
+				<span style="margin:20px">Area: </span>
 				<span id="measurement_area"></span>
-
-				<!-- ACTIONS -->
-				<div style="display: flex; margin-top: 12px">
-					<span></span>
-					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
-				</div>
 			</div>
 		`);
 
@@ -74315,16 +74331,17 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable">
-			<div style='border-bottom:1px solid #272727; height:50px; display:flex;align-items:center;padding:0px 20px'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
-			<div style='flex:3; display:flex'>
-			<div style="flex:1"><img  src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'></div>
-			<div style='flex:5;display:flex; justify-content:space-between;'>
-			<div style='font-size:20px;font-weight:300'>Angle</div>
-			<div id='minimizeProperties'><img src='./potree_libs/potree/resources/icons/minimizeBtn.svg' alt='minimize'></div>
-			</div>
-			</div>
+			<div class="measurement_content selectable showMeasurements">
+			<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+			<div class='properties_header'>
+				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+				<div style='flex:3; display:flex'>
+				<div style="flex:1;display:flex; justify-content:center;align-items:center">
+					<img  src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
+				</div>
+				<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Angle</div>
+				</div>
 			</div>
 				<span class="coordinates_table_container"></span>
 				<table class="measurement_value_table">
@@ -74381,17 +74398,21 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable">
+			<div class="measurement_content selectable showMeasurements">
+			<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+			<div class='properties_header'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex; justify-content:center;align-items:center">
+				<img  src='./potree_libs/potree/resources/icons/circle.svg' alt='angle'>
+			</div>
+			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Circle</div>
+			</div>
+		</div>
 				<span class="coordinates_table_container"></span>
 				<br>
 				<table id="infos_table" class="measurement_value_table"></table>
-
-				<!-- ACTIONS -->
-				<div style="display: flex; margin-top: 12px">
-					<span></span>
-					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
-				</div>
 			</div>
 		`);
 
@@ -74468,17 +74489,21 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable">
+			<div class="measurement_content selectable showMeasurements">
+			<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+			<div class='properties_header'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex; justify-content:center;align-items:center">
+				<img  src='./potree_libs/potree/resources/icons/height.svg' alt='angle'>
+			</div>
+			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Hight</div>
+			</div>
+		</div>
 				<span class="coordinates_table_container"></span>
 				<br>
 				<span id="height_label">Height: </span><br>
-
-				<!-- ACTIONS -->
-				<div style="display: flex; margin-top: 12px">
-					<span></span>
-					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
-				</div>
 			</div>
 		`);
 
@@ -74539,7 +74564,18 @@ ENDSEC
 			]).get(measurement.constructor);
 
 			this.elContent = $(`
-			<div class="measurement_content selectable">
+			<div class="measurement_content selectable showMeasurements">
+			<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+			<div class='properties_header'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex; justify-content:center;align-items:center">
+				<img  src='./potree_libs/potree/resources/icons/volume.svg' alt='angle'>
+			</div>
+			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Volume</div>
+			</div>
+		</div>
 				<span class="coordinates_table_container"></span>
 
 				<table class="measurement_value_table">
@@ -74838,7 +74874,6 @@ ENDSEC
 			{
 				let dimensions = this.measurement.scale.toArray();
 				dimensions = dimensions.map(v => Utils.addCommas(v.toFixed(2)));
-
 				let elLength = this.elContent.find(`#cell_length`);
 				let elWidth = this.elContent.find(`#cell_width`);
 				let elHeight = this.elContent.find(`#cell_height`);
@@ -74847,16 +74882,13 @@ ENDSEC
 				elWidth.html(dimensions[1]);
 				elHeight.html(dimensions[2]);
 			}
-
 			{
 				let elVolume = this.elContent.find(`#measurement_volume`);
 				let volume = this.measurement.getVolume();
 				elVolume.html(Utils.addCommas(volume.toFixed(2)));
 			}
-
 			this.elCheckClip.prop("checked", this.measurement.clip);
 			this.elCheckShow.prop("checked", this.measurement.visible);
-
 		}
 	};
 
@@ -74866,30 +74898,31 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable">
+			<div class="measurement_content selectable showMeasurements">
+			<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+			<div class='properties_header'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex; justify-content:center;align-items:center">
+				<img  src='./potree_libs/potree/resources/icons/profile.svg' alt='angle'>
+			</div>
+			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Profile</div>
+			</div>
+			</div>
 				<span class="coordinates_table_container"></span>
 				<br>
 				<span style="display:flex">
-					<span style="display:flex; align-items: center; padding-right: 10px">Width: </span>
+					<span style="display:flex; align-items: center; padding-right: 10px; margin-left:20px">Width: </span>
 					<input id="sldProfileWidth" name="sldProfileWidth" value="5.06" style="flex-grow: 1; width:100%">
 				</span>
 				<br>
-
 				<li style="margin-top: 10px">
 					<input name="download_profile" type="button" value="prepare download" style="width: 100%" />
 					<div name="download_message"></div>
 				</li>
-
 				<br>
-
 				<input type="button" id="show_2d_profile" value="show 2d profile" style="width: 100%"/>
-
-				<!-- ACTIONS -->
-				<div style="display: flex; margin-top: 12px">
-					<span></span>
-					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
-				</div>
 			</div>
 		`);
 
@@ -75231,8 +75264,19 @@ ENDSEC
 			this._update = () => { this.update(); };
 
 			let copyIconPath = `${Potree.resourcePath}/icons/copy.svg`;
-			this.elContent = $(`
-		<div class="propertypanel_content">
+			this.elContent = $(`			
+		<div class="propertypanel_content measurement_content showMeasurements">
+		<div id='measurementsToggleBtn'>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+			<div class='properties_header'>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex; justify-content:center;align-items:center">
+				<img  src='./potree_libs/potree/resources/icons/annotation.svg' alt='angle'>
+			</div>
+			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Annotation</div>
+			</div>
+		</div>
 			<table>
 				<tr>
 					<th colspan="3">position</th>
@@ -75243,27 +75287,20 @@ ENDSEC
 					<td align="center" id="annotation_position_y" style="width: 25%"></td>
 					<td align="center" id="annotation_position_z" style="width: 25%"></td>
 				</tr>
-
 			</table>
-
 			<div>
-
 				<div class="heading">Title</div>
 				<div id="annotation_title" contenteditable="true">
 					Annotation Title
 				</div>
-
 				<div class="heading">Description</div>
 				<div id="annotation_description" contenteditable="true">
 					A longer description of this annotation. 
 						Can be multiple lines long. TODO: the user should be able
 						to modify title and description. 
 				</div>
-
 			</div>
-
-		</div>
-		`);
+		</div>`);
 
 			this.elCopyPosition = this.elContent.find("img[name=copyPosition]");
 			this.elCopyPosition.click( () => {
@@ -79030,7 +79067,19 @@ ENDSEC
 			
 
 		initToolbar(){
-
+			function toggleBtn(){
+				const measurements=document.querySelectorAll('.measurement_content');
+					const measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
+					measurementsToggleBtn.addEventListener('click', ()=>{
+						measurements.forEach(e=>{if(e.classList.contains('hideMeasurements')){
+							e.classList.remove('hideMeasurements')
+							e.classList.add('showMeasurements')
+						}else{
+							e.classList.add('hideMeasurements')
+							e.classList.remove('showMeasurements')
+						}})
+					})
+			}
 			// ANGLE
 			let elToolbar = $('#tools');
 			elToolbar.append(this.createToolIcon(
@@ -79050,6 +79099,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79072,6 +79122,8 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
+
 				}
 			));
 
@@ -79091,6 +79143,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79112,6 +79165,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79135,6 +79189,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79159,6 +79214,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79178,6 +79234,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79192,6 +79249,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === volume.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79206,6 +79264,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === volume.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79221,6 +79280,7 @@ ENDSEC
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === profile.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79236,6 +79296,7 @@ ENDSEC
 					let jsonNode = annotationsRoot.children.find(child => child.data.uuid === annotation.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+					toggleBtn()
 				}
 			));
 
@@ -79268,8 +79329,6 @@ ENDSEC
 			let elScene = $("#menu_scene");
 			let elObjects = elScene.next().find("#scene_objects");
 			let elProperties = elScene.next().find("#scene_object_properties");
-			
-
 			{
 				let elExport = elScene.next().find("#scene_export");
 
@@ -80248,7 +80307,7 @@ ENDSEC
 			sldPointBudget.slider({
 				value: this.viewer.getPointBudget(),
 				min: 100 * 1000,
-				max: 10 * 1000 * 1000,
+				max: 3 * 1000 * 1000,
 				step: 1000,
 				slide: (event, ui) => { this.viewer.setPointBudget(ui.value); }
 			});
@@ -80599,7 +80658,7 @@ ENDSEC
 			};
 
 			let drop = (e) => {
-				viewer.scene.scene.remove(this.s);
+				this.viewer.scene.scene.remove(this.s);
 				this.s.removeEventListener("drag", drag);
 				this.s.removeEventListener("drop", drop);
 			};
@@ -88896,12 +88955,17 @@ ENDSEC
 
 		toggleSidebar () {
 			let renderArea = $('#potree_render_area');
+			let sidebar = $('#potree_sidebar_container')
+			let toggleButton=$('#toggleButton')
 			let isVisible = renderArea.css('left') !== '0px';
-
 			if (isVisible) {
 				renderArea.css('left', '0px');
+				sidebar.css('left', '-320px');
+				toggleButton.css('left', '0px')
 			} else {
-				renderArea.css('left', '320px');
+				renderArea.css('left', '160px');
+				sidebar.css('left', '0px')
+				toggleButton.css('left','160px')
 			}
 		};
 

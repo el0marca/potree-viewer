@@ -95,7 +95,7 @@ const PotreeViewer = () => {
       viewer.toggleSidebar();
     });
 
-    Potree.loadPointCloud('http://5.9.65.151/mschuetz/potree/resources/pointclouds/riegl/retz/cloud.js', 'pointcloud', (e)=>{
+    Potree.loadPointCloud(pointCloudUrl, 'pointcloud', (e)=>{
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
       material.activeAttributeName = "rgba";
@@ -122,7 +122,6 @@ const PotreeViewer = () => {
         <img src={toggleBtn} alt="toggleButton" />
         </div>
         <li id="tools"></li>
-        {/* <div id='scene_object_properties'></div> */}
       </div>
       <div id="potree_sidebar_container"></div>
     </div>

@@ -419,6 +419,33 @@ transition:0.2s
 #toggleSceneProperties{
 	cursor:pointer
 }
+#show_2d_profile {
+    cursor: pointer;
+    background-color: #515151;
+    width: 275px;
+    height: 30px;
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 300;
+    border-radius: 10px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+#sldProfileWidth {
+	background-color:#515151;
+	padding-left:5px
+}
+#sldProfileWidth:focus {
+	border:0px!important;
+
+}
+#show_2d_profile:hover{
+	background-color:#666666
+}
+.ui-button-icon-only {
+	border-radius:5px!important
+}
 
 .measurement_content {
 	background-color:#414141!important;
@@ -431,7 +458,10 @@ transition:0.2s
 	z-index: 99999999999999;
 	padding-bottom: 15px;
 }
-
+.measurementIcon{
+	max-width:20px;
+	max-height:20px;
+}
 .properties_header{
 	border-bottom:1px solid #272727; 
 	height:50px; 
@@ -451,6 +481,14 @@ transition:0.2s
 }
 #height_label {
 	margin:20px
+}
+.propertiesHeader{
+	flex:5;
+	font-size:20px;
+	font-weight:300;
+	padding-left:5px;
+	display:flex;
+	align-items:center;
 }
 #measurementsToggleBtn{
 	width:20px; 
@@ -771,10 +809,6 @@ opacity:1;
 	color: #e05e5e;
 }
 
-.ui-spinner-input {
-	color: black;
-}
-
 .jstree-themeicon-custom {
 	background-size: 16px !important;
 }
@@ -920,8 +954,7 @@ opacity:1;
 	border-radius:10px;
 }
 
-.propertypanel_content .heading {
-	font-weight: bold;
-	padding-top: 0.6em;
-	padding-bottom: 0.1em;
+.heading {
+	text-align:center;
+	margin-top:10px
 }

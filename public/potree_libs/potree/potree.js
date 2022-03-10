@@ -74157,9 +74157,9 @@ ENDSEC
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
-				<img style='width:20px;height:20px' src='./potree_libs/potree/resources/icons/distance.svg' alt='angle'>
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/distance.svg' alt='distance'>
 			</div>
-			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Distance</div>
+			<div class='propertiesHeader'>Distance</div>
 			</div>
 		</div>
 			<span class="coordinates_table_container"></span>
@@ -74243,9 +74243,9 @@ ENDSEC
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex;justify-content:center;align-items:center">
-				<img src='./potree_libs/potree/resources/icons/point.svg' alt='point'>
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/point.svg' alt='point'>
 			</div>
-			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Point</div>
+			<div class='propertiesHeader'>Point</div>
 			</div>
 			</div>
 				<span class="coordinates_table_container"></span>
@@ -74291,9 +74291,9 @@ ENDSEC
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
-				<img  src='./potree_libs/potree/resources/icons/area.svg' alt='angle'>
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/area.svg' alt='area'>
 			</div>
-			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Area</div>
+			<div class='propertiesHeader'>Area</div>
 			</div>
 			</div>
 				<span class="coordinates_table_container"></span>
@@ -74338,9 +74338,9 @@ ENDSEC
 				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 				<div style='flex:3; display:flex'>
 				<div style="flex:1;display:flex; justify-content:center;align-items:center">
-					<img  src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
+					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
 				</div>
-				<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Angle</div>
+				<div class='propertiesHeader'>Angle</div>
 				</div>
 			</div>
 				<span class="coordinates_table_container"></span>
@@ -74405,9 +74405,9 @@ ENDSEC
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
-				<img  src='./potree_libs/potree/resources/icons/circle.svg' alt='angle'>
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/circle.svg' alt='circle'>
 			</div>
-			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Circle</div>
+			<div class='propertiesHeader'>Circle</div>
 			</div>
 		</div>
 				<span class="coordinates_table_container"></span>
@@ -74496,9 +74496,9 @@ ENDSEC
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
-				<img  src='./potree_libs/potree/resources/icons/height.svg' alt='angle'>
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/height.svg' alt='height'>
 			</div>
-			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Hight</div>
+			<div class='propertiesHeader'>Height</div>
 			</div>
 		</div>
 				<span class="coordinates_table_container"></span>
@@ -74571,9 +74571,9 @@ ENDSEC
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
-				<img  src='./potree_libs/potree/resources/icons/volume.svg' alt='angle'>
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/volume.svg' alt='volume'>
 			</div>
-			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Volume</div>
+			<div class='propertiesHeader'>Volume</div>
 			</div>
 		</div>
 				<span class="coordinates_table_container"></span>
@@ -74905,24 +74905,23 @@ ENDSEC
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
-				<img  src='./potree_libs/potree/resources/icons/profile.svg' alt='angle'>
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/profile.svg' alt='profile'>
 			</div>
-			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Profile</div>
+			<div class='propertiesHeader'>Profile</div>
 			</div>
 			</div>
 				<span class="coordinates_table_container"></span>
-				<br>
-				<span style="display:flex">
-					<span style="display:flex; align-items: center; padding-right: 10px; margin-left:20px">Width: </span>
-					<input id="sldProfileWidth" name="sldProfileWidth" value="5.06" style="flex-grow: 1; width:100%">
+				<span style="display:flex; margin:20px; justify-content:flex-end">
+					<span style="display:flex; align-items: center; padding-right: 10px;">Width: </span>
+					<input id="sldProfileWidth" name="sldProfileWidth" value="5.06" style="flex-grow: 1;">
 				</span>
-				<br>
-				<li style="margin-top: 10px">
+				<li>
 					<input name="download_profile" type="button" value="prepare download" style="width: 100%" />
 					<div name="download_message"></div>
 				</li>
-				<br>
-				<input type="button" id="show_2d_profile" value="show 2d profile" style="width: 100%"/>
+				<div style='display:flex; justify-content:center; justify-content:center'>
+					<input type="button" id="show_2d_profile" value="show 2d profile"/>
+				</div>
 			</div>
 		`);
 
@@ -74971,7 +74970,7 @@ ENDSEC
 					}
 				});
 				elWidthSlider.spinner('value', measurement.getWidth());
-				elWidthSlider.spinner('widget').css('width', '100%');
+				elWidthSlider.spinner('widget').css('width', '100px');
 
 				let widthListener = (event) => {
 					let value = elWidthSlider.spinner('value');
@@ -75271,30 +75270,29 @@ ENDSEC
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
-			<div style="flex:1;display:flex; justify-content:center;align-items:center">
-				<img  src='./potree_libs/potree/resources/icons/annotation.svg' alt='angle'>
+			<div style="flex:1;display:flex; justify-content:center; align-items:center">
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/annotation.svg' alt='annotation'>
 			</div>
-			<div style='flex:5;font-size:20px;font-weight:300;padding-left:5px'>Annotation</div>
+			<div class='propertiesHeader'>Annotation</div>
 			</div>
 		</div>
-			<table>
+			<table style='width:100%'>
 				<tr>
-					<th colspan="3">position</th>
-					<th></th>
+					<th colspan="3" style='font-size:16px; padding-bottom:5px;font-weight:normal'>position</th>
 				</tr>
 				<tr>
-					<td align="center" id="annotation_position_x" style="width: 25%"></td>
-					<td align="center" id="annotation_position_y" style="width: 25%"></td>
-					<td align="center" id="annotation_position_z" style="width: 25%"></td>
+					<td align="center" id="annotation_position_x" style="width: 33%"></td>
+					<td align="center" id="annotation_position_y" style="width: 33%"></td>
+					<td align="center" id="annotation_position_z" style="width: 33%"></td>
 				</tr>
 			</table>
-			<div>
-				<div class="heading">Title</div>
-				<div id="annotation_title" contenteditable="true">
+			<div style='padding:0px 20px'>
+				<div class="heading">title</div>
+				<div style='margin-top:5px;background-color:#555555;padding:5px;border-radius:10px' id="annotation_title" contenteditable="true">
 					Annotation Title
 				</div>
-				<div class="heading">Description</div>
-				<div id="annotation_description" contenteditable="true">
+				<div class="heading">description</div>
+				<div style='margin-top:5px;background-color:#555555;padding:5px;border-radius:10px' id="annotation_description" contenteditable="true">
 					A longer description of this annotation. 
 						Can be multiple lines long. TODO: the user should be able
 						to modify title and description. 
@@ -75592,7 +75590,6 @@ ENDSEC
 				<span data-i18n="appearance.min_point_size"></span>:&nbsp;<span id="lblMinPointSize"></span>
 				<div style='margin-top:15px' id="sldMinPointSize"></div>
 				</li>
-
 				<!-- SIZE TYPE -->
 				<li style='margin-bottom:15px'>
 					<label style="margin-bottom:15px" for="optPointSizing" class="pv-select-label" data-i18n="appearance.point_size_type">Point Sizing </label>
@@ -75602,7 +75599,6 @@ ENDSEC
 						<option>Adaptive</option>
 					</select>
 				</li>
-
 				<!-- SHAPE -->
 				<li>
 					<label for="optShape" class="pv-select-label" data-i18n="appearance.point_shape"></label><br>

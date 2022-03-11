@@ -55403,7 +55403,7 @@
 				} else if (!measurement.showDistances && !measurement.showArea && measurement.showAngles) {
 					return `${Potree.resourcePath}/icons/angle.svg`;
 				} else if (measurement.showHeight) {
-					return `${Potree.resourcePath}/icons/height.svg`;
+					return `${Potree.resourcePath}/icons/distance.svg`;
 				} else {
 					return `${Potree.resourcePath}/icons/distance.svg`;
 				}
@@ -74260,9 +74260,9 @@ ENDSEC
 				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 				<div style='flex:3; display:flex'>
 				<div style="flex:1;display:flex; justify-content:center;align-items:center">
-					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
+					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/area.svg' alt='area'>
 				</div>
-				<div class='propertiesHeader'>Angle</div>
+				<div class='propertiesHeader'>Area</div>
 				</div>
 			</div>
 				<span class="coordinates_table_container"></span>

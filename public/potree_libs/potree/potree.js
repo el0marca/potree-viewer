@@ -1,4 +1,4 @@
-(function (global, factory) {	
+(function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
 	(global = global || self, factory(global.Potree = {}));
@@ -55403,9 +55403,9 @@
 				} else if (!measurement.showDistances && !measurement.showArea && measurement.showAngles) {
 					return `${Potree.resourcePath}/icons/angle.svg`;
 				} else if (measurement.showHeight) {
-					return `${Potree.resourcePath}/icons/distance.svg`;
+					return `${Potree.resourcePath}/icons/height.svg`;
 				} else {
-					return `${Potree.resourcePath}/icons/point.svg`;
+					return `${Potree.resourcePath}/icons/distance.svg`;
 				}
 			} else if (measurement instanceof Profile) {
 				return `${Potree.resourcePath}/icons/profile.svg`;
@@ -56751,17 +56751,6 @@
 		addVector(vector){
 			this.vectors.push(vector);
 		}
-
-		hasColors(){
-			for (let name in this.attributes) {
-				let pointAttribute = this.attributes[name];
-				if (pointAttribute.name === PointAttributeNames.COLOR_PACKED) {
-					return true;
-				}
-			}
-
-			return false;
-		};
 
 		hasNormals(){
 			for (let name in this.attributes) {
@@ -59045,7 +59034,7 @@ void main() {
 			4:       { visible: true, name: 'Medium vegetation' , color: [0.0,  0.8,  0.0,  1.0] },
 			5:       { visible: true, name: 'High vegetation'   , color: [0.0,  0.6,  0.0,  1.0] },
 			6:       { visible: true, name: 'Building'          , color: [1.0,  0.66, 0.0,  1.0] },
-			7:       { visible: true, name: 'Low point (noise)'  , color: [1.0,  0.0,  1.0,  1.0] },
+			7:       { visible: true, name: 'Low point (noise)' , color: [1.0,  0.0,  1.0,  1.0] },
 			8:       { visible: true, name: 'Key-point'         , color: [1.0,  0.0,  0.0,  1.0] },
 			9:       { visible: true, name: 'Water'             , color: [0.0,  0.0,  1.0,  1.0] },
 			12:      { visible: true, name: 'Overlap'           , color: [1.0,  1.0,  0.0,  1.0] },
@@ -60125,17 +60114,6 @@ void main() {
 			return texture;
 		}
 		
-		static generateMatcapTexture (matcap) {
-		var url = new URL(Potree.resourcePath + "/textures/matcap/" + matcap).href;
-		let texture = new TextureLoader().load( url );
-			texture.magFilter = texture.minFilter = LinearFilter; 
-			texture.needsUpdate = true;
-			// PotreeConverter_1.6_2018_07_29_windows_x64\PotreeConverter.exe autzen_xyzrgbXYZ_ascii.xyz -f xyzrgbXYZ -a RGB NORMAL -o autzen_xyzrgbXYZ_ascii_a -p index --overwrite
-			// Switch matcap texture on the fly : viewer.scene.pointclouds[0].material.matcap = 'matcap1.jpg'; 
-			// For non power of 2, use LinearFilter and dont generate mipmaps, For power of 2, use NearestFilter and generate mipmaps : matcap2.jpg 1 2 8 11 12 13
-			return texture; 
-		}
-
 		static generateMatcapTexture (matcap) {
 		var url = new URL(Potree.resourcePath + "/textures/matcap/" + matcap).href;
 		let texture = new TextureLoader().load( url );
@@ -65103,6 +65081,7 @@ void main() {
 	}
 
 	function loadPointCloud(viewer, data){
+
 		let loadMaterial = (target) => {
 
 			if(data.material){
@@ -66727,7 +66706,8 @@ void main() {
 			return attributes;
 		}
 
-		static async load(url){             //here change url type
+		static async load(url){
+
 			let response = await fetch(url);
 			let metadata = await response.json();
 
@@ -68502,13 +68482,13 @@ void main() {
 				if (cancel.removeLastMarker) {
 					measure.removeMarker(measure.points.length - 1);
 				}
-				domElement.removeEventListener('mouseup', insertionCallback, true);
+				domElement.removeEventListener('mouseup', insertionCallback, false);
 				this.viewer.removeEventListener('cancel_insertions', cancel.callback);
 			};
 
 			if (measure.maxMarkers > 1) {
 				this.viewer.addEventListener('cancel_insertions', cancel.callback);
-				domElement.addEventListener('mouseup', insertionCallback, true);
+				domElement.addEventListener('mouseup', insertionCallback, false);
 			}
 
 			measure.addMarker(new Vector3(0, 0, 0));
@@ -68893,12 +68873,12 @@ void main() {
 
 			cancel.callback = e => {
 				profile.removeMarker(profile.points.length - 1);
-				domElement.removeEventListener('mouseup', insertionCallback, true);
+				domElement.removeEventListener('mouseup', insertionCallback, false);
 				this.viewer.removeEventListener('cancel_insertions', cancel.callback);
 			};
 
 			this.viewer.addEventListener('cancel_insertions', cancel.callback);
-			domElement.addEventListener('mouseup', insertionCallback, true);
+			domElement.addEventListener('mouseup', insertionCallback, false);
 
 			profile.addMarker(new Vector3(0, 0, 0));
 			this.viewer.inputHandler.startDragging(
@@ -73302,16 +73282,6 @@ void main() {
 			this.pickSphere = new Mesh(sg, sm);
 			this.scene.add(this.pickSphere);
 
-			{
-				const sg = new SphereGeometry(2);
-				const sm = new MeshNormalMaterial();
-				const s = new Mesh(sg, sm);
-
-				s.position.set(589530.450, 231398.860, 769.735);
-
-				this.scene.add(s);
-			}
-
 			this.viewerPickSphere = new Mesh(sg, sm);
 		}
 
@@ -74285,21 +74255,29 @@ ENDSEC
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
 			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'>
-			</div>
+			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
-			<div style='flex:3; display:flex'>
-			<div style="flex:1;display:flex; justify-content:center;align-items:center">
-				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/area.svg' alt='area'>
-			</div>
-			<div class='propertiesHeader'>Area</div>
-			</div>
+				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+				<div style='flex:3; display:flex'>
+				<div style="flex:1;display:flex; justify-content:center;align-items:center">
+					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
+				</div>
+				<div class='propertiesHeader'>Angle</div>
+				</div>
 			</div>
 				<span class="coordinates_table_container"></span>
-				<br>
-				<span style="margin:20px">Area: </span>
-				<span id="measurement_area"></span>
+				<table class="measurement_value_table">
+					<tr>
+						<th>\u03b1</th>
+						<th>\u03b2</th>
+						<th>\u03b3</th>
+					</tr>
+					<tr>
+						<td align="center" id="angle_cell_alpha" style="width: 33%"></td>
+						<td align="center" id="angle_cell_betta" style="width: 33%"></td>
+						<td align="center" id="angle_cell_gamma" style="width: 33%"></td>
+					</tr>
+				</table>
 			</div>
 		`);
 
@@ -74335,27 +74313,17 @@ ENDSEC
 			<div id='measurementsToggleBtn'>
 			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
-				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
-				<div style='flex:3; display:flex'>
-				<div style="flex:1;display:flex; justify-content:center;align-items:center">
-					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
-				</div>
-				<div class='propertiesHeader'>Angle</div>
-				</div>
+			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div style='flex:3; display:flex'>
+			<div style="flex:1;display:flex; justify-content:center;align-items:center">
+				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
 			</div>
+			<div class='propertiesHeader'>Angle</div>
+			</div>
+		</div>
 				<span class="coordinates_table_container"></span>
-				<table class="measurement_value_table">
-					<tr>
-						<th>\u03b1</th>
-						<th>\u03b2</th>
-						<th>\u03b3</th>
-					</tr>
-					<tr>
-						<td align="center" id="angle_cell_alpha" style="width: 33%"></td>
-						<td align="center" id="angle_cell_betta" style="width: 33%"></td>
-						<td align="center" id="angle_cell_gamma" style="width: 33%"></td>
-					</tr>
-				</table>
+				<br>
+				<table id="infos_table" class="measurement_value_table"></table>
 			</div>
 		`);
 
@@ -74874,6 +74842,7 @@ ENDSEC
 			{
 				let dimensions = this.measurement.scale.toArray();
 				dimensions = dimensions.map(v => Utils.addCommas(v.toFixed(2)));
+
 				let elLength = this.elContent.find(`#cell_length`);
 				let elWidth = this.elContent.find(`#cell_width`);
 				let elHeight = this.elContent.find(`#cell_height`);
@@ -74882,13 +74851,16 @@ ENDSEC
 				elWidth.html(dimensions[1]);
 				elHeight.html(dimensions[2]);
 			}
+
 			{
 				let elVolume = this.elContent.find(`#measurement_volume`);
 				let volume = this.measurement.getVolume();
 				elVolume.html(Utils.addCommas(volume.toFixed(2)));
 			}
+
 			this.elCheckClip.prop("checked", this.measurement.clip);
 			this.elCheckShow.prop("checked", this.measurement.visible);
+
 		}
 	};
 
@@ -74970,7 +74942,7 @@ ENDSEC
 					}
 				});
 				elWidthSlider.spinner('value', measurement.getWidth());
-				elWidthSlider.spinner('widget').css('width', '100px');
+				elWidthSlider.spinner('widget').css('width', '100%');
 
 				let widthListener = (event) => {
 					let value = elWidthSlider.spinner('value');
@@ -75195,6 +75167,9 @@ ENDSEC
 					<td align="center" id="camera_position_x" style="width: 25%"></td>
 					<td align="center" id="camera_position_y" style="width: 25%"></td>
 					<td align="center" id="camera_position_z" style="width: 25%"></td>
+					<td align="right" id="copy_camera_position" style="width: 25%">
+						<img name="copyPosition" title="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>
+					</td>
 				</tr>
 				<tr>
 					<th colspan="3">target</th>
@@ -75204,6 +75179,9 @@ ENDSEC
 					<td align="center" id="camera_target_x" style="width: 25%"></td>
 					<td align="center" id="camera_target_y" style="width: 25%"></td>
 					<td align="center" id="camera_target_z" style="width: 25%"></td>
+					<td align="right" id="copy_camera_target" style="width: 25%">
+						<img name="copyTarget" title="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -75263,42 +75241,43 @@ ENDSEC
 			this._update = () => { this.update(); };
 
 			let copyIconPath = `${Potree.resourcePath}/icons/copy.svg`;
-			this.elContent = $(`			
-		<div class="propertypanel_content measurement_content showMeasurements">
-		<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
-			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
-			<div style='flex:3; display:flex'>
-			<div style="flex:1;display:flex; justify-content:center; align-items:center">
-				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/annotation.svg' alt='annotation'>
-			</div>
-			<div class='propertiesHeader'>Annotation</div>
-			</div>
-		</div>
-			<table style='width:100%'>
-				<tr>
-					<th colspan="3" style='font-size:16px; padding-bottom:5px;font-weight:normal'>position</th>
-				</tr>
-				<tr>
-					<td align="center" id="annotation_position_x" style="width: 33%"></td>
-					<td align="center" id="annotation_position_y" style="width: 33%"></td>
-					<td align="center" id="annotation_position_z" style="width: 33%"></td>
-				</tr>
-			</table>
-			<div style='padding:0px 20px'>
-				<div class="heading">title</div>
-				<div style='margin-top:5px;background-color:#555555;padding:5px;border-radius:10px' id="annotation_title" contenteditable="true">
-					Annotation Title
+			this.elContent = $(`
+			<div class="propertypanel_content measurement_content showMeasurements">
+			<div id='measurementsToggleBtn'>
+				<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
+				<div class='properties_header'>
+				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+				<div style='flex:3; display:flex'>
+				<div style="flex:1;display:flex; justify-content:center; align-items:center">
+					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/annotation.svg' alt='annotation'>
 				</div>
-				<div class="heading">description</div>
-				<div style='margin-top:5px;background-color:#555555;padding:5px;border-radius:10px' id="annotation_description" contenteditable="true">
-					A longer description of this annotation. 
-						Can be multiple lines long. TODO: the user should be able
-						to modify title and description. 
+				<div class='propertiesHeader'>Annotation</div>
 				</div>
 			</div>
-		</div>`);
+				<table style='width:100%'>
+					<tr>
+						<th colspan="3" style='font-size:16px; padding-bottom:5px;font-weight:normal'>position</th>
+					</tr>
+					<tr>
+						<td align="center" id="annotation_position_x" style="width: 33%"></td>
+						<td align="center" id="annotation_position_y" style="width: 33%"></td>
+						<td align="center" id="annotation_position_z" style="width: 33%"></td>
+					</tr>
+				</table>
+				<div style='padding:0px 20px'>
+					<div class="heading">title</div>
+					<div style='margin-top:5px;background-color:#555555;padding:5px;border-radius:10px' id="annotation_title" contenteditable="true">
+						Annotation Title
+					</div>
+					<div class="heading">description</div>
+					<div style='margin-top:5px;background-color:#555555;padding:5px;border-radius:10px' id="annotation_description" contenteditable="true">
+						A longer description of this annotation. 
+							Can be multiple lines long. TODO: the user should be able
+							to modify title and description. 
+					</div>
+				</div>
+			</div>
+		`);
 
 			this.elCopyPosition = this.elContent.find("img[name=copyPosition]");
 			this.elCopyPosition.click( () => {
@@ -77360,7 +77339,7 @@ ENDSEC
 			viewer.inputHandler.addInputListener(this);
 
 			this.addEventListener("mousedown", () => {
-				if(currentlyHovered){
+				if(currentlyHovered && currentlyHovered.image360){
 					this.focus(currentlyHovered.image360);
 				}
 			});
@@ -79023,6 +79002,7 @@ ENDSEC
 	};
 
 	var lib = JSON5;
+
 	class Sidebar{
 
 		constructor(viewer){
@@ -79042,7 +79022,9 @@ ENDSEC
 				data-i18n="${title}" />
 			</div>
 		`);
+
 			element.click(callback);
+
 			return element;
 		}
 
@@ -79063,6 +79045,7 @@ ENDSEC
 			
 
 		initToolbar(){
+
 			function toggleBtn(){
 				const measurements=document.querySelectorAll('.measurement_content');
 					const measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
@@ -79119,7 +79102,6 @@ ENDSEC
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
 					toggleBtn()
-
 				}
 			));
 
@@ -79308,7 +79290,7 @@ ENDSEC
 
 			{ // SHOW / HIDE Measurements
 				let elShow = $("#measurement_options_show");
-				elShow.selectgroup({title:""});
+				elShow.selectgroup({title: ''});
 
 				elShow.find("input").click( (e) => {
 					const show = e.target.value === "SHOW";
@@ -79325,6 +79307,8 @@ ENDSEC
 			let elScene = $("#menu_scene");
 			let elObjects = elScene.next().find("#scene_objects");
 			let elProperties = elScene.next().find("#scene_object_properties");
+			
+
 			{
 				let elExport = elScene.next().find("#scene_export");
 
@@ -79346,9 +79330,8 @@ ENDSEC
 
 					if(measurements.length > 0){
 						let geoJson = GeoJSONExporter.toString(measurements);
-						let url = window.URL.createObjectURL(new Blob([geoJson], {type: 'data:application/octet-stream'})); 
-						// var convertJSONToXML = require('xmlimport dd from 'xml-js'import dd from 'xml-js'-js');
-						// console.log(convertJSONToXML)
+
+						let url = window.URL.createObjectURL(new Blob([geoJson], {type: 'data:application/octet-stream'}));
 						elDownloadJSON.attr('href', url);
 					}else {
 						this.viewer.postError("no measurements to export");
@@ -79428,8 +79411,7 @@ ENDSEC
 
 			let pcID = tree.jstree('create_node', "#", { "text": "<b>Point Clouds</b>", "id": "pointclouds"}, "last", false, false);
 			let measurementID = tree.jstree('create_node', "#", { "text": "<b>Measurements</b>", "id": "measurements" }, "last", false, false);
-			let annotationsID 
-			=tree.jstree('create_node', "#", { "text": "<b>Annotations</b>", "id": "annotations" }, "last", false, false);
+			let annotationsID = tree.jstree('create_node', "#", { "text": "<b>Annotations</b>", "id": "annotations" }, "last", false, false);
 			// let otherID = tree.jstree('create_node', "#", { "text": "<b>Other</b>", "id": "other" }, "last", false, false);
 			// let vectorsID = tree.jstree('create_node', "#", { "text": "<b>Vectors</b>", "id": "vectors" }, "last", false, false);
 			// let imagesID = tree.jstree('create_node', "#", { "text": "<b> Images</b>", "id": "images" }, "last", false, false);
@@ -79640,33 +79622,33 @@ ENDSEC
 			};
 
 			let onOrientedImagesAdded = (e) => {
-				// const images = e.images;
+				const images = e.images;
 
-				// const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
+				const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
 				// const node = createNode(imagesID, "images", imagesIcon, images);
 
-				// images.addEventListener("visibility_changed", () => {
-				// 	if(images.visible){
-				// 		tree.jstree('check_node', node);
-				// 	}else {
-				// 		tree.jstree('uncheck_node', node);
-				// 	}
-				// });
+				images.addEventListener("visibility_changed", () => {
+					if(images.visible){
+						tree.jstree('check_node', node);
+					}else {
+						tree.jstree('uncheck_node', node);
+					}
+				});
 			};
 
 			let onImages360Added = (e) => {
-				// const images = e.images;
+				const images = e.images;
 
-				// const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
+				const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
 				// const node = createNode(imagesID, "360° images", imagesIcon, images);
 
-				// images.addEventListener("visibility_changed", () => {
-				// 	if(images.visible){
-				// 		tree.jstree('check_node', node);
-				// 	}else {
-				// 		tree.jstree('uncheck_node', node);
-				// 	}
-				// });
+				images.addEventListener("visibility_changed", () => {
+					if(images.visible){
+						tree.jstree('check_node', node);
+					}else {
+						tree.jstree('uncheck_node', node);
+					}
+				});
 			};
 
 			const onGeopackageAdded = (e) => {
@@ -79779,9 +79761,9 @@ ENDSEC
 				onProfileAdded({profile: profile});
 			}
 
-			// {
-			// 	createNode(otherID, "Camera", null, new Camera());
-			// }
+			{
+				// createNode(otherID, "Camera", null, new Camera());
+			}
 
 			this.viewer.addEventListener("scene_changed", (e) => {
 				propertiesPanel.setScene(e.scene);
@@ -79896,7 +79878,7 @@ ENDSEC
 			{ // REMOVE CLIPPING TOOLS
 				clippingToolBar.append(this.createToolIcon(
 					Potree.resourcePath + "/icons/remove.svg",
-					"[title]tt.remove_all_measurement",
+					"[title]tt.remove_all_clipping_volumes",
 					() => {
 
 						this.viewer.scene.removeAllClipVolumes();
@@ -80186,7 +80168,7 @@ ENDSEC
 			const addInvertButton = () => { 
 				const element = $(`
 				<li>
-				<input id='invertBtn' style="" type="button" value="Invert"/>
+				<input id='invertBtn' type="button" value="Invert"/>
 				</li>
 			`);
 
@@ -80268,7 +80250,6 @@ ENDSEC
 				["DE", "de"],
 				["JP", "jp"],
 				["ES", "es"],
-				["SE", "se"]
 			];
 
 			let elLanguages = $('#potree_languages');
@@ -80284,7 +80265,7 @@ ENDSEC
 				elLanguages.append(element);
 
 				if(i < languages.length - 1){
-					elLanguages.append($(document.createTextNode('-')));	
+					elLanguages.append($(document.createTextNode(' ')));	
 				}
 			}
 
@@ -80654,7 +80635,7 @@ ENDSEC
 			};
 
 			let drop = (e) => {
-				this.viewer.scene.scene.remove(this.s);
+				viewer.scene.scene.remove(this.s);
 				this.s.removeEventListener("drag", drag);
 				this.s.removeEventListener("drop", drop);
 			};
@@ -88995,6 +88976,7 @@ ENDSEC
 		}
 
 		loadGUI(callback){
+
 			if(callback){
 				this.onGUILoaded(callback);
 			}
@@ -89004,29 +88986,29 @@ ENDSEC
 			sidebarContainer.load(new URL(Potree.scriptPath + '/sidebar.html').href, () => {
 				sidebarContainer.css('width', '280px');
 				sidebarContainer.css('height', '100%');
-				
 				let sidebarViewBtn=document.getElementById('sidebar-view');
 				let sidebarLayersBtn=document.getElementById('sidebar-layers');
 				let sidebarView=document.getElementById('view-type');
 				let layersView=document.getElementById('layers-type');
-				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.display='none'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
-				sidebarLayersBtn.addEventListener('click', (e)=>{layersView.style.display='block'; sidebarView.style.display='none'; sidebarLayersBtn.style.background='#515151'; sidebarViewBtn.style.background='#272727'})
-				let imgMenuToggle = document.createElement('img');
+				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.width='0px'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
+				sidebarLayersBtn.addEventListener('click', (e)=>{layersView.style.width='280px'; sidebarView.style.display='none'; sidebarLayersBtn.style.background='#515151'; sidebarViewBtn.style.background='#272727'})
+				// let imgMenuToggle = document.createElement('img');
 				// imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
+				// imgMenuToggle.onclick = this.toggleSidebar;
+				// imgMenuToggle.classList.add('potree_menu_toggle');
 				const toggleButton=document.getElementById('toggleButton')
 				toggleButton.addEventListener('click', ()=>{this.toggleSidebar()})
-				imgMenuToggle.onclick = this.toggleSidebar;
-				imgMenuToggle.classList.add('potree_menu_toggle');
-
 				let imgMapToggle = document.createElement('img');
 				imgMapToggle.src = new URL(Potree.resourcePath + '/icons/map_icon.png').href;
 				imgMapToggle.style.display = 'none';
 				imgMapToggle.onclick = e => { this.toggleMap(); };
 				imgMapToggle.id = 'potree_map_toggle';
 
+				
+
 				let elButtons = $("#potree_quick_buttons").get(0);
 
-				elButtons.append(imgMenuToggle);
+				// elButtons.append(imgMenuToggle);
 				elButtons.append(imgMapToggle);
 
 
@@ -89070,7 +89052,7 @@ ENDSEC
 				i18n.init({
 					lng: 'en',
 					resGetPath: Potree.resourcePath + '/lang/__lng__/__ns__.json',
-					preload: ['en', 'fr', 'de', 'jp', 'se', 'es'],
+					preload: ['en', 'fr', 'de', 'jp', 'se', 'es', 'zh'],
 					getAsync: true,
 					debug: false
 				}, function (t) {
@@ -90336,8 +90318,8 @@ ENDSEC
 					let optionValue = $(value).prop("value");
 
 					let elButton = $(`
-					<span>
-					<label for="${buttonID}" class="ui-button">${label}</label>
+					<span style="flex-grow: 1; display: inherit">
+					<label for="${buttonID}" class="ui-button" style="width: 100%; padding: .4em .1em">${label}</label>
 					<input type="radio" name="${groupID}" id="${buttonID}" value="${optionValue}" style="display: none"/>
 					</span>
 				`);
@@ -90358,9 +90340,10 @@ ENDSEC
 				});
 
 				let elFieldset = $(`
-				<fieldset style="border: none; margin: 0px; padding: 0px;margin-top:10px">
+				<fieldset style="border: none; margin: 0px; padding: 0px">
 					<legend>${groupTitle}</legend>
-					<span style="display: flex; flex-wrap:wrap; ">
+					<span style="display: flex">
+
 					</span>
 				</fieldset>
 			`);
@@ -90369,6 +90352,7 @@ ENDSEC
 				for(let elButton of elButtons){
 					elButtonContainer.append(elButton);
 				}
+
 				elButtonContainer.find("label").each( (index, value) => {
 					$(value).css("margin", "0px");
 					$(value).css("margin-right", "10px");
@@ -90376,7 +90360,7 @@ ENDSEC
 					$(value).css("border-radius", "100px");
 					$(value).css('font-size', "16px")
 				});
-			
+
 				elGroup.empty();
 				elGroup.append(elFieldset);
 			}

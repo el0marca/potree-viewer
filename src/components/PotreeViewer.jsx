@@ -79,23 +79,20 @@ const PotreeViewer = () => {
   useFetchMiddleware(token);
 
   React.useEffect(() => {
-    const viewerElem = potreeContainerDiv.current,
-      viewer = new Potree.Viewer(viewerElem);
-
+    const viewer = new Potree.Viewer(potreeContainerDiv.current);
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
     viewer.setPointBudget(2 * 100 * 10000);
     viewer.setClipTask(Potree.ClipTask.SHOW_INSIDE);
     viewer.loadSettingsFromURL();
     viewer.setControls(viewer.orbitControls);
-    console.log({ viewer });
     // viewer.setDescription("Point cloud");
     viewer.loadGUI(() => {
       viewer.setLanguage("en");
       viewer.toggleSidebar();
     });
 
-    Potree.loadPointCloud(pointCloudUrl, 'pointcloud', (e)=>{
+    Potree.loadPointCloud(pointCloudUrl, 'pointcloud', (e)=> {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
       material.activeAttributeName = "rgba";

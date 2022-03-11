@@ -121,6 +121,9 @@ const PotreeViewer = () => {
         <li id="tools"></li>
       </div>
       <div id="potree_sidebar_container"></div>
+      <div id='measurementsToggleBtn'>
+      <img src={toggleBtn} alt='btn'/>
+      </div>
     </div>
   );
 };

@@ -757,6 +757,10 @@
 						e.preventDefault();
 						if(e.currentTarget !== document.activeElement) { $(e.currentTarget).focus(); }
 						this.activate_node(e.currentTarget, e);
+						const measurements = document.getElementById('scene_object_properties'),
+						measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
+						measurements.style.right='0px';
+						measurementsToggleBtn.style.right='320px';
 					}, this))
 				.on('keydown.jstree', '.jstree-anchor', $.proxy(function (e) {
 						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }

@@ -74121,8 +74121,6 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
-			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74207,8 +74205,6 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
-			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74254,8 +74250,6 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
-			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
 				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 				<div style='flex:3; display:flex'>
@@ -74310,8 +74304,6 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
-			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74367,8 +74359,6 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
-			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74458,8 +74448,6 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
-			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74533,8 +74521,6 @@ ENDSEC
 
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
-			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74871,8 +74857,6 @@ ENDSEC
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable showMeasurements">
-			<div id='measurementsToggleBtn'>
-			<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -75243,8 +75227,6 @@ ENDSEC
 			let copyIconPath = `${Potree.resourcePath}/icons/copy.svg`;
 			this.elContent = $(`
 			<div class="propertypanel_content measurement_content showMeasurements">
-			<div id='measurementsToggleBtn'>
-				<img style='transform:rotate(180deg)' src='./potree_libs/potree/resources/icons/menu_button.svg' alt='menuBtn'></div>
 				<div class='properties_header'>
 				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 				<div style='flex:3; display:flex'>
@@ -79043,22 +79025,22 @@ ENDSEC
 		}
 
 			
-
+		
+		
 		initToolbar(){
+		let toggleValue = true;
+		const measurements = document.getElementById('scene_object_properties'),
+		measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
+				function toggleBtn(){
+					measurements.style.right='0px';
+					measurementsToggleBtn.style.right='320px'};
 
-			function toggleBtn(){
-				const measurements=document.querySelectorAll('.measurement_content');
-					const measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
 					measurementsToggleBtn.addEventListener('click', ()=>{
-						measurements.forEach(e=>{if(e.classList.contains('hideMeasurements')){
-							e.classList.remove('hideMeasurements')
-							e.classList.add('showMeasurements')
-						}else{
-							e.classList.add('hideMeasurements')
-							e.classList.remove('showMeasurements')
-						}})
+						if(toggleValue){measurements.style.right='-320px';measurementsToggleBtn.style.right='0px'}
+						else {measurements.style.right='0px';measurementsToggleBtn.style.right='320px'}
+						toggleValue=!toggleValue
 					})
-			}
+				
 			// ANGLE
 			let elToolbar = $('#tools');
 			elToolbar.append(this.createToolIcon(
@@ -79284,6 +79266,8 @@ ENDSEC
 				'[title]tt.remove_all_measurement',
 				() => {
 					this.viewer.scene.removeAllMeasurements();
+					measurements.style.right='-320px';
+					measurementsToggleBtn.style.right='-20px';
 				}
 			));
 
@@ -79449,7 +79433,6 @@ ENDSEC
 			});
 
 			tree.on('dblclick','.jstree-anchor', (e) => {
-
 				let instance = $.jstree.reference(e.target);
 				let node = instance.get_node(e.target);
 				let object = node.data;

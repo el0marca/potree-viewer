@@ -638,6 +638,9 @@ opacity:1;
 #sidebar-view:hover {
 	cursor:pointer
 }
+.ui-selectmenu-open{
+	z-index:9999999999999999999!important
+}
 #sidebar-layers:hover {
 	cursor:pointer
 }

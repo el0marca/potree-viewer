@@ -74120,7 +74120,7 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable showMeasurements">
+			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74204,7 +74204,7 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable showMeasurements">
+			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74249,7 +74249,7 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable showMeasurements">
+			<div class="measurement_content selectable">
 			<div class='properties_header'>
 				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 				<div style='flex:3; display:flex'>
@@ -74303,7 +74303,7 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable showMeasurements">
+			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74358,7 +74358,7 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable showMeasurements">
+			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74447,7 +74447,7 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable showMeasurements">
+			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74520,7 +74520,7 @@ ENDSEC
 			]).get(measurement.constructor);
 
 			this.elContent = $(`
-			<div class="measurement_content selectable showMeasurements">
+			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -74856,7 +74856,7 @@ ENDSEC
 
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
-			<div class="measurement_content selectable showMeasurements">
+			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 			<div style='flex:3; display:flex'>
@@ -75226,7 +75226,7 @@ ENDSEC
 
 			let copyIconPath = `${Potree.resourcePath}/icons/copy.svg`;
 			this.elContent = $(`
-			<div class="propertypanel_content measurement_content showMeasurements">
+			<div class="propertypanel_content measurement_content">
 				<div class='properties_header'>
 				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
 				<div style='flex:3; display:flex'>
@@ -75542,6 +75542,7 @@ ENDSEC
 				<div id='toggleSceneProperties'><img src='./potree_libs/potree/resources/icons/propertiesMinBtn.svg'></div>
 				</div>
 				</div>
+				
 				<ul id='properties' class="pv-menu-list">
 				<li style='padding-bottom:15px'>
 					<span style='margin-bottom:15px' data-i18n="appearance.point_size"></span>:&nbsp;<span id="lblPointSize"></span> 
@@ -75554,7 +75555,7 @@ ENDSEC
 				<!-- SIZE TYPE -->
 				<li style='margin-bottom:15px'>
 					<label style="margin-bottom:15px" for="optPointSizing" class="pv-select-label" data-i18n="appearance.point_size_type">Point Sizing </label>
-					<select id="optPointSizing" name="optPointSizing">
+					<select id="optPointSizing" name="optPointSizing" style='display:block'>
 						<option>Fixed</option>
 						<option>Attenuated</option>
 						<option>Adaptive</option>
@@ -75569,7 +75570,6 @@ ENDSEC
 						<option>Paraboloid</option>
 					</select>
 				</li>
-
 				<li id="materials_backface_container">
 				<label><input id="set_backface_culling" type="checkbox" /><span data-i18n="appearance.backface_culling"></span></label>
 				</li>
@@ -75616,21 +75616,16 @@ ENDSEC
 					<div class="divider">
 						<span>MATCAP</span>
 					</div>
-
 					<li>
 						<div id="matcap_scheme_selection" style="display: flex; flex-wrap: wrap;"> </div>
 					</li>
 				</div>
-
 				<div id="materials.color_container">
 					<div class="divider">
 						<span>Color</span>
 					</div>
-
 					<input id="materials.color.picker" />
 				</div>
-
-
 				<div id="materials.elevation_container">
 					<div class="divider">
 						<span>Elevation</span>

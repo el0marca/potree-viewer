@@ -79023,24 +79023,18 @@ ENDSEC
 			
 			$('#potree_version_number').html(Potree.version.major + "." + Potree.version.minor + Potree.version.suffix);
 		}
-
-			
-		
-		
 		initToolbar(){
-		let toggleValue = true;
-		const measurements = document.getElementById('scene_object_properties'),
-		measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
-				function toggleBtn(){
-					measurements.style.right='0px';
-					measurementsToggleBtn.style.right='320px'};
+			const measurements = document.getElementById('scene_object_properties'),
+			measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
+		
+			function toggleBtn(){
+				measurements.style.right = '0px';
+				measurementsToggleBtn.style.right = '320px'};
 
-					measurementsToggleBtn.addEventListener('click', ()=>{
-						if(toggleValue){measurements.style.right='-320px';measurementsToggleBtn.style.right='0px'}
-						else {measurements.style.right='0px';measurementsToggleBtn.style.right='320px'}
-						toggleValue=!toggleValue
-					})
-				
+			measurementsToggleBtn.addEventListener('click', () => {			
+			if(window.getComputedStyle(measurements).getPropertyValue('right')=='0px'){measurements.style.right = '-320px'; measurementsToggleBtn.style.right = '0px'}
+			else { measurements.style.right = '0px'; measurementsToggleBtn.style.right = '320px'}
+			})
 			// ANGLE
 			let elToolbar = $('#tools');
 			elToolbar.append(this.createToolIcon(

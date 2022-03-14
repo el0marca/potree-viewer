@@ -754,15 +754,14 @@
 						}
 					}, this))
 				.on("click.jstree", ".jstree-anchor", $.proxy(function (e) {
+						e.preventDefault();
 						const measurements = document.getElementById('scene_object_properties'),
 						measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
-						if(e.originalEvent.path[3].id==='pointclouds'){
-							measurements.style.right = '-320px'; measurementsToggleBtn.style.right = '-20px'}
-						else { measurements.style.right = '0px'; measurementsToggleBtn.style.right = '320px'}
-						e.preventDefault();
+						if(e.originalEvent.path[3].id==='measurements'){
+							measurements.style.right = '0px'; measurementsToggleBtn.style.right = '320px'}
+						else { measurements.style.right = '-320px'; measurementsToggleBtn.style.right = '-20px'}
 						if(e.currentTarget !== document.activeElement) { $(e.currentTarget).focus(); }
 						this.activate_node(e.currentTarget, e);
-					
 					}, this))
 				.on('keydown.jstree', '.jstree-anchor', $.proxy(function (e) {
 						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }

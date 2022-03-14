@@ -445,7 +445,6 @@
 		},
 
 		dispatchEvent: function ( event ) {
-
 			if ( this._listeners === undefined ) return;
 
 			const listeners = this._listeners;
@@ -461,13 +460,9 @@
 				for ( let i = 0, l = array.length; i < l; i ++ ) {
 
 					array[ i ].call( this, event );
-
 				}
-
 			}
-
 		}
-
 	} );
 
 	const _lut = [];
@@ -820,7 +815,6 @@
 		}
 
 		addVectors( a, b ) {
-
 			this.x = a.x + b.x;
 			this.y = a.y + b.y;
 
@@ -48160,7 +48154,6 @@
 	}
 
 	const _box$3 = /*@__PURE__*/ new Box3();
-
 	class BoxHelper extends LineSegments {
 
 		constructor( object, color = 0xffff00 ) {
@@ -53997,7 +53990,6 @@
 						let i = this.spheres.indexOf(e.drag.object);
 						if (i !== -1) {
 							let point = this.points[i];
-							
 							// loop through current keys and cleanup ones that will be orphaned
 							for (let key of Object.keys(point)) {
 								if (!I.point[key]) {
@@ -54069,10 +54061,11 @@
 
 		setMarker (index, point) {
 			this.points[index] = point;
-
+			console.log(index,point)
+			console.log(this.name)
 			let event = {
 				type: 'marker_moved',
-				measure:	this,
+				measure: this,
 				index:	index,
 				position: point.position.clone()
 			};
@@ -80067,6 +80060,7 @@ ENDSEC
 			let elClassificationList = $('#classificationList');
 
 			let addClassificationItem = (code, name) => {
+		
 				const classification = this.viewer.classifications[code];
 				const inputID = 'chkClassification_' + code;
 				const colorPickerID = 'colorPickerClassification_' + code;
@@ -80078,7 +80072,7 @@ ENDSEC
 					<label style="whitespace: nowrap; display: flex;align-items:center; margin-bottom:4px;cursor:pointer;">
 						<input id="${inputID}" class='checkbox' type="checkbox" ${checked}/>
 						<span class='fake'></span>
-						<span style="flex-grow: 1;font-size:16px;color:#EFEFEF;font-weight:300;cursor:pointer";>${name}</span>
+						<span style="flex-grow: 1;font-size:16px;color:#EFEFEF;font-weight:300;cursor:pointer">${name}</span>
 						<input id="${colorPickerID}" style="zoom: 0.5" />
 					</label>
 				</li>
@@ -80349,91 +80343,88 @@ ENDSEC
 			let sldMoveSpeed = $('#sldMoveSpeed');
 			let lblMoveSpeed = $('#lblMoveSpeed');
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/earth_controls_1.png',
-				'[title]tt.earth_control',
-				() => { this.viewer.setControls(this.viewer.earthControls); }
-			));
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/earth_controls_1.png',
+			// 	'[title]tt.earth_control',
+			// 	() => { this.viewer.setControls(this.viewer.earthControls); }
+			// ));
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/fps_controls.svg',
-				'[title]tt.flight_control',
-				() => {
-					this.viewer.setControls(this.viewer.fpControls);
-					this.viewer.fpControls.lockElevation = false;
-				}
-			));
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/fps_controls.svg',
+			// 	'[title]tt.flight_control',
+			// 	() => {
+			// 		this.viewer.setControls(this.viewer.fpControls);
+			// 		this.viewer.fpControls.lockElevation = false;
+			// 	}
+			// ));
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/helicopter_controls.svg',
-				'[title]tt.heli_control',
-				() => { 
-					this.viewer.setControls(this.viewer.fpControls);
-					this.viewer.fpControls.lockElevation = true;
-				}
-			));
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/helicopter_controls.svg',
+			// 	'[title]tt.heli_control',
+			// 	() => { 
+			// 		this.viewer.setControls(this.viewer.fpControls);
+			// 		this.viewer.fpControls.lockElevation = true;
+			// 	}
+			// ));
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/orbit_controls.svg',
-				'[title]tt.orbit_control',
-				() => { this.viewer.setControls(this.viewer.orbitControls); }
-			));
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/orbit_controls.svg',
+			// 	'[title]tt.orbit_control',
+			// 	() => { this.viewer.setControls(this.viewer.orbitControls); }
+			// ));
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/focus.svg',
-				'[title]tt.focus_control',
-				() => { this.viewer.fitToScreen(); }
-			));
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/focus.svg',
+			// 	'[title]tt.focus_control',
+			// 	() => { this.viewer.fitToScreen(); }
+			// ));
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/navigation_cube.svg",
-				"[title]tt.navigation_cube_control",
-				() => {this.viewer.toggleNavigationCube();}
-			));
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + "/icons/navigation_cube.svg",
+			// 	"[title]tt.navigation_cube_control",
+			// 	() => {this.viewer.toggleNavigationCube();}
+			// ));
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/images/compas.svg",
-				"[title]tt.compass",
-				() => {
-					const visible = !this.viewer.compass.isVisible();
-					this.viewer.compass.setVisible(visible);
-				}
-			));
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + "/images/compas.svg",
+			// 	"[title]tt.compass",
+			// 	() => {
+			// 		const visible = !this.viewer.compass.isVisible();
+			// 		this.viewer.compass.setVisible(visible);
+			// 	}
+			// ));
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/camera_animation.svg",
-				"[title]tt.camera_animation",
-				() => {
-					const animation = CameraAnimation.defaultFromView(this.viewer);
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + "/icons/camera_animation.svg",
+			// 	"[title]tt.camera_animation",
+			// 	() => {
+			// 		const animation = CameraAnimation.defaultFromView(this.viewer);
 
-					viewer.scene.addCameraAnimation(animation);
-				}
-			));
-
-
-			elNavigation.append("<br>");
+			// 		viewer.scene.addCameraAnimation(animation);
+			// 	}
+			// ));
 
 
 			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/left.svg",
+				Potree.resourcePath + "/icons/west.png",
 				"[title]tt.left_view_control",
 				() => {this.viewer.setLeftView();}
 			));
 
 			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/right.svg",
+				Potree.resourcePath + "/icons/east.png",
 				"[title]tt.right_view_control",
 				() => {this.viewer.setRightView();}
 			));
 
 			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/front.svg",
+				Potree.resourcePath + "/icons/south.png",
 				"[title]tt.front_view_control",
 				() => {this.viewer.setFrontView();}
 			));
 
 			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/back.svg",
+				Potree.resourcePath + "/icons/north.png",
 				"[title]tt.back_view_control",
 				() => {this.viewer.setBackView();}
 			));
@@ -80444,15 +80435,11 @@ ENDSEC
 				() => {this.viewer.setTopView();}
 			));
 
-			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/bottom.svg",
-				"[title]tt.bottom_view_control",
-				() => {this.viewer.setBottomView();}
-			));
-
-
-
-
+			// elNavigation.append(this.createToolIcon(
+			// 	Potree.resourcePath + "/icons/bottom.svg",
+			// 	"[title]tt.bottom_view_control",
+			// 	() => {this.viewer.setBottomView();}
+			// ));
 
 			let elCameraProjection = $(`
 			<selectgroup id="camera_projection_options">
@@ -80460,7 +80447,7 @@ ENDSEC
 				<option id="camera_projection_options_orthigraphic" value="ORTHOGRAPHIC">Orthographic</option>
 			</selectgroup>
 		`);
-			elNavigation.append(elCameraProjection);
+			// elNavigation.append(elCameraProjection);
 			elCameraProjection.selectgroup({title: "Camera Projection"});
 			elCameraProjection.find("input").click( (e) => {
 				this.viewer.setCameraMode(CameraMode[e.target.value]);
@@ -80607,7 +80594,7 @@ ENDSEC
 			};
 
 			let drop = (e) => {
-				viewer.scene.scene.remove(this.s);
+				this.viewer.scene.scene.remove(this.s);
 				this.s.removeEventListener("drag", drag);
 				this.s.removeEventListener("drop", drop);
 			};
@@ -87803,7 +87790,7 @@ ENDSEC
 			{ // generate missing dom hierarchy
 				if ($(domElement).find('#potree_map').length === 0) {
 					let potreeMap = $(`
-					<div id="potree_map" class="mapBox" style="position: absolute; left: 50px; top: 50px; width: 400px; height: 400px; display: none">
+					<div id="potree_map" class="mapBox" style="position: absolute; right: 20px; bottom: 76px; width: 400px; height: 400px; display: none;z-index:99999;transition:0.3s">
 						<div id="potree_map_header" style="position: absolute; width: 100%; height: 25px; top: 0px; background-color: rgba(0,0,0,0.5); z-index: 1000; border-top-left-radius: 3px; border-top-right-radius: 3px;">
 						</div>
 						<div id="potree_map_content" class="map" style="position: absolute; z-index: 100; top: 25px; width: 100%; height: calc(100% - 25px); border: 2px solid rgba(0,0,0,0.5); box-sizing: border-box;"></div>
@@ -88907,14 +88894,17 @@ ENDSEC
 			let sidebar = $('#potree_sidebar_container')
 			let toggleButton=$('#toggleButton')
 			let isVisible = renderArea.css('left') !== '0px';
+			let potreeMap=$('#potree_map')
 			if (isVisible) {
 				renderArea.css('left', '0px');
 				sidebar.css('left', '-320px');
-				toggleButton.css('left', '0px')
+				toggleButton.css('left', '0px');
+				potreeMap.css('right', '20px')
 			} else {
 				renderArea.css('left', '160px');
 				sidebar.css('left', '0px')
 				toggleButton.css('left','160px')
+				potreeMap.css('right','180px')
 			}
 		};
 
@@ -88962,7 +88952,7 @@ ENDSEC
 				let sidebarLayersBtn=document.getElementById('sidebar-layers');
 				let sidebarView=document.getElementById('view-type');
 				let layersView=document.getElementById('layers-type');
-				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.width='0px'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
+				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.width='0px'; layersView.style.height='100px'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
 				sidebarLayersBtn.addEventListener('click', (e)=>{layersView.style.width='280px'; sidebarView.style.display='none'; sidebarLayersBtn.style.background='#515151'; sidebarViewBtn.style.background='#272727'})
 				// let imgMenuToggle = document.createElement('img');
 				// imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
@@ -90291,7 +90281,7 @@ ENDSEC
 
 					let elButton = $(`
 					<span style="flex-grow: 1; display: inherit">
-					<label for="${buttonID}" class="ui-button" style="width: 100%; padding: .4em .1em">${label}</label>
+					<label for="${buttonID}" class="ui-button" style="width: 100%; padding: .4em .1em; margin:10px!important ">${label}</label>
 					<input type="radio" name="${groupID}" id="${buttonID}" value="${optionValue}" style="display: none"/>
 					</span>
 				`);
@@ -90315,7 +90305,6 @@ ENDSEC
 				<fieldset style="border: none; margin: 0px; padding: 0px">
 					<legend>${groupTitle}</legend>
 					<span style="display: flex">
-
 					</span>
 				</fieldset>
 			`);
@@ -90326,9 +90315,9 @@ ENDSEC
 				}
 
 				elButtonContainer.find("label").each( (index, value) => {
-					$(value).css("margin", "0px");
-					$(value).css("margin-right", "10px");
-					$(value).css('margin-bottom', '10px');
+					$(value).css("margin", "10px");
+					// $(value).css("margin-right", "10px");
+					// $(value).css('margin-bottom', '10px');
 					$(value).css("border-radius", "100px");
 					$(value).css('font-size', "16px")
 				});

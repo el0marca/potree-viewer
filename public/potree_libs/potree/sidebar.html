@@ -21,8 +21,10 @@
 	</div>
 	<div>
 		<div id="view-type" style="display:block">
+			<div style="margin:20px 0px">Directions</div>
+			<li id="navigation"></li>
 			<div style="display:flex;flex-direction:row; justify-content: space-between; margin-top: 30px;">
-				<div style="color:#ffffff;display:flex;align-items: center;flex:1">
+				<div style="color:#ffffff;display:flex;align-items: center;flex:1;">
 					Labels
 				</div>
 				<div style="flex:2">
@@ -58,7 +60,7 @@
 				<ul id="classificationList" class="pv-menu-list"></ul>
 			</div>
 		</div>
-		<div style="width:280px;height:500px" id="layers-type">
+		<div style="width:0px; height:100px" id="layers-type">
 			<h3 id="menu_scene"></h3>
 			<div class="pv-menu-list">
 				<div id="scene_objects"></div>
@@ -141,7 +143,7 @@
 					</selectgroup>
 				</li>
 				<div class="divider"><span>Navigation</span></div>
-				<li id="navigation"></li>
+				
 				<li><span data-i18n="appearance.move_speed"></span>: <span id="lblMoveSpeed"></span>
 					<div id="sldMoveSpeed"></div>
 				</li>

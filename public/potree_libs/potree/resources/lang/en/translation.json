@@ -30,10 +30,10 @@
 		"clip_plane_y": "Clip plane on y axis",
 		"clip_plane_z": "Clip plane on z axis",
 		"remove_all_measurement": "Remove all measurements",
-		"left_view_control": "Left view",
-		"right_view_control": "Righ view",
-		"front_view_control": "Front view",
-		"back_view_control": "Back view",
+		"left_view_control": "West",
+		"right_view_control": "East",
+		"front_view_control": "South",
+		"back_view_control": "North",
 		"top_view_control": "Top view",
 		"bottom_view_control": "Bottom view",
 		"focus_control": "Full extent",
@@ -49,6 +49,7 @@
 		"camera_animation": "Camera Animation"
 	},
 	"appearance": {
+		"Water":"Water",
 		"nb_max_pts": "Number of points", 
 		"point_size": "Point size",
 		"min_point_size": "Minimum size",

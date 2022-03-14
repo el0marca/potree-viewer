@@ -91,8 +91,8 @@ const PotreeViewer = () => {
       viewer.setLanguage("en");
       viewer.toggleSidebar();
     });
-
-    Potree.loadPointCloud("http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js", 'pointcloud', (e)=> {
+    const customUrl="http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js"
+    Potree.loadPointCloud(customUrl, 'pointcloud', (e)=> {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
       material.activeAttributeName = "rgba";

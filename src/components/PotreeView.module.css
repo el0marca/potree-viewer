@@ -26,7 +26,9 @@
 	left: 160px;
     display:flex;
     justify-content:center;
-    align-items:center
+    align-items:center;
+    z-index: 900000;
+    transition: 0.2s;
 }
 .toggleButton:hover{
     background-color:#666666;

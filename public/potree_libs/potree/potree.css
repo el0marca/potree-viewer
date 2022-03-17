@@ -666,10 +666,15 @@ opacity:1;
 	color:#ffffff; 
 	font-weight:300;
 	border-radius:10px;
-	padding:0px;
-	margin:0px;
-	border:0px;
-	margin-top:20px
+	margin-top:20px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+.measurementHeader{
+	flex:2;
+	font-size:20px;
+	font-family:Futura P
 }
 .ui-button:hover {
 	background:#666666

@@ -59020,21 +59020,21 @@ void main() {
 	const ClassificationScheme = {
 
 		DEFAULT: {
-			0:       { visible: true, name: 'Never classified'  , color: [0.5,  0.5,  0.5,  1.0] },
+			0:       { visible: true, name: 'Neverclassified'  , color: [0.5,  0.5,  0.5,  1.0] },
 			1:       { visible: true, name: 'Unclassified'      , color: [0.5,  0.5,  0.5,  1.0] },
 			2:       { visible: true, name: 'Ground'            , color: [0.63, 0.32, 0.18, 1.0] },
-			3:       { visible: true, name: 'Low vegetation'    , color: [0.0,  1.0,  0.0,  1.0] },
-			4:       { visible: true, name: 'Medium vegetation' , color: [0.0,  0.8,  0.0,  1.0] },
-			5:       { visible: true, name: 'High vegetation'   , color: [0.0,  0.6,  0.0,  1.0] },
+			3:       { visible: true, name: 'Lowvegetation'    , color: [0.0,  1.0,  0.0,  1.0] },
+			4:       { visible: true, name: 'Mediumvegetation' , color: [0.0,  0.8,  0.0,  1.0] },
+			5:       { visible: true, name: 'Highvegetation'   , color: [0.0,  0.6,  0.0,  1.0] },
 			6:       { visible: true, name: 'Building'          , color: [1.0,  0.66, 0.0,  1.0] },
-			7:       { visible: true, name: 'Low point (noise)' , color: [1.0,  0.0,  1.0,  1.0] },
+			7:       { visible: true, name: 'Lowpoint' , color: [1.0,  0.0,  1.0,  1.0] },
 			8:       { visible: true, name: 'Key-point'         , color: [1.0,  0.0,  0.0,  1.0] },
 			9:       { visible: true, name: 'Water'             , color: [0.0,  0.0,  1.0,  1.0] },
 			12:      { visible: true, name: 'Overlap'           , color: [1.0,  1.0,  0.0,  1.0] },
 			DEFAULT: { visible: true, name: 'Default'           , color: [0.3,  0.6,  0.6,  0.5] },
 		}
 	};
-
+	
 	Object.defineProperty(ClassificationScheme, 'RANDOM', {
 		get: function() { 
 
@@ -74016,12 +74016,10 @@ ENDSEC
 	}
 
 	class MeasurePanel{
-
 		constructor(viewer, measurement, propertiesPanel){
 			this.viewer = viewer;
 			this.measurement = measurement;
 			this.propertiesPanel = propertiesPanel;
-
 			this._update = () => { this.update(); };
 		}
 
@@ -74034,8 +74032,7 @@ ENDSEC
 					<th>z</th>
 					<th></th>
 				</tr>
-			</table>
-		`);
+			</table>`);
 
 			let copyIconPath = Potree.resourcePath + '/icons/copy.svg';
 
@@ -74103,26 +74100,23 @@ ENDSEC
 		}
 
 		update(){
-
 		}
 	};
-
 	class DistancePanel extends MeasurePanel{
 		constructor(viewer, measurement, propertiesPanel){
 			super(viewer, measurement, propertiesPanel);
-
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div data-i18n='measurements.header' class='measurementHeader'></div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/distance.svg' alt='distance'>
 			</div>
-			<div class='propertiesHeader'>Distance</div>
+			<div data-i18n='measurements.distance' class='propertiesHeader'></div>
 			</div>
-		</div>
+			</div>
 			<span class="coordinates_table_container"></span>
 				<table id="distances_table" class="measurement_value_table"></table>
 			</div>
@@ -74157,6 +74151,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74199,12 +74194,12 @@ ENDSEC
 			this.elContent = $(`
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div data-i18n='measurements.header' class='measurementHeader'></div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex;justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/point.svg' alt='point'>
 			</div>
-			<div class='propertiesHeader'>Point</div>
+			<div data-i18n='measurements.point' class='propertiesHeader'></div>
 			</div>
 			</div>
 				<span class="coordinates_table_container"></span>
@@ -74226,6 +74221,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74244,12 +74240,12 @@ ENDSEC
 			this.elContent = $(`
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
-				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+				<div data-i18n='measurements.header' class='measurementHeader'></div>
 				<div style='flex:3; display:flex'>
 				<div style="flex:1;display:flex; justify-content:center;align-items:center">
 					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/area.svg' alt='area'>
 				</div>
-				<div class='propertiesHeader'>Area</div>
+				<div data-i18n='measurements.area' class='propertiesHeader'></div>
 				</div>
 			</div>
 				<span class="coordinates_table_container"></span>
@@ -74281,6 +74277,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74298,12 +74295,12 @@ ENDSEC
 			this.elContent = $(`
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div data-i18n='measurements.header' class='measurementHeader'></div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
 			</div>
-			<div class='propertiesHeader'>Angle</div>
+			<div data-i18n='measurements.angle' class='propertiesHeader'></div>
 			</div>
 		</div>
 				<span class="coordinates_table_container"></span>
@@ -74325,6 +74322,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74353,12 +74351,12 @@ ENDSEC
 			this.elContent = $(`
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div data-i18n='measurements.header' class='measurementHeader'></div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/circle.svg' alt='circle'>
 			</div>
-			<div class='propertiesHeader'>Circle</div>
+			<div data-i18n='measurements.circle' class='propertiesHeader'></div>
 			</div>
 		</div>
 				<span class="coordinates_table_container"></span>
@@ -74380,6 +74378,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74442,12 +74441,12 @@ ENDSEC
 			this.elContent = $(`
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div data-i18n='measurements.header' class='measurementHeader'></div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/height.svg' alt='height'>
 			</div>
-			<div class='propertiesHeader'>Height</div>
+			<div data-i18n='measurements.height' class='propertiesHeader'></div>
 			</div>
 		</div>
 				<span class="coordinates_table_container"></span>
@@ -74469,6 +74468,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74515,12 +74515,12 @@ ENDSEC
 			this.elContent = $(`
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div data-i18n='measurements.header' class='measurementHeader'></div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/volume.svg' alt='volume'>
 			</div>
-			<div class='propertiesHeader'>Volume</div>
+			<div data-i18n='measurements.volume' class='propertiesHeader'></div>
 			</div>
 		</div>
 				<span class="coordinates_table_container"></span>
@@ -74798,6 +74798,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable([this.measurement.position]));
@@ -74851,12 +74852,12 @@ ENDSEC
 			this.elContent = $(`
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
-			<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+			<div data-i18n='measurements.header' class='measurementHeader'></div>
 			<div style='flex:3; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/profile.svg' alt='profile'>
 			</div>
-			<div class='propertiesHeader'>Profile</div>
+			<div data-i18n='measurements.profile' class='propertiesHeader'></div>
 			</div>
 			</div>
 				<span class="coordinates_table_container"></span>
@@ -74944,6 +74945,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points));
@@ -75192,7 +75194,7 @@ ENDSEC
 		}
 
 		update(){
-			//console.log("updating camera panel");
+			this.viewer.updateLanguage()
 
 			let camera = this.viewer.scene.getActiveCamera();
 			let view = this.viewer.scene.view;
@@ -75221,12 +75223,12 @@ ENDSEC
 			this.elContent = $(`
 			<div class="propertypanel_content measurement_content">
 				<div class='properties_header'>
-				<div style='flex:2;font-size:20px;font-family:Futura PT'>Properties</div>
+				<div data-i18n='measurements.header' class='measurementHeader'></div>
 				<div style='flex:3; display:flex'>
 				<div style="flex:1;display:flex; justify-content:center; align-items:center">
 					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/annotation.svg' alt='annotation'>
 				</div>
-				<div class='propertiesHeader'>Annotation</div>
+				<div data-i18n='measurements.annotation' class='propertiesHeader'></div>
 				</div>
 			</div>
 				<table style='width:100%'>
@@ -75283,6 +75285,7 @@ ENDSEC
 		}
 
 		update(){
+			this.viewer.updateLanguage()
 			const {annotation, elContent, elTitle, elDescription} = this;
 
 			let pos = annotation.position.toArray().map(c => Utils.addCommas(c.toFixed(3)));
@@ -75530,7 +75533,7 @@ ENDSEC
 			let panel = $(`
 			<div id='scene_content' class="scene_content selectable">
 				<div style='display:flex;flex-direction:row;height:40px;border-bottom:1px solid #272727;align-items:center;padding:0px 20px;flex:1'>
-				<div style='font-size:20px;color:#efefef';font-weight: Futura PT;flex:2>Properties</div>
+				<div data-i18n='measurements.header' style='font-size:20px;color:#efefef';font-weight: Futura PT;flex:2></div>
 				<div style='flex:3;display:flex;justify-content:flex-end'>
 				<div id='toggleSceneProperties'><img src='./potree_libs/potree/resources/icons/propertiesMinBtn.svg'></div>
 				</div>
@@ -75549,18 +75552,18 @@ ENDSEC
 				<li style='margin-bottom:15px'>
 					<label style="margin-bottom:15px" for="optPointSizing" class="pv-select-label" data-i18n="appearance.point_size_type">Point Sizing </label>
 					<select id="optPointSizing" name="optPointSizing" style='display:block'>
-						<option>Fixed</option>
-						<option>Attenuated</option>
-						<option>Adaptive</option>
+						<option data-i18n='appearance.point_size_fixed'></option>
+						<option data-i18n='appearance.point_size_attenuated'></option>
+						<option data-i18n='appearance.point_size_adaptive'></option>
 					</select>
 				</li>
 				<!-- SHAPE -->
 				<li>
 					<label for="optShape" class="pv-select-label" data-i18n="appearance.point_shape"></label><br>
 					<select id="optShape" name="optShape">
-						<option>Square</option>
-						<option>Circle</option>
-						<option>Paraboloid</option>
+						<option data-i18n="appearance.point_square"></option>
+						<option data-i18n="appearance.point_circle"></option>
+						<option data-i18n="appearance.point_paraboloid"></option>
 					</select>
 				</li>
 				<li id="materials_backface_container">
@@ -79138,7 +79141,7 @@ ENDSEC
 			// AZIMUTH
 			elToolbar.append(this.createToolIcon(
 				Potree.resourcePath + '/icons/azimuth.svg',
-				'Azimuth',
+				'[title]tt.azimuth_measurement',
 				() => {
 					$('#menu_measurements').next().slideDown();
 					let measurement = this.measuringTool.startInsertion({
@@ -79375,9 +79378,9 @@ ENDSEC
 				return nodeID;
 			};
 
-			let pcID = tree.jstree('create_node', "#", { "text": "<b>Point Clouds</b>", "id": "pointclouds"}, "last", false, false);
-			let measurementID = tree.jstree('create_node', "#", { "text": "<b>Measurements</b>", "id": "measurements" }, "last", false, false);
-			let annotationsID = tree.jstree('create_node', "#", { "text": "<b>Annotations</b>", "id": "annotations" }, "last", false, false);
+			let pcID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.pointclouds'></b>", "id": "pointclouds"}, "last", false, false);
+			let measurementID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.measurements'></b>", "id": "measurements" }, "last", false, false);
+			let annotationsID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.annotations'></b>", "id": "annotations" }, "last", false, false);
 			// let otherID = tree.jstree('create_node', "#", { "text": "<b>Other</b>", "id": "other" }, "last", false, false);
 			// let vectorsID = tree.jstree('create_node', "#", { "text": "<b>Vectors</b>", "id": "vectors" }, "last", false, false);
 			// let imagesID = tree.jstree('create_node', "#", { "text": "<b> Images</b>", "id": "images" }, "last", false, false);
@@ -80072,7 +80075,7 @@ ENDSEC
 					<label style="whitespace: nowrap; display: flex;align-items:center; margin-bottom:4px;cursor:pointer;">
 						<input id="${inputID}" class='checkbox' type="checkbox" ${checked}/>
 						<span class='fake'></span>
-						<span style="flex-grow: 1;font-size:16px;color:#EFEFEF;font-weight:300;cursor:pointer">${name}</span>
+						<span data-i18n='classification.${name}' style="flex-grow: 1;font-size:16px;color:#EFEFEF;font-weight:300;cursor:pointer"></span>
 						<input id="${colorPickerID}" style="zoom: 0.5" />
 					</label>
 				</li>
@@ -80117,7 +80120,7 @@ ENDSEC
 					<label style="whitespace: nowrap;display:flex; margin-bottom:10px;cursor:pointer">
 						<input id="toggleClassificationFilters" class='checkbox' type="checkbox" checked/>
 						<span class='fake'></span>
-						<span style='font-size:16px'>Show/hide all</span>
+						<span data-i18n='classification.shAll' style='font-size:16px'></span>
 					</label>
 				</li>
 			`);
@@ -80134,7 +80137,12 @@ ENDSEC
 			const addInvertButton = () => { 
 				const element = $(`
 				<li>
-				<input id='invertBtn' type="button" value="Invert"/>
+				<label for='iBtn'>
+				<div id='invertBtn'>
+				<div data-i18n='invertBtn'></div>
+				</div>
+				</label>
+				<input id='iBtn' style='display:none' type="button" value="Invert"></input>
 				</li>
 			`);
 
@@ -80212,10 +80220,7 @@ ENDSEC
 
 			let languages = [
 				["EN", "en"],
-				["FR", "fr"],
 				["DE", "de"],
-				["JP", "jp"],
-				["ES", "es"],
 			];
 
 			let elLanguages = $('#potree_languages');
@@ -89070,7 +89075,9 @@ ENDSEC
 			i18n.setLng(lang);
 			$('body').i18n();
 		}
-
+		updateLanguage(){
+			setTimeout(()=>{$('body').i18n()},2)
+		}
 		setServer (server) {
 			this.server = server;
 		}
@@ -90281,7 +90288,7 @@ ENDSEC
 
 					let elButton = $(`
 					<span style="flex-grow: 1; display: inherit">
-					<label for="${buttonID}" class="ui-button" style="width: 100%; padding: .4em .1em; margin:10px!important ">${label}</label>
+					<label for="${buttonID}" class="ui-button" style="width: 100%">${label}</label>
 					<input type="radio" name="${groupID}" id="${buttonID}" value="${optionValue}" style="display: none"/>
 					</span>
 				`);
@@ -90315,9 +90322,8 @@ ENDSEC
 				}
 
 				elButtonContainer.find("label").each( (index, value) => {
-					$(value).css("margin", "10px");
-					// $(value).css("margin-right", "10px");
-					// $(value).css('margin-bottom', '10px');
+					$(value).css("margin", "10px 10px 10px 0px");
+					$(value).css("padding", '7px 0px');
 					$(value).css("border-radius", "100px");
 					$(value).css('font-size', "16px")
 				});

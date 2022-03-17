@@ -1,4 +1,41 @@
 {
+	"screen":{
+		"view":"View",
+		"layers":"Layers"
+	},
+	"labels":{
+		"name":"Labels",
+		"show":"Show",
+		"hide":"Hide"
+	},
+	"background":{
+		"title":"Background",
+		"gradient":"Gradient",
+		"black":"Black",
+		"white":"White"
+	},
+	"invertBtn":"Invert",
+	"classification":{
+		"header":"Classifications",
+		"shAll":"Show/hide all",
+		"Neverclassified":"Never classified",
+		"Unclassified":"Unclassified",
+		"Ground":"Ground",
+		"Lowvegetation":"Low vegetation",
+		"Mediumvegetation":"Medium vegetation",
+		"Highvegetation":"High vegetation",
+		"Building":"Building",
+		"Lowpoint":"Low point (noise)",
+		"Key-point":"Key-point",
+		"Water":"Water",
+		"Overlap":"Overlap",
+		"Default":"Default"
+	},
+	"ls":{
+		"pointclouds":"Point Clouds",
+		"measurements":"Measurements",
+        "annotations":"Annotations"
+	},
 	"tb": {
 		"navigation_opt": "Navigation",
 		"rendering_opt": "Appearance",
@@ -19,6 +56,7 @@
 		"distance_measurement": "Distance measurement",
 		"height_measurement": "Height measurement",
 		"circle_measurement": "Circle measurement",
+		"azimuth_measurement":"Azimuth measurement",
 		"area_measurement": "Area measurement",
 		"volume_measurement": "Volume measurement",
 		"height_profile": "Height profile",
@@ -56,11 +94,17 @@
 		"point_opacity": "Opacity",
 		"field_view": "Field of view",
 		"point_size_type": "Point sizing",
+		"point_size_fixed":"Fixed",
+		"point_size_attenuated":"Attenuated",
+		"point_size_adaptive":"Adaptive",
 		"point_material": "Materials",
 		"elevation_range": "Elevation range",
 		"extra_range": "Scalar range",
 		"point_quality": "Quality",
 		"point_shape": "Shape",
+		"point_square":"Square",
+		"point_circle":"Circle",
+		"point_paraboloid":"Paraboloid",
 		"edl_radius": "Radius",
 		"edl_strength": "Strength",
 		"edl_opacity": "Opacity",
@@ -77,8 +121,18 @@
 		"backface_culling": "Backface Culling"
 	},
 	"measurements": {
+		"header":"Properties",
 		"clip": "clip",
-		"show": "show volume"
+		"show": "show volume",
+		"distance":"Distance",
+		"point":"Point",
+		"area":"Area",
+		"angle":"Angle",
+		"circle":"Circle",
+		"height":"Height",
+		"volume":"Volume",
+		"profile":"Profile",
+		"annotation":"Annotation"
 	},
 	"annotations": {
 		"show3D": "show in 3D",

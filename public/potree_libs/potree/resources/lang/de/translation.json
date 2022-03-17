@@ -1,4 +1,41 @@
 {
+    "screen":{
+		"view":"Ansehen",
+		"layers":"Schichten"
+	},
+    "labels":{
+		"name":"Etiketten",
+		"show":"Zeigen",
+		"hide":"Verstecken"
+	},
+    "background":{
+		"title":"Hintergrund",
+		"gradient":"Steigung",
+		"black":"Schwarz",
+		"white":"Weiß"
+	},
+    "invertBtn":"",
+    "classification":{
+        "header":"",
+        "shAll":"",
+        "Neverclassified":"",
+		"Unclassified":"",
+		"Ground":"",
+		"Lowvegetation":"",
+		"Mediumvegetation":"",
+		"Highvegetation":"",
+		"Building":"",
+		"Lowpoint":"",
+		"Key-point":"",
+		"Water":"",
+		"Overlap":"",
+		"Default":""
+	},
+    "ls":{
+		"pointclouds":"",
+        "measurements":"",
+        "annotations":""
+	},
     "tb": {
         "navigation_opt": "Navigation",
         "rendering_opt": "Aussehen",
@@ -13,10 +50,15 @@
     },
     "tt": {
         "angle_measurement": "Winkelmessung",
+        "point_measurement":"",
         "distance_measurement": "Abstandsmessung",
+        "height_measurement":"",
+        "cicle_measurement":"",
+        "azimuth_measurement":"",
         "area_measurement": "Flächenmessung",
         "volume_measurement": "Volumenmessung",
         "height_profile": "Höhenprofil",
+        "annotation":"",
         "clip_volume": "Volume clip",
         "clip_polygon": "Polygon clip",
         "clip_plane_x": "Clipebene auf x-Achse",
@@ -38,13 +80,20 @@
     "appearance": {
         "nb_max_pts": "Max Punkte", 
         "point_size": "Punktgrösse",
+        "min_point_size": "Mindestgröße",
         "point_opacity": "Deckkraft",
         "field_view": "Sichtfeld",
         "point_size_type": "Punktgrösse",
+        "point_size_fixed":"",
+		"point_size_attenuated":"",
+		"point_size_adaptive":"",
         "point_material": "Materials",
         "elevation_range": "Elevation Bereich",
         "point_quality": "Qualität",
 		"point_shape": "Form",
+        "point_square":"",
+		"point_circle":"",
+		"point_paraboloid":"",
         "edl_radius": "Radius",
         "edl_strength": "Stärke",
         "edl_enable": "Ein",
@@ -57,6 +106,18 @@
         "length_unit": "Lenght unit",
         "freeze": "Lock view",
         "language": "Sprache"
+    },
+    "measurements":{
+      "header":"",
+      "distance":"",
+      "point":"",
+      "area":"",
+      "angle":"",
+      "circle":"",
+      "height":"",
+      "volume":"",
+      "profile":"",
+      "annotation":""
     },
     "profile": {
         "nb_points": "Punkt number",

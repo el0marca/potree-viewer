@@ -1,40 +1,40 @@
 {
     "screen":{
 		"view":"Ansehen",
-		"layers":"Schichten"
+		"layers":"Layers"
 	},
     "labels":{
-		"name":"Etiketten",
-		"show":"Zeigen",
-		"hide":"Verstecken"
+		"name":"Labels",
+		"show":"An",
+		"hide":"Aus"
 	},
     "background":{
 		"title":"Hintergrund",
-		"gradient":"Steigung",
+		"gradient":"Grau",
 		"black":"Schwarz",
 		"white":"Weiß"
 	},
-    "invertBtn":"",
+    "invertBtn":"Umkehren",
     "classification":{
-        "header":"",
-        "shAll":"",
-        "Neverclassified":"",
-		"Unclassified":"",
-		"Ground":"",
-		"Lowvegetation":"",
-		"Mediumvegetation":"",
-		"Highvegetation":"",
-		"Building":"",
-		"Lowpoint":"",
-		"Key-point":"",
-		"Water":"",
-		"Overlap":"",
-		"Default":""
+        "header":"Klassifizierungen",
+        "shAll":"Alle anzeigen/ausblenden",
+        "Neverclassified":"Nie klassifiziert",
+		"Unclassified":"Unklassifiziert",
+		"Ground":"Boden",
+		"Lowvegetation":"Niedrige Vegetation",
+		"Mediumvegetation":"Mittlere Vegetation",
+		"Highvegetation":"Hohe Vegetation",
+		"Building":"Gebäude",
+		"Lowpoint":"Niedrige Punkte",
+		"Key-point":"Schlüssel Punkte",
+		"Water":"Wasser",
+		"Overlap":"Überlappung",
+		"Default":"Standard"
 	},
     "ls":{
-		"pointclouds":"",
-        "measurements":"",
-        "annotations":""
+		"pointclouds":"Punktwolken",
+        "measurements":"Messungen",
+        "annotations":"Annotationen"
 	},
     "tb": {
         "navigation_opt": "Navigation",
@@ -50,16 +50,16 @@
     },
     "tt": {
         "angle_measurement": "Winkelmessung",
-        "point_measurement":"",
+        "point_measurement":"Punktmessung",
         "distance_measurement": "Abstandsmessung",
-        "height_measurement":"",
-        "cicle_measurement":"",
-        "azimuth_measurement":"",
+        "height_measurement":"Höhenmessung",
+        "cicle_measurement":"Kreismessung",
+        "azimuth_measurement":"Azimutmessung",
         "area_measurement": "Flächenmessung",
         "volume_measurement": "Volumenmessung",
         "height_profile": "Höhenprofil",
-        "annotation":"",
-        "clip_volume": "Volume clip",
+        "annotation":"Annotation",
+        "clip_volume": "Volumen clip",
         "clip_polygon": "Polygon clip",
         "clip_plane_x": "Clipebene auf x-Achse",
         "clip_plane_y": "Clipebene auf y-Achse",

@@ -77,7 +77,15 @@ const PotreeViewer = () => {
   }
 
   useFetchMiddleware(token);
-
+const [name,setName]=React.useState('rgba')
+function change(){
+  if(name=='rgba'){
+    setName('classification')
+  }
+  else{
+    setName('rgba')
+  }
+}
   React.useEffect(() => {
     const viewer = new Potree.Viewer(potreeContainerDiv.current);
     viewer.setEDLEnabled(true);
@@ -91,15 +99,19 @@ const PotreeViewer = () => {
       viewer.setLanguage("en");
       viewer.toggleSidebar();
     });
-    const customUrl="http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js"
-    Potree.loadPointCloud(customUrl, 'pointcloud', (e)=> {
+    const customUrl="http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js",
+    classificationUrl='http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js'
+    Potree.loadPointCloud(classificationUrl, 'pointcloud', (e)=> {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
       material.activeAttributeName = "rgba";
       material.minSize = 2;
       material.pointSizeType = Potree.PointSizeType.FIXED;
+      // material.activeAttributeName = 'classification';
+
       viewer.scene.addPointCloud(pointcloud);
       viewer.fitToScreen();
+      
     })
   }, [pointCloudUrl, potreeContainerDiv]);
 

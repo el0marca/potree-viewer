@@ -54061,8 +54061,8 @@
 
 		setMarker (index, point) {
 			this.points[index] = point;
-			console.log(index,point)
-			console.log(this.name)
+			// console.log(index,point)
+			// console.log(this.name)
 			let event = {
 				type: 'marker_moved',
 				measure: this,
@@ -74110,7 +74110,7 @@ ENDSEC
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div data-i18n='measurements.header' class='measurementHeader'></div>
-			<div style='flex:3; display:flex'>
+			<div style='flex:2; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/distance.svg' alt='distance'>
 			</div>
@@ -74148,10 +74148,11 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74195,7 +74196,7 @@ ENDSEC
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div data-i18n='measurements.header' class='measurementHeader'></div>
-			<div style='flex:3; display:flex'>
+			<div style='flex:2; display:flex'>
 			<div style="flex:1;display:flex;justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/point.svg' alt='point'>
 			</div>
@@ -74218,10 +74219,11 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74241,7 +74243,7 @@ ENDSEC
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
 				<div data-i18n='measurements.header' class='measurementHeader'></div>
-				<div style='flex:3; display:flex'>
+				<div style='flex:2; display:flex'>
 				<div style="flex:1;display:flex; justify-content:center;align-items:center">
 					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/area.svg' alt='area'>
 				</div>
@@ -74274,10 +74276,11 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74296,7 +74299,7 @@ ENDSEC
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div data-i18n='measurements.header' class='measurementHeader'></div>
-			<div style='flex:3; display:flex'>
+			<div style='flex:2; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/angle.svg' alt='angle'>
 			</div>
@@ -74319,10 +74322,11 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74352,7 +74356,7 @@ ENDSEC
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div data-i18n='measurements.header' class='measurementHeader'></div>
-			<div style='flex:3; display:flex'>
+			<div style='flex:2; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/circle.svg' alt='circle'>
 			</div>
@@ -74375,10 +74379,11 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74442,7 +74447,7 @@ ENDSEC
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div data-i18n='measurements.header' class='measurementHeader'></div>
-			<div style='flex:3; display:flex'>
+			<div style='flex:2; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/height.svg' alt='height'>
 			</div>
@@ -74465,10 +74470,11 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74516,7 +74522,7 @@ ENDSEC
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div data-i18n='measurements.header' class='measurementHeader'></div>
-			<div style='flex:3; display:flex'>
+			<div style='flex:2; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/volume.svg' alt='volume'>
 			</div>
@@ -74621,6 +74627,7 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "clip_changed", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		async download(){
@@ -74798,7 +74805,7 @@ ENDSEC
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable([this.measurement.position]));
@@ -74853,7 +74860,7 @@ ENDSEC
 			<div class="measurement_content selectable">
 			<div class='properties_header'>
 			<div data-i18n='measurements.header' class='measurementHeader'></div>
-			<div style='flex:3; display:flex'>
+			<div style='flex:2; display:flex'>
 			<div style="flex:1;display:flex; justify-content:center;align-items:center">
 				<img class='measurementIcon' src='./potree_libs/potree/resources/icons/profile.svg' alt='profile'>
 			</div>
@@ -74942,10 +74949,11 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points));
@@ -75191,10 +75199,10 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(viewer, "camera_changed", this._update);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
 
 			let camera = this.viewer.scene.getActiveCamera();
 			let view = this.viewer.scene.view;
@@ -75224,7 +75232,7 @@ ENDSEC
 			<div class="propertypanel_content measurement_content">
 				<div class='properties_header'>
 				<div data-i18n='measurements.header' class='measurementHeader'></div>
-				<div style='flex:3; display:flex'>
+				<div style='flex:2; display:flex'>
 				<div style="flex:1;display:flex; justify-content:center; align-items:center">
 					<img class='measurementIcon' src='./potree_libs/potree/resources/icons/annotation.svg' alt='annotation'>
 				</div>
@@ -75282,10 +75290,11 @@ ENDSEC
 			}, false);
 
 			this.update();
+			this.viewer.updateLanguage()
 		}
 
 		update(){
-			this.viewer.updateLanguage()
+			
 			const {annotation, elContent, elTitle, elDescription} = this;
 
 			let pos = annotation.position.toArray().map(c => Utils.addCommas(c.toFixed(3)));
@@ -79039,7 +79048,7 @@ ENDSEC
 						showArea: false,
 						closed: true,
 						maxMarkers: 3,
-						name: 'Angle'});
+						name: i18n.options.lng==='en'&&'Angle'||'Winkel'});
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
@@ -79062,7 +79071,7 @@ ENDSEC
 						showArea: false,
 						closed: true,
 						maxMarkers: 1,
-						name: 'Point'});
+						name: i18n.options.lng==='en'&&'Point'||'Punkt'});
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
@@ -79082,7 +79091,7 @@ ENDSEC
 						showDistances: true,
 						showArea: false,
 						closed: false,
-						name: 'Distance'});
+						name: i18n.options.lng==='en'&&'Distance'||'Distanz'});
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
@@ -79104,7 +79113,7 @@ ENDSEC
 						showArea: false,
 						closed: false,
 						maxMarkers: 2,
-						name: 'Height'});
+						name: i18n.options.lng==='en'&&'Height'||'Höhe'});
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
@@ -79128,7 +79137,7 @@ ENDSEC
 						showEdges: false,
 						closed: false,
 						maxMarkers: 3,
-						name: 'Circle'});
+						name: i18n.options.lng==='en'&&'Circle'||'Kreis'});
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
@@ -79153,7 +79162,7 @@ ENDSEC
 						showAzimuth: true,
 						closed: false,
 						maxMarkers: 2,
-						name: 'Azimuth'});
+						name: i18n.options.lng==='en'&&'Azimuth'||'Azimut'});
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
@@ -79173,7 +79182,7 @@ ENDSEC
 						showDistances: true,
 						showArea: true,
 						closed: true,
-						name: 'Area'});
+						name: i18n.options.lng==='en'&&'Area'||'Bereich'});
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
@@ -79188,8 +79197,7 @@ ENDSEC
 				Potree.resourcePath + '/icons/volume.svg',
 				'[title]tt.volume_measurement',
 				() => {
-					let volume = this.volumeTool.startInsertion(); 
-
+					let volume = this.volumeTool.startInsertion({name: i18n.options.lng==='en'&&'Volume'||'Volumen'}); 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === volume.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
@@ -79203,7 +79211,8 @@ ENDSEC
 				Potree.resourcePath + '/icons/sphere_distances.svg',
 				'[title]tt.volume_measurement',
 				() => { 
-					let volume = this.volumeTool.startInsertion({type: SphereVolume}); 
+					let volume = this.volumeTool.startInsertion({type: SphereVolume,
+						name: i18n.options.lng==='en'&&'Volume'||'Volumen'}); 
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === volume.uuid);
@@ -79219,7 +79228,7 @@ ENDSEC
 				'[title]tt.height_profile',
 				() => {
 					$('#menu_measurements').next().slideDown(); ;
-					let profile = this.profileTool.startInsertion();
+					let profile = this.profileTool.startInsertion({name: i18n.options.lng==='en'&&'Profile'||'Profil'});
 
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === profile.uuid);
@@ -79379,7 +79388,7 @@ ENDSEC
 			};
 
 			let pcID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.pointclouds'></b>", "id": "pointclouds"}, "last", false, false);
-			let measurementID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.measurements'></b>", "id": "measurements" }, "last", false, false);
+			let measurementID = tree.jstree('create_node', "#", { "text": `<b data-i18n=ls.measurements>${i18n.options.lng==='en'&&'Measurements'||'Messungen'}</b>`, "id": "measurements" }, "last", false, false);
 			let annotationsID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.annotations'></b>", "id": "annotations" }, "last", false, false);
 			// let otherID = tree.jstree('create_node', "#", { "text": "<b>Other</b>", "id": "other" }, "last", false, false);
 			// let vectorsID = tree.jstree('create_node', "#", { "text": "<b>Vectors</b>", "id": "vectors" }, "last", false, false);
@@ -89076,6 +89085,7 @@ ENDSEC
 			$('body').i18n();
 		}
 		updateLanguage(){
+			
 			setTimeout(()=>{$('body').i18n()},2)
 		}
 		setServer (server) {

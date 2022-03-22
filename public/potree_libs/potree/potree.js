@@ -59298,7 +59298,9 @@ void main() {
 
 			if(this.activeAttributeName){
 				let attributeName = this.activeAttributeName.replace(/[^a-zA-Z0-9]/g, '_');
-
+				if(attributeName==='classification'){
+					document.getElementById("classificationToggleCircle").style.right='0px'}
+					else {document.getElementById("classificationToggleCircle").style.right=''}
 				defines.push(`#define color_type_${attributeName}`);
 			}
 			
@@ -71825,7 +71827,7 @@ void main() {
 			};
 			ol.inherits(DownloadSelectionControl, ol.control.Control);
 
-			this.map = new ol.Map({
+		this.map = new ol.Map({
 				controls: ol.control.defaults({
 					attributionOptions: ({
 						collapsible: false
@@ -71835,6 +71837,7 @@ void main() {
 					new DownloadSelectionControl(),
 					mousePositionControl
 				]),
+				
 				layers: [
 					new ol.layer.Tile({source: new ol.source.OSM()}),
 					this.toolLayer,
@@ -87804,10 +87807,8 @@ ENDSEC
 			{ // generate missing dom hierarchy
 				if ($(domElement).find('#potree_map').length === 0) {
 					let potreeMap = $(`
-					<div id="potree_map" class="mapBox" style="position: absolute; right: 20px; bottom: 76px; width: 400px; height: 400px; display: none;z-index:99999;transition:0.3s">
-						<div id="potree_map_header" style="position: absolute; width: 100%; height: 25px; top: 0px; background-color: rgba(0,0,0,0.5); z-index: 1000; border-top-left-radius: 3px; border-top-right-radius: 3px;">
-						</div>
-						<div id="potree_map_content" class="map" style="position: absolute; z-index: 100; top: 25px; width: 100%; height: calc(100% - 25px); border: 2px solid rgba(0,0,0,0.5); box-sizing: border-box;"></div>
+					<div id="potree_map" class="mapBox" style="position: fixed; right: 20px; bottom: 76px; width: 400px; height: 400px; display: none;z-index:99999">
+						<div id="potree_map_content" class="map" style="position: absolute; z-index: 100; top: 25px; width: 100%; height: calc(100% - 25px); box-sizing: border-box"></div>
 					</div>
 				`);
 					$(domElement).append(potreeMap);
@@ -88907,31 +88908,33 @@ ENDSEC
 			let renderArea = $('#potree_render_area');
 			let sidebar = $('#potree_sidebar_container')
 			let toggleButton=$('#toggleButton')
-			let isVisible = renderArea.css('left') !== '0px';
+			let isVisible = renderArea.css('left') === '160px';
 			let potreeMap=$('#potree_map')
 			if (isVisible) {
 				renderArea.css('left', '0px');
 				sidebar.css('left', '-320px');
 				toggleButton.css('left', '0px');
-				potreeMap.css('right', '20px')
+				// potreeMap.css('right', '20px')
 			} else {
 				renderArea.css('left', '160px');
 				sidebar.css('left', '0px')
 				toggleButton.css('left','160px')
-				potreeMap.css('right','180px')
+				// potreeMap.css('right','180px')
 			}
 		};
 
 		toggleMap () {
-			// let map = $('#potree_map');
-			// map.toggle(100);
-
+			let mapp=document.querySelectorAll('.ol-viewport')
+				mapp.forEach((e,i)=>{if(i===0){e.style.display='block'}
+				else {e.style.display='none'}})
+				console.log(mapp)
 			if (this.mapView) {
 				this.mapView.toggle();
 			}
 		};
 
 		onGUILoaded(callback){
+		
 			if(this.guiLoaded){
 				callback();
 			}else {
@@ -88968,6 +88971,10 @@ ENDSEC
 				let layersView=document.getElementById('layers-type');
 				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.width='0px'; layersView.style.height='100px'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
 				sidebarLayersBtn.addEventListener('click', (e)=>{layersView.style.width='280px'; sidebarView.style.display='none'; sidebarLayersBtn.style.background='#515151'; sidebarViewBtn.style.background='#272727'})
+				document.getElementById("classificationToggleBtn").addEventListener('click', ()=>{
+					// document.getElementById("classificationToggleCircle").style.right='0px'
+					// console.log(thisviewer)
+				})
 				// let imgMenuToggle = document.createElement('img');
 				// imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
 				// imgMenuToggle.onclick = this.toggleSidebar;
@@ -88977,16 +88984,13 @@ ENDSEC
 				let imgMapToggle = document.createElement('img');
 				imgMapToggle.src = new URL(Potree.resourcePath + '/icons/map_icon.png').href;
 				imgMapToggle.style.display = 'none';
-				imgMapToggle.onclick = e => { this.toggleMap(); };
+				imgMapToggle.onclick = e => this.toggleMap();
 				imgMapToggle.id = 'potree_map_toggle';
-
-				
 
 				let elButtons = $("#potree_quick_buttons").get(0);
 
 				// elButtons.append(imgMenuToggle);
 				elButtons.append(imgMapToggle);
-
 
 				VRButton.createButton(this.renderer).then(vrButton => {
 
@@ -89069,12 +89073,7 @@ ENDSEC
 
 						});
 					});
-
-					
-
-				});
-
-				
+				});				
 			});
 
 			return this.promiseGuiLoaded();
@@ -89085,7 +89084,6 @@ ENDSEC
 			$('body').i18n();
 		}
 		updateLanguage(){
-			
 			setTimeout(()=>{$('body').i18n()},2)
 		}
 		setServer (server) {

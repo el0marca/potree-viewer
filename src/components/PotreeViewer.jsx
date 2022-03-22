@@ -1,14 +1,11 @@
-import s from './PotreeView.module.css'
+import s from "./PotreeView.module.css";
 import React from "react";
-import toggleBtn from '../img/icons/menu_button.svg'
-// import * as THREE from "../three.js/build/three.module.js";
-// import dd from 'xml-js'
-// import convertJSONToXML from 'xml-js'
+import toggleBtn from "../img/icons/menu_button.svg";
+
 const Potree = window.Potree;
 
 const PotreeViewer = () => {
-  const potreeContainerDiv = React.createRef(),
-    protocol = "https",
+  const protocol = "https",
     domain = "potree.vitest.ninja",
     // domain = '6q2ltab710.execute-api.eu-west-1.amazonaws.com',
     resource = "files",
@@ -77,17 +74,22 @@ const PotreeViewer = () => {
   }
 
   useFetchMiddleware(token);
-const [name,setName]=React.useState('rgba')
-function change(){
-  if(name=='rgba'){
-    setName('classification')
+
+  const [viewType, setViewType] = React.useState("rgba");
+
+  function change() {
+    document.getElementById('measurementsToggleBtn').style.right='-20px'
+    document.getElementById("potree_map").style.display = "none";
+    if (viewType === "rgba") {
+      setViewType("classification");
+    } else {
+      setViewType("rgba");
+    }
   }
-  else{
-    setName('rgba')
-  }
-}
+
   React.useEffect(() => {
-    const viewer = new Potree.Viewer(potreeContainerDiv.current);
+    const potreeContainerDiv = document.getElementById("potree_render_area"),
+      viewer = new Potree.Viewer(potreeContainerDiv);
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
     viewer.setPointBudget(2 * 100 * 10000);
@@ -97,44 +99,34 @@ function change(){
     // viewer.setDescription("Point cloud");
     viewer.loadGUI(() => {
       viewer.setLanguage("en");
-      viewer.toggleSidebar();
     });
-    const customUrl="http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js",
-    classificationUrl='http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js'
-    Potree.loadPointCloud(classificationUrl, 'pointcloud', (e)=> {
+
+    const classificationUrl =
+      "http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js";
+    Potree.loadPointCloud(classificationUrl, "pointcloud", (e) => {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
-      material.activeAttributeName = "rgba";
+      material.activeAttributeName = viewType;
       material.minSize = 2;
       material.pointSizeType = Potree.PointSizeType.FIXED;
-      // material.activeAttributeName = 'classification';
-
       viewer.scene.addPointCloud(pointcloud);
       viewer.fitToScreen();
-      
-    })
-  }, [pointCloudUrl, potreeContainerDiv]);
+      document
+        .getElementById("classificationToggle")
+        .addEventListener("click", change);
+    });
+  }, [pointCloudUrl, viewType]);
 
   return (
     <div id="potree-root">
-      <div
-        ref={potreeContainerDiv}
-        id="potree_render_area"
-        style={{
-          width: "100%",
-          height: "100%",
-          left: "0px",
-          top: "0px",
-        }}
-      >
-        <div id='toggleButton' className={s.toggleButton}>
-        <img src={toggleBtn} alt="toggleButton" />
+      <div id="potree_render_area">
+        <div id="toggleButton" className={s.toggleButton}>
+          <img src={toggleBtn} alt="toggleButton" />
         </div>
-        <li id="tools"></li>
       </div>
       <div id="potree_sidebar_container"></div>
-      <div id='measurementsToggleBtn'>
-      <img src={toggleBtn} alt='btn'/>
+      <div id="measurementsToggleBtn">
+        <img src={toggleBtn} alt="btn" />
       </div>
     </div>
   );

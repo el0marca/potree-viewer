@@ -1,4 +1,5 @@
-<div id="sidebar_root" class="">
+<div id="sidebar_root">
+	<li id="tools"></li>
 	<div id="sidebar_header">
 		<div style="flex:1;">
 			<div id="potree_languages"></div>
@@ -8,8 +9,8 @@
 		</div>
 		<div style="flex:1">settings</div>
 	</div>
-	<div id="sidebar-type" style="display:flex;flex-direction:row; justify-content: space-around;margin-top:25px; width: 272px;height: 38px;padding: 4px;background: #272727;border-radius:10px
-	">
+	<div id="sidebar-type"
+		style="display:flex;flex-direction:row; justify-content: space-around;margin-top:25px; width: 272px;height: 38px;padding: 4px;background: #272727;border-radius:10px">
 		<div data-i18n="screen.view" id="sidebar-view"
 			style=" width:134px;height: 38;background: #515151;text-align: center; font-size: 20px;border-radius:10px;display:flex;justify-content: center;align-items:center">
 			<p style="color:#ffffff"></p>
@@ -28,8 +29,12 @@
 				</div>
 				<div style="flex:2">
 					<selectgroup id="measurement_options_show">
-						<option id="measurement_options_show_yes" value="SHOW"><div data-i18n="labels.show"></div></option>
-						<option id="measurement_options_show_no" value="HIDE"><div data-i18n="labels.hide"></div></option>
+						<option id="measurement_options_show_yes" value="SHOW">
+							<div data-i18n="labels.show"></div>
+						</option>
+						<option id="measurement_options_show_no" value="HIDE">
+							<div data-i18n="labels.hide"></div>
+						</option>
 					</selectgroup>
 				</div>
 			</div>
@@ -37,23 +42,35 @@
 			<div style="margin-top:30px">
 				<div data-i18n="appearance.nb_max_pts" style="color:#ffffff"></div>
 				<div style="margin-top:15px; font-size: 16px;color:#efefef" id="lblPointBudget"></div>
-				<div style="margin-top:15px" id="sldPointBudget"></div>				
+				<div style="margin-top:15px" id="sldPointBudget"></div>
 			</div>
 
 			<div style="font-size:20px; margin-top:35px">
 				<div data-i18n="background.title" style="color:#ffffff;padding-bottom:15px"></div>
 				<selectgroup id="background_options">
 					<option id="background_options_gradient" value="gradient">
-						<div data-i18n="background.gradient"></div></option>
+						<div data-i18n="background.gradient"></div>
+					</option>
 					<option id="background_options_black" value="black">
-						<div data-i18n="background.black"></div></option>
+						<div data-i18n="background.black"></div>
+					</option>
 					<option id="background_options_white" value="white">
-						<div data-i18n="background.white"></div></option>
+						<div data-i18n="background.white"></div>
+					</option>
 				</selectgroup>
 			</div>
 
 			<div style="margin-top:35px">
-				<div style="font-size:20px" data-i18n='classification.header'></div>
+				<div style="display:flex;align-items:center">
+					<div style="font-size:20px; flex:1" data-i18n='classification.header'></div>
+					<div id="classificationToggle"
+						style="display:flex;flex:2; text-align: end; cursor: pointer;justify-content:flex-end">
+						<div style="width:30px;height:12px; border-radius:20px;background-color:#515151;position: relative" id='classificationToggleBtn'>
+							<div style="width:16px;height:16px;border-radius:100%;background-color:#efefef;position:absolute;top:-2px;transition:0.3s" id='classificationToggleCircle'>
+							</div>
+						</div>
+					</div>
+				</div>
 				<ul id="classificationList" class="pv-menu-list"></ul>
 			</div>
 		</div>
@@ -87,7 +104,7 @@
 					<li><span data-i18n="appearance.edl_opacity"></span>: <span id="lblEDLOpacity"></span>
 						<div id="sldEDLOpacity"></div>
 					</li>
-					<div class="divider"><span >Background</span></div>
+					<div class="divider"><span>Background</span></div>
 					<li>
 						<selectgroup id="background_options">
 							<option id="background_options_skybox" value="skybox">Skybox</option>
@@ -140,7 +157,7 @@
 					</selectgroup>
 				</li>
 				<div class="divider"><span>Navigation</span></div>
-				
+
 				<li><span data-i18n="appearance.move_speed"></span>: <span id="lblMoveSpeed"></span>
 					<div id="sldMoveSpeed"></div>
 				</li>

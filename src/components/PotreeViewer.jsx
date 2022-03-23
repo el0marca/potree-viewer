@@ -1,16 +1,18 @@
 import s from "./PotreeView.module.css";
 import React from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
-
-const Potree = window.Potree;
+import { useNavigate, useParams } from "react-router-dom";
 
 const PotreeViewer = () => {
+  const { viewType } = useParams();
+  const navigate = useNavigate();
+
   const protocol = "https",
     domain = "potree.vitest.ninja",
     // domain = '6q2ltab710.execute-api.eu-west-1.amazonaws.com',
     resource = "files",
     projectId = 1,
-    fileId = 1,
+    fileId = 6,
     token = "Bearer Bier koen",
     pointCloudUrl = `${protocol}://${domain}/${resource}/${projectId}/${fileId}/meta/metadata.json`,
     cache = new Map(),
@@ -75,21 +77,20 @@ const PotreeViewer = () => {
 
   useFetchMiddleware(token);
 
-  const [viewType, setViewType] = React.useState("rgba");
-
   function change() {
-    document.getElementById('measurementsToggleBtn').style.right='-20px'
-    document.getElementById("potree_map").style.display = "none";
-    if (viewType === "rgba") {
-      setViewType("classification");
+    if (viewType === "rgba" || !viewType) {
+      navigate("/classification");
     } else {
-      setViewType("rgba");
+      navigate("/rgba");
     }
+    window.location.reload();
   }
 
   React.useEffect(() => {
-    const potreeContainerDiv = document.getElementById("potree_render_area"),
-      viewer = new Potree.Viewer(potreeContainerDiv);
+    const Potree = window.Potree,
+      potreeContainerDiv = document.getElementById("potree_render_area");
+
+    const viewer = new Potree.Viewer(potreeContainerDiv);
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
     viewer.setPointBudget(2 * 100 * 10000);
@@ -103,10 +104,10 @@ const PotreeViewer = () => {
 
     const classificationUrl =
       "http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js";
-    Potree.loadPointCloud(classificationUrl, "pointcloud", (e) => {
+    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e) => {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
-      material.activeAttributeName = viewType;
+      material.activeAttributeName = viewType || "rgba";
       material.minSize = 2;
       material.pointSizeType = Potree.PointSizeType.FIXED;
       viewer.scene.addPointCloud(pointcloud);
@@ -121,7 +122,7 @@ const PotreeViewer = () => {
     <div id="potree-root">
       <div id="potree_render_area">
         <div id="toggleButton" className={s.toggleButton}>
-          <img src={toggleBtn} alt="toggleButton" />
+          <img src={toggleBtn} alt="btn" />
         </div>
       </div>
       <div id="potree_sidebar_container"></div>

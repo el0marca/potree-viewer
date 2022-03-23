@@ -3,7 +3,6 @@
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
 	(global = global || self, factory(global.Potree = {}));
 }(this, (function (exports) { 'use strict';
-
 	/**
 	 * @author mrdoob / http://mrdoob.com/ https://github.com/mrdoob/eventdispatcher.js
 	 * 
@@ -98,9 +97,7 @@
 					listener.call(this, event);
 				}
 			}
-
 		}
-
 	}
 
 	class Action extends EventDispatcher {
@@ -59300,7 +59297,6 @@ void main() {
 				let attributeName = this.activeAttributeName.replace(/[^a-zA-Z0-9]/g, '_');
 				if(attributeName==='classification'){
 					document.getElementById("classificationToggleCircle").style.right='0px'}
-					else {document.getElementById("classificationToggleCircle").style.right=''}
 				defines.push(`#define color_type_${attributeName}`);
 			}
 			
@@ -70015,9 +70011,6 @@ void main() {
 						let handle = this.handles[handleName];
 						let node = handle.node;
 						let alignment = handle.alignment;
-
-						
-
 					}
 				}
 
@@ -70269,8 +70262,6 @@ void main() {
 
 		clear(){
 			let {viewer, renderer} = this;
-
-
 			// render skybox
 			if(viewer.background === "skybox"){
 				renderer.setClearColor(0xff0000, 1);

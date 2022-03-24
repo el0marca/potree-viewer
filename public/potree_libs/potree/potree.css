@@ -525,6 +525,32 @@ body {
 #measurementsToggleBtn img{
 	transform:rotate(180deg)
 }
+#subMenu{
+	overflow: hidden;
+	opacity: 0;
+	height: 0px;
+	transition:.2s;
+	position: absolute;
+	background-color:#555555;
+	border-radius:10%
+}
+#menuItem {
+	margin-top: 10px;
+}
+.langItem{
+	padding:5px
+}
+.langItem:hover {
+background-color:#666666;
+border-radius:10%;
+cursor: pointer;
+}
+#lngHeader:hover{
+	cursor:pointer
+}
+#menuItem img:hover{
+	cursor:pointer
+}
 #measurementsToggleBtn:hover{
 	background-color:#666666;
 }

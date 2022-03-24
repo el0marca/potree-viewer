@@ -79381,7 +79381,7 @@ ENDSEC
 				return nodeID;
 			};
 
-			let pcID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.pointclouds'></b>", "id": "pointclouds"}, "last", false, false);
+			let pcID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.pointclouds'>Point clouds</b>", "id": "pointclouds"}, "last", false, false);
 			let measurementID = tree.jstree('create_node', "#", { "text": `<b data-i18n=ls.measurements>${i18n.options.lng==='en'&&'Measurements'||'Messungen'}</b>`, "id": "measurements" }, "last", false, false);
 			let annotationsID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.annotations'></b>", "id": "annotations" }, "last", false, false);
 			// let otherID = tree.jstree('create_node', "#", { "text": "<b>Other</b>", "id": "other" }, "last", false, false);
@@ -80221,28 +80221,7 @@ ENDSEC
 				});
 			});
 
-			let languages = [
-				["EN", "en"],
-				["DE", "de"],
-			];
-
-			let elLanguages = $('#potree_languages');
-			for(let i = 0; i < languages.length; i++){
-				let [key, value] = languages[i];
-				let element = $(`<a>${key}</a>`);
-				element.click(() => this.viewer.setLanguage(value));
-
-				if(i === 0){
-					element.css("margin-left", "30px");
-				}
-				
-				elLanguages.append(element);
-
-				if(i < languages.length - 1){
-					elLanguages.append($(document.createTextNode(' ')));	
-				}
-			}
-
+			document.getElementById('subMenu').addEventListener('click', (e)=>{this.viewer.setLanguage(e.target.innerText.toLowerCase())})
 
 			// to close all, call
 			// $(".accordion > div").hide()
@@ -88977,7 +88956,24 @@ ENDSEC
 				imgMapToggle.style.display = 'none';
 				imgMapToggle.onclick = e => this.toggleMap();
 				imgMapToggle.id = 'potree_map_toggle';
+				
+				document.getElementById('menuItem').addEventListener('mousedown', showMenu)
+				document.getElementById('menuItem').addEventListener('mouseleave', hideMenu)
 
+				function showMenu(){
+					if(this.children.length>1){
+						this.children[1].style.height='auto';
+						this.children[1].style.overflow='visible';
+						this.children[1].style.opacity='1';
+					}
+				}
+				function hideMenu(){
+					if(this.children.length>1){
+						this.children[1].style.height='0px';
+						this.children[1].style.overflow='hidden';
+						this.children[1].style.opacity='0';
+					}
+				}
 				let elButtons = $("#potree_quick_buttons").get(0);
 
 				// elButtons.append(imgMenuToggle);

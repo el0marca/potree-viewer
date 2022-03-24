@@ -80221,7 +80221,11 @@ ENDSEC
 				});
 			});
 
-			document.getElementById('subMenu').addEventListener('click', (e)=>{this.viewer.setLanguage(e.target.innerText.toLowerCase())})
+			document.getElementById('subMenu').addEventListener('click', (e)=>{
+				let value=e.target.innerText.toLowerCase()
+				this.viewer.setLanguage(value);
+				window.localStorage.setItem('language', value)
+			})
 
 			// to close all, call
 			// $(".accordion > div").hide()

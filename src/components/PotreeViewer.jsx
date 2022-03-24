@@ -2,6 +2,7 @@ import s from "./PotreeView.module.css";
 import React from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
 import { useNavigate, useParams } from "react-router-dom";
+const language = window.localStorage.getItem('language');
 
 const PotreeViewer = () => {
   const { viewType } = useParams();
@@ -99,7 +100,7 @@ const PotreeViewer = () => {
     viewer.setControls(viewer.orbitControls);
     // viewer.setDescription("Point cloud");
     viewer.loadGUI(() => {
-      viewer.setLanguage("en");
+      viewer.setLanguage(language||"en");
     });
 
     const classificationUrl =

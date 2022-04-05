@@ -79282,20 +79282,24 @@ ENDSEC
 			
 
 			{
-				let elExport = elScene.next().find("#scene_export");
-
-				let geoJSONIcon = `${Potree.resourcePath}/icons/file_geojson.svg`;
+				let elExport = $("#scene_export");
+				let exportBtn = `${Potree.resourcePath}/icons/exportBtn.svg`;
 				let dxfIcon = `${Potree.resourcePath}/icons/file_dxf.svg`;
 				let potreeIcon = `${Potree.resourcePath}/icons/file_potree.svg`;
 
 				elExport.append(`
-				Export: <br>
-				<a href="#" download="measure.json"><img name="geojson_export_button" src="${geoJSONIcon}" class="button-icon" style="height: 24px" /></a>
-				<a href="#" download="measure.dxf"><img name="dxf_export_button" src="${dxfIcon}" class="button-icon" style="height: 24px" /></a>
-				<a href="#" download="potree.json5"><img name="potree_export_button" src="${potreeIcon}" class="button-icon" style="height: 24px" /></a>
-			`);
+				<div id='exportItem' style='margin-left:auto;margin-right:auto;width:60px'>
+					<div style="display:flex;align-items:center">
+						<img src="./potree_libs/potree/resources/icons/exportBtn.svg">
+					</div>
+					<div id='subMenu'>
+						<a href="#" download="measure.json"><div style='padding:0px 10px;margin:0px' name="geojson_export_button" class="button-icon">json</div></a>
+						<a href="#" download="measure.dxf"><div style='padding:0px 10px;margin:0px' name="dxf_export_button" class="button-icon" >dxf</div></a>
+						<a href="#" download="potree.json5"><div style='padding:0px 10px;margin:0px' name="potree_export_button" class="button-icon" >potree</div></a>
+					</div>
+				</div>`);
 
-				let elDownloadJSON = elExport.find("img[name=geojson_export_button]").parent();
+				let elDownloadJSON = elExport.find("div[name=geojson_export_button]").parent();
 				elDownloadJSON.click( (event) => {
 					let scene = this.viewer.scene;
 					let measurements = [...scene.measurements, ...scene.profiles, ...scene.volumes];
@@ -79311,7 +79315,7 @@ ENDSEC
 					}
 				});
 
-				let elDownloadDXF = elExport.find("img[name=dxf_export_button]").parent();
+				let elDownloadDXF = elExport.find("div[name=dxf_export_button]").parent();
 				elDownloadDXF.click( (event) => {
 					let scene = this.viewer.scene;
 					let measurements = [...scene.measurements, ...scene.profiles, ...scene.volumes];
@@ -79327,7 +79331,7 @@ ENDSEC
 					}
 				});
 
-				let elDownloadPotree = elExport.find("img[name=potree_export_button]").parent();
+				let elDownloadPotree = elExport.find("div[name=potree_export_button]").parent();
 				elDownloadPotree.click( (event) => {
 
 					let data = Potree.saveProject(this.viewer);
@@ -79341,6 +79345,23 @@ ENDSEC
 			let propertiesPanel = new PropertiesPanel(elProperties, this.viewer);
 			propertiesPanel.setScene(this.viewer.scene);
 			
+			document.getElementById('exportItem').addEventListener('mousedown', showMenu)
+			document.getElementById('exportItem').addEventListener('mouseleave', hideMenu)
+				function showMenu(){
+					if(this.children.length>1){
+						this.children[1].style.height='auto';
+						this.children[1].style.overflow='visible';
+						this.children[1].style.opacity='1';
+					}
+				}
+				function hideMenu(){
+					if(this.children.length>1){
+						this.children[1].style.height='0px';
+						this.children[1].style.overflow='hidden';
+						this.children[1].style.opacity='0';
+					}
+				}
+
 			localStorage.removeItem('jstree');
 
 			let tree = $(`<div id="jstree_scene"></div>`);
@@ -79380,8 +79401,8 @@ ENDSEC
 
 				return nodeID;
 			};
-
-			let pcID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.pointclouds'>Point clouds</b>", "id": "pointclouds"}, "last", false, false);
+			
+			let pcID = tree.jstree('create_node', "#", { "text": `<b data-i18n='ls.pointclouds'></b>`, "id": "pointclouds"}, "last", false, false);
 			let measurementID = tree.jstree('create_node', "#", { "text": `<b data-i18n=ls.measurements>${i18n.options.lng==='en'&&'Measurements'||'Messungen'}</b>`, "id": "measurements" }, "last", false, false);
 			let annotationsID = tree.jstree('create_node', "#", { "text": "<b data-i18n='ls.annotations'></b>", "id": "annotations" }, "last", false, false);
 			// let otherID = tree.jstree('create_node', "#", { "text": "<b>Other</b>", "id": "other" }, "last", false, false);

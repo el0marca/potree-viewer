@@ -2,9 +2,12 @@ import s from "./PotreeView.module.css";
 import React from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
 import { useNavigate, useParams } from "react-router-dom";
-const language = window.localStorage.getItem('language');
+import User from "../store/authStore.js";
+import { observer } from "mobx-react-lite";
 
-const PotreeViewer = () => {
+const language = window.localStorage.getItem("language");
+
+const PotreeViewer = observer(() => {
   const { viewType } = useParams();
   const navigate = useNavigate();
 
@@ -85,13 +88,13 @@ const PotreeViewer = () => {
       navigate("/rgba");
     }
     window.location.reload();
-  }
+  }  
 
   React.useEffect(() => {
+    User.verifySession()
     const Potree = window.Potree,
-      potreeContainerDiv = document.getElementById("potree_render_area");
-
-    const viewer = new Potree.Viewer(potreeContainerDiv);
+      potreeContainerDiv = document.getElementById("potree_render_area"),
+      viewer = new Potree.Viewer(potreeContainerDiv);
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
     viewer.setPointBudget(2 * 100 * 10000);
@@ -100,18 +103,16 @@ const PotreeViewer = () => {
     viewer.setControls(viewer.orbitControls);
     // viewer.setDescription("Point cloud");
     viewer.loadGUI(() => {
-      viewer.setLanguage(language||"en");
     });
 
-    const classificationUrl =
-      "http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js";
     Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e) => {
-      let pointcloud = e.pointcloud;
+      let pointcloud = e.pointcloud; 
       let material = pointcloud.material;
       material.activeAttributeName = viewType || "rgba";
       material.minSize = 2;
       material.pointSizeType = Potree.PointSizeType.FIXED;
       viewer.scene.addPointCloud(pointcloud);
+      viewer.setLanguage(language||"en");
       viewer.fitToScreen();
       document
         .getElementById("classificationToggle")
@@ -132,6 +133,6 @@ const PotreeViewer = () => {
       </div>
     </div>
   );
-};
+});
 
 export default PotreeViewer;

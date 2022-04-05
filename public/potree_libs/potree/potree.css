@@ -534,6 +534,19 @@ body {
 	background-color:#555555;
 	border-radius:10%
 }
+#subMenu a{
+	color:#fff;
+	font-size:16px
+}
+#exportItem{
+	margin-top:10px;
+	align-items:center;
+}
+
+#exportItem img:hover{
+	cursor:pointer
+}
+
 #menuItem {
 	margin-top: 10px;
 }
@@ -541,9 +554,9 @@ body {
 	padding:5px
 }
 .langItem:hover {
-background-color:#666666;
-border-radius:10%;
-cursor: pointer;
+	background-color:#666666;
+	border-radius:10%;
+	cursor: pointer;
 }
 #lngHeader:hover{
 	cursor:pointer

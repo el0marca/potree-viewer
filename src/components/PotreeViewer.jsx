@@ -8,23 +8,34 @@ import user from "../store/user";
 // import axios from 'axios'
 const language = window.localStorage.getItem("language");
 
-const PotreeViewer = observer(() => {
+const PotreeContainer = observer(() => {
+  React.useEffect(() => {
+    user.verifySession();
+  }, []);
+
+  return (
+    <>{user.token ? <PotreeViewer userToken={user.token} /> : <>no data</>}</>
+  );
+});
+
+const PotreeViewer = observer(({ userToken }) => {
   const { viewType } = useParams();
   const navigate = useNavigate();
+  console.log(userToken);
   const protocol = "https",
-    domain = "potree.vitest.ninja",
-    // domain = '6q2ltab710.execute-api.eu-west-1.amazonaws.com',
+    // domain = "potree.vitest.ninja",
+    domain = "zqhq8ti8nf.execute-api.eu-central-1.amazonaws.com",
     resource = "files",
-    projectId = 1,
-    fileId = 6,
-    token = "Bearer Bier koen",
-    pointCloudUrl = `${protocol}://${domain}/${resource}/${projectId}/${fileId}/meta/metadata.json`,
+    projectId = 118,
+    fileId = 975,
+    token = `Bearer ${userToken}`,
+    pointCloudUrl = `${protocol}://${domain}/api/${resource}/${projectId}/${fileId}/get-tiles/metadata.json`,
     cache = new Map(),
     useCorsMode = true,
     cachingDomain = `${domain}`,
     redirectStatusCode = 200,
     expiresIn = 600_000;
-
+  // {{GATEWAY_URL}}/api/files/118/975/get-tiles/metadata.json
   Function.prototype.clone = function () {
     var that = this;
     var temp = function temporary() {
@@ -89,9 +100,7 @@ const PotreeViewer = observer(() => {
     }
     window.location.reload();
   }
-  console.log(Math.log(12));
   React.useEffect(() => {
-    user.verifySession();
     const Potree = window.Potree,
       potreeContainerDiv = document.getElementById("potree_render_area"),
       viewer = new Potree.Viewer(potreeContainerDiv);
@@ -103,22 +112,20 @@ const PotreeViewer = observer(() => {
     viewer.setControls(viewer.orbitControls);
     // viewer.setDescription("Point cloud");
     viewer.loadGUI(() => {});
-    setTimeout(() => {
-      if (user.pointCloudUrl)
-        Potree.loadPointCloud(user.pointCloudUrl, "pointcloud", (e) => {
-          let pointcloud = e.pointcloud;
-          let material = pointcloud.material;
-          material.activeAttributeName = viewType || "rgba";
-          material.minSize = 2;
-          material.pointSizeType = Potree.PointSizeType.FIXED;
-          viewer.scene.addPointCloud(pointcloud);
-          viewer.setLanguage(language || "en");
-          viewer.fitToScreen();
-          document
-            .getElementById("classificationToggle")
-            .addEventListener("click", change);
-        });
-    }, 2000);
+
+    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e) => {
+      let pointcloud = e.pointcloud;
+      let material = pointcloud.material;
+      material.activeAttributeName = viewType || "rgba";
+      material.minSize = 2;
+      material.pointSizeType = Potree.PointSizeType.FIXED;
+      viewer.scene.addPointCloud(pointcloud);
+      viewer.setLanguage(language || "en");
+      viewer.fitToScreen();
+      document
+        .getElementById("classificationToggle")
+        .addEventListener("click", change);
+    });
   }, [pointCloudUrl, viewType]);
 
   return (
@@ -136,4 +143,4 @@ const PotreeViewer = observer(() => {
   );
 });
 
-export default PotreeViewer;
+export default PotreeContainer;

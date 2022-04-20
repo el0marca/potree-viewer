@@ -2,15 +2,15 @@ import s from "./PotreeView.module.css";
 import React from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
 import { useNavigate, useParams } from "react-router-dom";
-import User from "../store/authStore.js";
 import { observer } from "mobx-react-lite";
-
+// import { auth } from "../api/auth";
+import user from "../store/user";
+// import axios from 'axios'
 const language = window.localStorage.getItem("language");
 
 const PotreeViewer = observer(() => {
   const { viewType } = useParams();
   const navigate = useNavigate();
-
   const protocol = "https",
     domain = "potree.vitest.ninja",
     // domain = '6q2ltab710.execute-api.eu-west-1.amazonaws.com',
@@ -88,10 +88,10 @@ const PotreeViewer = observer(() => {
       navigate("/rgba");
     }
     window.location.reload();
-  }  
-
+  }
+  console.log(Math.log(12));
   React.useEffect(() => {
-    User.verifySession()
+    user.verifySession();
     const Potree = window.Potree,
       potreeContainerDiv = document.getElementById("potree_render_area"),
       viewer = new Potree.Viewer(potreeContainerDiv);
@@ -102,22 +102,23 @@ const PotreeViewer = observer(() => {
     viewer.loadSettingsFromURL();
     viewer.setControls(viewer.orbitControls);
     // viewer.setDescription("Point cloud");
-    viewer.loadGUI(() => {
-    });
-
-    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e) => {
-      let pointcloud = e.pointcloud; 
-      let material = pointcloud.material;
-      material.activeAttributeName = viewType || "rgba";
-      material.minSize = 2;
-      material.pointSizeType = Potree.PointSizeType.FIXED;
-      viewer.scene.addPointCloud(pointcloud);
-      viewer.setLanguage(language||"en");
-      viewer.fitToScreen();
-      document
-        .getElementById("classificationToggle")
-        .addEventListener("click", change);
-    });
+    viewer.loadGUI(() => {});
+    setTimeout(() => {
+      if (user.pointCloudUrl)
+        Potree.loadPointCloud(user.pointCloudUrl, "pointcloud", (e) => {
+          let pointcloud = e.pointcloud;
+          let material = pointcloud.material;
+          material.activeAttributeName = viewType || "rgba";
+          material.minSize = 2;
+          material.pointSizeType = Potree.PointSizeType.FIXED;
+          viewer.scene.addPointCloud(pointcloud);
+          viewer.setLanguage(language || "en");
+          viewer.fitToScreen();
+          document
+            .getElementById("classificationToggle")
+            .addEventListener("click", change);
+        });
+    }, 2000);
   }, [pointCloudUrl, viewType]);
 
   return (

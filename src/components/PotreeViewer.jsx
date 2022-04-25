@@ -3,9 +3,7 @@ import React from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-// import { auth } from "../api/auth";
 import user from "../store/user";
-// import axios from 'axios'
 const language = window.localStorage.getItem("language");
 
 const PotreeContainer = observer(() => {
@@ -14,28 +12,41 @@ const PotreeContainer = observer(() => {
   }, []);
 
   return (
-    <>{user.token ? <PotreeViewer userToken={user.token} /> : <>no data</>}</>
+    <>
+      {user.accessToken ? (
+        <PotreeViewer accessToken={user.accessToken} />
+      ) : 
+      (
+        <div className={s.background}></div>
+      )}
+    </>
   );
 });
 
-const PotreeViewer = observer(({ userToken }) => {
-  const { viewType } = useParams();
+const PotreeViewer = ({ accessToken }) => {
+  const { urlParams } = useParams();
+  const [fetchParams, setFetchParams] = React.useState(
+    (urlParams && urlParams.split("&")) || [
+      "rgba",
+      118,
+      975,
+    ]
+  );
   const navigate = useNavigate();
-  console.log(userToken);
   const protocol = "https",
     // domain = "potree.vitest.ninja",
     domain = "zqhq8ti8nf.execute-api.eu-central-1.amazonaws.com",
+    base = "api",
     resource = "files",
-    projectId = 118,
-    fileId = 975,
-    token = `Bearer ${userToken}`,
-    pointCloudUrl = `${protocol}://${domain}/api/${resource}/${projectId}/${fileId}/get-tiles/metadata.json`,
+    projectId = fetchParams[1],
+    fileId = fetchParams[2],
+    token = `Bearer ${accessToken}`,
+    pointCloudUrl = `${protocol}://${domain}/${base}/${resource}/${projectId}/${fileId}/get-tiles/metadata.json`,
     cache = new Map(),
     useCorsMode = true,
     cachingDomain = `${domain}`,
     redirectStatusCode = 200,
     expiresIn = 600_000;
-  // {{GATEWAY_URL}}/api/files/118/975/get-tiles/metadata.json
   Function.prototype.clone = function () {
     var that = this;
     var temp = function temporary() {
@@ -93,14 +104,18 @@ const PotreeViewer = observer(({ userToken }) => {
   useFetchMiddleware(token);
 
   function change() {
-    if (viewType === "rgba" || !viewType) {
-      navigate("/classification");
+    if (fetchParams[0] === "rgba") {
+      navigate(`/classification&${fetchParams[1]}&${fetchParams[2]}`);
     } else {
-      navigate("/rgba");
+      navigate(`/rgba&${fetchParams[1]}&${fetchParams[2]}`);
     }
     window.location.reload();
   }
   React.useEffect(() => {
+    setInterval(() => {
+      user.refreshToken();
+    }, 1000 * 60 * 60);
+
     const Potree = window.Potree,
       potreeContainerDiv = document.getElementById("potree_render_area"),
       viewer = new Potree.Viewer(potreeContainerDiv);
@@ -112,11 +127,10 @@ const PotreeViewer = observer(({ userToken }) => {
     viewer.setControls(viewer.orbitControls);
     // viewer.setDescription("Point cloud");
     viewer.loadGUI(() => {});
-
     Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e) => {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
-      material.activeAttributeName = viewType || "rgba";
+      material.activeAttributeName = fetchParams[0];
       material.minSize = 2;
       material.pointSizeType = Potree.PointSizeType.FIXED;
       viewer.scene.addPointCloud(pointcloud);
@@ -126,7 +140,7 @@ const PotreeViewer = observer(({ userToken }) => {
         .getElementById("classificationToggle")
         .addEventListener("click", change);
     });
-  }, [pointCloudUrl, viewType]);
+  }, [pointCloudUrl]);
 
   return (
     <div id="potree-root">
@@ -141,6 +155,6 @@ const PotreeViewer = observer(({ userToken }) => {
       </div>
     </div>
   );
-});
+};
 
 export default PotreeContainer;

@@ -8,7 +8,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<PotreeViewer />}/>
-      <Route path="/:viewType" element={<PotreeViewer />}/>
+      <Route path="/:urlParams" element={<PotreeViewer />}/>
       <Route path='/signup' element={<SignUp/>}/>
     </Routes>
   );

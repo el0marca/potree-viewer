@@ -1,35 +1,51 @@
-.potree_root{
+.potree_root {
     width: 100%;
     height: 900px;
 }
+
 .wrapper {
-    position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
 }
 
-.sidebar{
+.sidebar {
     width: 300px;
     height: 100%;
     position: absolute;
-    left:0px;
+    left: 0px;
     z-index: 999;
 }
 
-.toggleButton{
-	position: absolute;
-	background: #515151;
-	width: 20px;
-	height: 40px;
-	z-index: 100;
-	cursor: pointer;
-	top: 20px;
-	border-radius: 0px 10px 10px 0px;
-	left: 160px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.toggleButton {
+    position: absolute;
+    background: #515151;
+    width: 20px;
+    height: 40px;
+    z-index: 100;
+    cursor: pointer;
+    top: 20px;
+    border-radius: 0px 10px 10px 0px;
+    left: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 900000;
     transition: 0.2s;
 }
-.toggleButton:hover{
-    background-color:#666666;
+
+.toggleButton:hover {
+    background-color: #666666;
+}
+
+.background {
+    background-color: #333333;
+    width: 100%;
+    height: 100vh;
+    background-image: url('../img/icons/background.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100px 165px
 }

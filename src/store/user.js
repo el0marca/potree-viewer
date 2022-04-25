@@ -16,9 +16,8 @@ const userPool = new CognitoUserPool({
 
 class User {
     userInfo = [];
-    token = '';
+    accessToken = '';
     cognitoUser = null;
-    pointCloudUrl = ''
 
     constructor() {
         makeAutoObservable(this)
@@ -57,17 +56,7 @@ class User {
                 if (err) {
                     return rej(err);
                 }
-                this.token = result.idToken.jwtToken
-                const axiosConfig = {
-                    headers: {
-                        Authorization: `Bearer ${result.idToken.jwtToken}`
-                    }
-                };
-                axios.get('https://zqhq8ti8nf.execute-api.eu-central-1.amazonaws.com/api/files/118/975/get-tiles/metadata.json', axiosConfig)
-                    .then((w) => {
-                        console.log(w);
-                        this.pointCloudUrl = w.data.url
-                    })
+                this.accessToken = result.idToken.jwtToken
                 res(result);
             })
         ).catch((e) => console.error(e));

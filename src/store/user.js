@@ -18,6 +18,8 @@ class User {
     userInfo = [];
     accessToken = '';
     cognitoUser = null;
+    pointCloudChilds = [];
+    pointCloudChildsWasFetched = false
 
     constructor() {
         makeAutoObservable(this)
@@ -25,13 +27,13 @@ class User {
 
     verifySession() {
         this.cognitoUser = userPool.getCurrentUser()
-        new Promise((res, rej) => {
+        return new Promise((res, rej) => {
                 this.cognitoUser.getSession((err, info) => {
                     if (err) {
                         rej(err)
                     } else {
                         this.userInfo = info;
-                        this.refreshToken()
+                        // this.refreshToken()
                         res()
                     }
                 })
@@ -51,16 +53,40 @@ class User {
         const cognitoRefreshToken = new CognitoRefreshToken({
             RefreshToken: this.userInfo.refreshToken.token,
         });
-        new Promise((res, rej) =>
+        return new Promise((res, rej) =>
             this.cognitoUser.refreshSession(cognitoRefreshToken, (err, result) => {
                 if (err) {
                     return rej(err);
                 }
                 this.accessToken = result.idToken.jwtToken
-                res(result);
+                res(result.idToken.jwtToken);
             })
         ).catch((e) => console.error(e));
-
+    }
+    getPointCloudChilds = (projectId, fileId, name) => {
+        const axiosConfig = {
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`
+            }
+        };
+        axios.get(`https://zqhq8ti8nf.execute-api.eu-central-1.amazonaws.com/api/files/${projectId}/${fileId}/get-childs`, axiosConfig)
+            .then((res) => {
+                let childs = res.data.data.childs;
+                if (childs.length > 0) {
+                    this.pointCloudChilds.push({
+                        fileId,
+                        name
+                    })
+                    childs.forEach((e) => {
+                        if (e.name.slice(-4) === '.laz' || e.name.slice(-4) === '.las') {
+                            this.pointCloudChilds.push(e)
+                        }
+                    })
+                } else {
+                    this.pointCloudChilds = null
+                }
+                this.pointCloudChildsWasFetched = true
+            })
     }
 }
 

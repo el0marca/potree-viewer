@@ -1,5 +1,5 @@
 import s from "./PotreeView.module.css";
-import React from "react";
+import React, { useEffect } from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -7,31 +7,38 @@ import user from "../store/user";
 const language = window.localStorage.getItem("language");
 
 const PotreeContainer = observer(() => {
-  React.useEffect(() => {
-    user.verifySession();
+  const { urlParams } = useParams();
+  let params = urlParams.split("&");
+
+  useEffect(() => {
+    user.verifySession().then(() => {
+      user.refreshToken().then(() => {
+        user.getPointCloudChilds(params[1], params[4], params[3]);
+      });
+    });
   }, []);
 
   return (
     <>
-      {user.accessToken ? (
-        <PotreeViewer accessToken={user.accessToken} />
-      ) : 
-      (
+      {user.pointCloudChildsWasFetched ? (
+        <PotreeViewer />
+      ) : (
         <div className={s.background}></div>
       )}
     </>
   );
 });
 
-const PotreeViewer = ({ accessToken }) => {
+const PotreeViewer = () => {
   const { urlParams } = useParams();
   const [fetchParams, setFetchParams] = React.useState(
-    (urlParams && urlParams.split("&")) || [
-      "rgba",
-      118,
-      975,
-    ]
+    (urlParams && urlParams.split("&")) || ["rgba", 118, 975]
   );
+
+  React.useEffect(() => {
+    setFetchParams(urlParams && urlParams.split("&"));
+  }, [urlParams]);
+
   const navigate = useNavigate();
   const protocol = "https",
     // domain = "potree.vitest.ninja",
@@ -40,13 +47,14 @@ const PotreeViewer = ({ accessToken }) => {
     resource = "files",
     projectId = fetchParams[1],
     fileId = fetchParams[2],
-    token = `Bearer ${accessToken}`,
+    token = `Bearer ${user.accessToken}`,
     pointCloudUrl = `${protocol}://${domain}/${base}/${resource}/${projectId}/${fileId}/get-tiles/metadata.json`,
     cache = new Map(),
     useCorsMode = true,
     cachingDomain = `${domain}`,
     redirectStatusCode = 200,
     expiresIn = 600_000;
+
   Function.prototype.clone = function () {
     var that = this;
     var temp = function temporary() {
@@ -103,19 +111,29 @@ const PotreeViewer = ({ accessToken }) => {
 
   useFetchMiddleware(token);
 
-  function change() {
+  function toggleClassification() {
     if (fetchParams[0] === "rgba") {
-      navigate(`/classification&${fetchParams[1]}&${fetchParams[2]}`);
+      navigate(
+        `/classification&${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`
+      );
     } else {
-      navigate(`/rgba&${fetchParams[1]}&${fetchParams[2]}`);
+      navigate(
+        `/rgba&${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`
+      );
     }
     window.location.reload();
   }
+
+  function selectPointCloud(fileId, sourceFileId) {
+    navigate(
+      `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${sourceFileId}`
+    );
+  }
+
   React.useEffect(() => {
     setInterval(() => {
       user.refreshToken();
     }, 1000 * 60 * 60);
-
     const Potree = window.Potree,
       potreeContainerDiv = document.getElementById("potree_render_area"),
       viewer = new Potree.Viewer(potreeContainerDiv);
@@ -125,8 +143,8 @@ const PotreeViewer = ({ accessToken }) => {
     viewer.setClipTask(Potree.ClipTask.SHOW_INSIDE);
     viewer.loadSettingsFromURL();
     viewer.setControls(viewer.orbitControls);
-    // viewer.setDescription("Point cloud");
     viewer.loadGUI(() => {});
+
     Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e) => {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
@@ -138,12 +156,34 @@ const PotreeViewer = ({ accessToken }) => {
       viewer.fitToScreen();
       document
         .getElementById("classificationToggle")
-        .addEventListener("click", change);
+        .addEventListener("click", toggleClassification);
     });
   }, [pointCloudUrl]);
 
   return (
     <div id="potree-root">
+      <div
+        style={{
+          position: "absolute",
+          right: "20px",
+          top: "260px",
+          zIndex: 2,
+        }}
+      >
+        {user.pointCloudChilds &&
+          user.pointCloudChilds.map((e, i) => (
+            <div
+              key={i}
+              onClick={() => selectPointCloud(e.fileId, e.sourceFileId)}
+              style={{
+                cursor: "pointer",
+                color: "#fff",
+              }}
+            >
+              {e.name.substring(0, e.name.length - 4)}
+            </div>
+          ))}
+      </div>
       <div id="potree_render_area">
         <div id="toggleButton" className={s.toggleButton}>
           <img src={toggleBtn} alt="btn" />

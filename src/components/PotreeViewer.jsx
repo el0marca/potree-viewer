@@ -174,10 +174,10 @@ const PotreeViewer = () => {
           user.pointCloudChilds.map((e, i) => (
             <div
               key={i}
-              onClick={() => selectPointCloud(e.fileId, e.sourceFileId)}
+              onClick={() => selectPointCloud(e.fileId, e.sourceFileId||e.fileId)}
               style={{
                 cursor: "pointer",
-                color: "#fff",
+                color: e.fileId==fetchParams[2]?'red':"#fff",
               }}
             >
               {e.name.substring(0, e.name.length - 4)}

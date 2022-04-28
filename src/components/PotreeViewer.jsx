@@ -32,7 +32,7 @@ const PotreeContainer = observer(() => {
 const PotreeViewer = () => {
   const { urlParams } = useParams();
   const [fetchParams, setFetchParams] = React.useState(
-    (urlParams && urlParams.split("&")) || ["rgba", 118, 975]
+    (urlParams.split("&")) || ["rgba", 118, 975, 118]
   );
 
   React.useEffect(() => {
@@ -159,7 +159,7 @@ const PotreeViewer = () => {
         .addEventListener("click", toggleClassification);
     });
   }, [pointCloudUrl]);
-
+console.log(user.pointCloudChilds)
   return (
     <div id="potree-root">
       <div

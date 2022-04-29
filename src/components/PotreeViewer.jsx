@@ -1,8 +1,10 @@
 import s from "./PotreeView.module.css";
 import React, { useEffect } from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
+import cloudIcon from "../img/icons/cloud.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import Select from "react-select";
 import user from "../store/user";
 const language = window.localStorage.getItem("language");
 
@@ -32,7 +34,7 @@ const PotreeContainer = observer(() => {
 const PotreeViewer = () => {
   const { urlParams } = useParams();
   const [fetchParams, setFetchParams] = React.useState(
-    (urlParams.split("&")) || ["rgba", 118, 975, 118]
+    urlParams.split("&") || ["rgba", 118, 975, 118]
   );
 
   React.useEffect(() => {
@@ -126,9 +128,19 @@ const PotreeViewer = () => {
 
   function selectPointCloud(fileId, sourceFileId) {
     navigate(
-      `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${sourceFileId}`
+      `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${
+        sourceFileId || fileId
+      }`
     );
   }
+
+  const options =
+    user.pointCloudChilds &&
+    user.pointCloudChilds.map((e) => ({
+      value: e.fileId,
+      label: e.name.substring(0, e.name.length - 4),
+      sourceFileId: e.sourceFileId,
+    }));
 
   React.useEffect(() => {
     setInterval(() => {
@@ -159,31 +171,25 @@ const PotreeViewer = () => {
         .addEventListener("click", toggleClassification);
     });
   }, [pointCloudUrl]);
-console.log(user.pointCloudChilds)
+  console.log(user.pointCloudChilds);
+
   return (
     <div id="potree-root">
-      <div
-        style={{
-          position: "absolute",
-          right: "20px",
-          top: "260px",
-          zIndex: 2,
-        }}
-      >
-        {user.pointCloudChilds &&
-          user.pointCloudChilds.map((e, i) => (
-            <div
-              key={i}
-              onClick={() => selectPointCloud(e.fileId, e.sourceFileId||e.fileId)}
-              style={{
-                cursor: "pointer",
-                color: e.fileId==fetchParams[2]?'red':"#fff",
-              }}
-            >
-              {e.name.substring(0, e.name.length - 4)}
-            </div>
-          ))}
-      </div>
+      {options && (
+        <div className={s.pointcloudsWrapper}>
+          <div style={{padding:'5px 1px 5px 5px', display:'flex', justifyContent:'center', alignItems:'center'}}>
+            <img src={cloudIcon} alt="pointCloud" />
+          </div>
+          <div style={{ width: "200px" }}>
+            <Select
+              styles={colourStyles}
+              defaultValue={options[0]}
+              options={options}
+              onChange={(e) => selectPointCloud(e.value, e.sourceFileId)}
+            />
+          </div>
+        </div>
+      )}
       <div id="potree_render_area">
         <div id="toggleButton" className={s.toggleButton}>
           <img src={toggleBtn} alt="btn" />
@@ -198,3 +204,36 @@ console.log(user.pointCloudChilds)
 };
 
 export default PotreeContainer;
+
+
+const colourStyles = {
+  menuList: (styles) => ({
+    ...styles,
+    background: "#444444",
+  }),
+  control: (styles) => ({
+    ...styles,
+    background: "#444444",
+    border: "none",
+    color: "#fff",
+  }),
+  singleValue: (styles) => ({
+    ...styles,
+    color: "#fff",
+    padding:'0px'
+  }),
+  valueContainer: (styles) => ({
+    ...styles,
+    padding:'0px 1px'
+  }),
+  option: (styles, { isFocused, isSelected }) => ({
+    ...styles,
+    background: isFocused ? "#555555" : isSelected ? "#666666" : undefined,
+    zIndex: 1,
+    color: "#fafafa",
+  }),
+  menu: (base) => ({
+    ...base,
+    zIndex: 100,
+  }),
+};

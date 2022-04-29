@@ -161,9 +161,6 @@
 	flex-direction: row;
 }
 
-/* #potree_sidebar_container a {
-	color: #8Aa1c4;
-} */
 
 #potree_quick_buttons {
 	position: absolute;
@@ -371,8 +368,9 @@ body {
 #tools{
 	position: fixed;
 	top:10px;
-	left:50%;
-	transform:translate(-50%, 0px);
+	/* left:50%;
+	transform:translate(-50%, 0px); */
+	left:400px;
 	z-index: 99999;
 	padding-left: 5px;
 	background-color:#333333;

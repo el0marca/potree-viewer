@@ -72,14 +72,17 @@ class User {
         axios.get(`https://zqhq8ti8nf.execute-api.eu-central-1.amazonaws.com/api/files/${projectId}/${fileId}/get-childs`, axiosConfig)
             .then((res) => {
                 let childs = res.data.data.childs;
+
                 if (childs.length > 0) {
                     this.pointCloudChilds.push({
                         fileId,
                         name
                     })
                     childs.forEach((e) => {
-                        if (e.name.slice(-4) === '.laz' || e.name.slice(-4) === '.las') {
-                            this.pointCloudChilds.push(e)
+                        if (e.size > 1024 * 10000) {
+                            if (e.name.slice(-4) === '.laz' || e.name.slice(-4) === '.las') {
+                                this.pointCloudChilds.push(e)
+                            }
                         }
                     })
                 } else {

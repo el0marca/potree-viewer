@@ -1,16 +1,24 @@
 import s from "./PotreeView.module.css";
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
-import cloudIcon from "../img/icons/cloud.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import Select from "react-select";
 import user from "../store/user";
 const language = window.localStorage.getItem("language");
 
-const PotreeContainer = observer(() => {
-  const { urlParams } = useParams();
-  let params = urlParams.split("&");
+declare global {
+  interface Window {
+    originalFetch: Function;
+    Potree: any;
+  }
+  interface Function {
+    clone: Function;
+  }
+}
+
+const PotreeContainer: FC = observer(() => {
+  const { urlParams } = useParams<{ urlParams: string }>();
+  let params = urlParams!.split("&")!;
 
   useEffect(() => {
     user.verifySession().then(() => {
@@ -30,15 +38,14 @@ const PotreeContainer = observer(() => {
     </>
   );
 });
-
 const PotreeViewer = () => {
-  const { urlParams } = useParams();
-  const [fetchParams, setFetchParams] = React.useState(
-    urlParams.split("&") || ["rgba", 118, 975, 118]
+  const { urlParams } = useParams<{ urlParams: string }>();
+  const [fetchParams, setFetchParams] = React.useState<any>(
+    urlParams!.split("&")
   );
 
   React.useEffect(() => {
-    setFetchParams(urlParams && urlParams.split("&"));
+    setFetchParams(urlParams! && urlParams!.split("&"));
   }, [urlParams]);
 
   const navigate = useNavigate();
@@ -59,7 +66,7 @@ const PotreeViewer = () => {
 
   Function.prototype.clone = function () {
     var that = this;
-    var temp = function temporary() {
+    var temp: any = function temporary() {
       return that.apply(this, arguments);
     };
     for (var key in this) {
@@ -70,7 +77,11 @@ const PotreeViewer = () => {
     return temp;
   };
 
-  const potreeBicycleFetch = async (url, init, authHeader) => {
+  const potreeBicycleFetch = async (
+    url: string,
+    init: any,
+    authHeader: string
+  ) => {
     const modInit = { ...init };
     let modUrl = `${url}`;
     if (!modInit.headers) modInit.headers = {};
@@ -94,7 +105,7 @@ const PotreeViewer = () => {
     return realRes;
   };
 
-  function useFetchMiddleware(authHeader) {
+  function useFetchMiddleware(authHeader: any) {
     if (!window.originalFetch) {
       window.originalFetch = window.fetch.clone();
     }
@@ -103,7 +114,7 @@ const PotreeViewer = () => {
       return;
     }
 
-    window.fetch = function (url, init) {
+    window.fetch = function (url: any, init: any) {
       if (url.includes(cachingDomain)) {
         return potreeBicycleFetch(url, init, authHeader);
       }
@@ -114,33 +125,24 @@ const PotreeViewer = () => {
   useFetchMiddleware(token);
 
   function toggleClassification() {
+    let fetchparams = `${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`;
+
     if (fetchParams[0] === "rgba") {
-      navigate(
-        `/classification&${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`
-      );
+      navigate(`/classification&${fetchparams}`);
     } else {
-      navigate(
-        `/rgba&${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`
-      );
+      navigate(`/rgba&${fetchparams}`);
     }
     window.location.reload();
   }
 
-  function selectPointCloud(fileId, sourceFileId) {
-    navigate(
-      `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${
-        sourceFileId || fileId
-      }`
-    );
+  function selectPointCloud(fileId: number) {
+    if (fileId !== fetchParams[2]) {
+      navigate(
+        `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${fetchParams[4]}`
+      );
+      window.location.reload();
+    }
   }
-
-  const options =
-    user.pointCloudChilds &&
-    user.pointCloudChilds.map((e) => ({
-      value: e.fileId,
-      label: e.name.substring(0, e.name.length - 4),
-      sourceFileId: e.sourceFileId,
-    }));
 
   React.useEffect(() => {
     setInterval(() => {
@@ -149,6 +151,7 @@ const PotreeViewer = () => {
     const Potree = window.Potree,
       potreeContainerDiv = document.getElementById("potree_render_area"),
       viewer = new Potree.Viewer(potreeContainerDiv);
+
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
     viewer.setPointBudget(2 * 100 * 10000);
@@ -157,7 +160,7 @@ const PotreeViewer = () => {
     viewer.setControls(viewer.orbitControls);
     viewer.loadGUI(() => {});
 
-    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e) => {
+    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e: any) => {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
       material.activeAttributeName = fetchParams[0];
@@ -167,29 +170,23 @@ const PotreeViewer = () => {
       viewer.setLanguage(language || "en");
       viewer.fitToScreen();
       document
-        .getElementById("classificationToggle")
+        .getElementById("classificationToggle")!
         .addEventListener("click", toggleClassification);
+      document.querySelectorAll(".pointcloudItems")!.forEach((item: any) => {
+        if (item.id === fetchParams[2]) {
+          item.classList.add('selected');
+        }
+        item.addEventListener("click", (e: any) => {
+          selectPointCloud(e.target.id);
+        });
+      });
     });
   }, [pointCloudUrl]);
+
   console.log(user.pointCloudChilds);
 
   return (
     <div id="potree-root">
-      {options && (
-        <div className={s.pointcloudsWrapper}>
-          <div style={{padding:'5px 1px 5px 5px', display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <img src={cloudIcon} alt="pointCloud" />
-          </div>
-          <div style={{ width: "200px" }}>
-            <Select
-              styles={colourStyles}
-              defaultValue={options[0]}
-              options={options}
-              onChange={(e) => selectPointCloud(e.value, e.sourceFileId)}
-            />
-          </div>
-        </div>
-      )}
       <div id="potree_render_area">
         <div id="toggleButton" className={s.toggleButton}>
           <img src={toggleBtn} alt="btn" />
@@ -204,36 +201,3 @@ const PotreeViewer = () => {
 };
 
 export default PotreeContainer;
-
-
-const colourStyles = {
-  menuList: (styles) => ({
-    ...styles,
-    background: "#444444",
-  }),
-  control: (styles) => ({
-    ...styles,
-    background: "#444444",
-    border: "none",
-    color: "#fff",
-  }),
-  singleValue: (styles) => ({
-    ...styles,
-    color: "#fff",
-    padding:'0px'
-  }),
-  valueContainer: (styles) => ({
-    ...styles,
-    padding:'0px 1px'
-  }),
-  option: (styles, { isFocused, isSelected }) => ({
-    ...styles,
-    background: isFocused ? "#555555" : isSelected ? "#666666" : undefined,
-    zIndex: 1,
-    color: "#fafafa",
-  }),
-  menu: (base) => ({
-    ...base,
-    zIndex: 100,
-  }),
-};

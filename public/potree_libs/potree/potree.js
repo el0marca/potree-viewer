@@ -79288,8 +79288,8 @@ ENDSEC
 				let potreeIcon = `${Potree.resourcePath}/icons/file_potree.svg`;
 
 				elExport.append(`
-				<div id='exportItem' style='margin-left:auto;margin-right:auto;width:60px'>
-					<div style="display:flex;align-items:center">
+				<div id='exportItem'>
+					<div>
 						<img src="./potree_libs/potree/resources/icons/exportBtn.svg">
 					</div>
 					<div id='subMenu'>
@@ -88966,14 +88966,7 @@ ENDSEC
 				let layersView=document.getElementById('layers-type');
 				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.width='0px'; layersView.style.height='100px'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
 				sidebarLayersBtn.addEventListener('click', (e)=>{layersView.style.width='280px'; sidebarView.style.display='none'; sidebarLayersBtn.style.background='#515151'; sidebarViewBtn.style.background='#272727'})
-				document.getElementById("classificationToggleBtn").addEventListener('click', ()=>{
-					// document.getElementById("classificationToggleCircle").style.right='0px'
-					// console.log(thisviewer)
-				})
-				// let imgMenuToggle = document.createElement('img');
-				// imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
-				// imgMenuToggle.onclick = this.toggleSidebar;
-				// imgMenuToggle.classList.add('potree_menu_toggle');
+
 				const toggleButton=document.getElementById('toggleButton')
 				toggleButton.addEventListener('click', ()=>{this.toggleSidebar()})
 				let imgMapToggle = document.createElement('img');
@@ -88984,6 +88977,31 @@ ENDSEC
 				
 				document.getElementById('menuItem').addEventListener('mousedown', showMenu)
 				document.getElementById('menuItem').addEventListener('mouseleave', hideMenu)
+				let pointCloudsChildsElement1 = document.getElementById('pcListHeader'),
+					pointCloudsChildsElement2 = document.getElementById('pcListItems'),
+					pointcloudFiles = document.getElementById('pointcloudFiles'),
+					pointcloudChildsItem=document.getElementById('pointCloudChilds'),
+					pointCloudChildsData = JSON.parse(window.localStorage.getItem('pointCloudChilds'))
+					
+				if(pointCloudChildsData){
+				 pointCloudChildsData.forEach((e,i)=>{
+					if(i===0){
+						pointCloudsChildsElement1.insertAdjacentHTML('afterbegin', `<div id=${e.fileId} class='pointcloudItems'>${e.name}</div>`)
+					}
+					else if (i>0){
+						pointCloudsChildsElement2.insertAdjacentHTML('beforeend', `<li style='padding-left:15px'><div style='border-radius:10px;padding:8px 8px 8px 5px;' id=${e.fileId} class='pointcloudItems'>${e.name}</div></li>`)
+					}
+				})}
+				else {
+					pointcloudFiles.style.display='none'
+				}
+
+				document.getElementById('closeFilesBtn').addEventListener('click', (e)=>{
+					pointcloudChildsItem.style.left='-320px'
+				})
+				pointcloudFiles.addEventListener('click', (e)=>{
+					pointcloudChildsItem.style.left='0px'
+				})
 
 				function showMenu(){
 					if(this.children.length>1){
@@ -89001,14 +89019,12 @@ ENDSEC
 				}
 				let elButtons = $("#potree_quick_buttons").get(0);
 
-				// elButtons.append(imgMenuToggle);
 				elButtons.append(imgMapToggle);
 
 				VRButton.createButton(this.renderer).then(vrButton => {
 
 					if(vrButton == null){
 						console.log("VR not supported or active.");
-
 						return;
 					}
 

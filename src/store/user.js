@@ -73,20 +73,31 @@ class User {
             .then((res) => {
                 let childs = res.data.data.childs;
 
-                if (childs.length > 0) {
-                    this.pointCloudChilds.push({
-                        fileId,
-                        name
-                    })
-                    childs.forEach((e) => {
-                        if (e.size > 1024 * 10000) {
-                            if (e.name.slice(-4) === '.laz' || e.name.slice(-4) === '.las') {
-                                this.pointCloudChilds.push(e)
+                const condition = (e, pushData)=> {
+                    if (e.size > 1024 * 10000 && e.tileStatus === 'available') {
+                        if (e.name.slice(-4) === '.laz' || e.name.slice(-4) === '.las') {
+                            if (!pushData) {
+                                return true
+                            } else {
+                                this.pointCloudChilds.push({
+                                    ...e,
+                                    name: e.name.substring(0, e.name.length - 4)
+                                })
                             }
                         }
+                    }
+                }
+                if (childs.some((e) => condition(e, false)
+                    )) {
+                    this.pointCloudChilds.push({
+                        fileId,
+                        name: name.substring(0, name.length - 4),
                     })
+                    childs.forEach((e) => condition(e, true))
+                    window.localStorage.setItem('pointCloudChilds', JSON.stringify(this.pointCloudChilds))
                 } else {
                     this.pointCloudChilds = null
+                    window.localStorage.removeItem('pointCloudChilds')
                 }
                 this.pointCloudChildsWasFetched = true
             })

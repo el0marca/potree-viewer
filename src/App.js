@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
-import PotreeViewer from './components/PotreeViewer'
+import PotreeViewer from './components/PotreeViewer.tsx'
 import './App.css';
 import { SignUp } from './components/SignUp';
 

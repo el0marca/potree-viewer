@@ -1,8 +1,9 @@
 <div id="sidebar_root">
 	<div id='pointCloudChilds'>
-		<div style='display:flex;justify-content:space-between; border-bottom:1px solid #272727;height:54px;padding:0px 20px;align-items:center'>
-		<div>Files</div>
-		<div><img id="closeFilesBtn" src='./potree_libs/potree/resources/icons/closeFiles.svg'></div>
+		<div
+			style='display:flex;justify-content:space-between; border-bottom:1px solid #272727;height:54px;padding:0px 20px;align-items:center'>
+			<div>Files</div>
+			<div><img id="closeFilesBtn" src='./potree_libs/potree/resources/icons/closeFiles.svg'></div>
 		</div>
 		<ul id="pcListWrapper">
 			<li id="pcListHeader">
@@ -30,7 +31,7 @@
 			<div id="scene_export"></div>
 			<img id="pointcloudFiles" src="/potree_libs/potree/resources/icons/files.svg" alt="logo">
 		</div>
-		
+
 	</div>
 	<div id="sidebar-type"
 		style="display:flex;flex-direction:row; justify-content: space-around;margin-top:25px; width: 272px;height: 38px;padding: 4px;background: #272727;border-radius:10px">
@@ -94,11 +95,19 @@
 				<ul id="classificationList" class="pv-menu-list"></ul>
 			</div>
 		</div>
-		<div style="width:0px; height:100px" id="layers-type">
-			<h3 id="menu_scene"></h3>
-			<div class="pv-menu-list">
-				<div id="scene_objects"></div>
-				<div id="scene_object_properties"></div>
+		<div style="width:0px; height:100px;position:relative" id="layers-type">
+
+
+			<div>
+				<h3 id="menu_scene"></h3>
+				<div class="pv-menu-list">
+					<div id="scene_objects" style='position:relative'>
+						<div id="coverLine"></div>
+					</div>
+					<div id="scene_object_properties">
+
+					</div>
+				</div>
 			</div>
 		</div>
 		<div style='display:none' id="potree_menu" class="accordion">

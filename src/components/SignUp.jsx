@@ -1,19 +1,21 @@
 import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import { observer } from "mobx-react-lite";
 import { React, useState, useEffect } from "react";
-import { auth } from "../api/auth.js";
-import { userPool } from "../api/cognito.js";
+
+import {
+  CognitoUserPool
+} from "amazon-cognito-identity-js";
+
+const userPool = new CognitoUserPool({
+  UserPoolId: "eu-central-1_H3g8budxI",
+  ClientId: "3sood48e382k9l4c6j9p7n1lsl"
+})
 
 export const SignUp = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const verifySession = () => {
-    // const cognitoUser = userPool.getCurrentUser();
-    // cognitoUser.getSession((e, a) => console.log(e, a));
-    auth.verifySession();
-  };
-  // useEffect(() => User.verifySession(), []);
+ 
 
   const onSubmit = (e) => {
     e.preventDefault();

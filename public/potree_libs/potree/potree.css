@@ -848,6 +848,14 @@ opacity:1;
 .selected {
 	background-color:#616161;
 }
+#coverLine{
+	background-color:#333333;
+	width:30px;
+	height: 100%;
+	position:absolute
+}
+#annotations{display:none}
+#pointclouds{display:none}
 #pointCloudChilds{
 	background-color:#414141;
 	position:absolute;

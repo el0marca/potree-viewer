@@ -40,12 +40,12 @@ const PotreeContainer: FC = observer(() => {
 });
 const PotreeViewer = () => {
   const { urlParams } = useParams<{ urlParams: string }>();
-  const [fetchParams, setFetchParams] = React.useState<any>(
+  const [fetchParams, setFetchParams] = React.useState<string[]>(
     urlParams!.split("&")
   );
 
   React.useEffect(() => {
-    setFetchParams(urlParams! && urlParams!.split("&"));
+    setFetchParams(urlParams!.split("&"));
   }, [urlParams]);
 
   const navigate = useNavigate();
@@ -136,7 +136,7 @@ const PotreeViewer = () => {
   }
 
   function selectPointCloud(fileId: number) {
-    if (fileId !== fetchParams[2]) {
+    if (fileId !== Number(fetchParams[2])) {
       navigate(
         `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${fetchParams[4]}`
       );

@@ -79031,26 +79031,26 @@ ENDSEC
 			})
 			// ANGLE
 			let elToolbar = $('#tools');
-			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/angle.svg',
-				'[title]tt.angle_measurement',
-				() => {
-					$('#menu_measurements').next().slideDown();
-					let measurement = this.measuringTool.startInsertion({
-						showDistances: false,
-						showAngles: true,
-						showArea: false,
-						closed: true,
-						maxMarkers: 3,
-						name: i18n.options.lng==='en'&&'Angle'||'Winkel'});
+			// elToolbar.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/angle.svg',
+			// 	'[title]tt.angle_measurement',
+			// 	() => {
+			// 		$('#menu_measurements').next().slideDown();
+			// 		let measurement = this.measuringTool.startInsertion({
+			// 			showDistances: false,
+			// 			showAngles: true,
+			// 			showArea: false,
+			// 			closed: true,
+			// 			maxMarkers: 3,
+			// 			name: i18n.options.lng==='en'&&'Angle'||'Winkel'});
 
-					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
-					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
-					$.jstree.reference(jsonNode.id).deselect_all();
-					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-					toggleBtn()
-				}
-			));
+			// 		let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
+			// 		let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
+			// 		$.jstree.reference(jsonNode.id).deselect_all();
+			// 		$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+			// 		toggleBtn()
+			// 	}
+			// ));
 
 			// POINT
 			elToolbar.append(this.createToolIcon(
@@ -79096,75 +79096,75 @@ ENDSEC
 			));
 
 			// HEIGHT
-			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/height.svg',
-				'[title]tt.height_measurement',
-				() => {
-					$('#menu_measurements').next().slideDown();
-					let measurement = this.measuringTool.startInsertion({
-						showDistances: false,
-						showHeight: true,
-						showArea: false,
-						closed: false,
-						maxMarkers: 2,
-						name: i18n.options.lng==='en'&&'Height'||'Höhe'});
+			// elToolbar.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/height.svg',
+			// 	'[title]tt.height_measurement',
+			// 	() => {
+			// 		$('#menu_measurements').next().slideDown();
+			// 		let measurement = this.measuringTool.startInsertion({
+			// 			showDistances: false,
+			// 			showHeight: true,
+			// 			showArea: false,
+			// 			closed: false,
+			// 			maxMarkers: 2,
+			// 			name: i18n.options.lng==='en'&&'Height'||'Höhe'});
 
-					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
-					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
-					$.jstree.reference(jsonNode.id).deselect_all();
-					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-					toggleBtn()
-				}
-			));
+			// 		let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
+			// 		let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
+			// 		$.jstree.reference(jsonNode.id).deselect_all();
+			// 		$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+			// 		toggleBtn()
+			// 	}
+			// ));
 
 			// CIRCLE
-			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/circle.svg',
-				'[title]tt.circle_measurement',
-				() => {
-					$('#menu_measurements').next().slideDown();
-					let measurement = this.measuringTool.startInsertion({
-						showDistances: false,
-						showHeight: false,
-						showArea: false,
-						showCircle: true,
-						showEdges: false,
-						closed: false,
-						maxMarkers: 3,
-						name: i18n.options.lng==='en'&&'Circle'||'Kreis'});
+			// elToolbar.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/circle.svg',
+			// 	'[title]tt.circle_measurement',
+			// 	() => {
+			// 		$('#menu_measurements').next().slideDown();
+			// 		let measurement = this.measuringTool.startInsertion({
+			// 			showDistances: false,
+			// 			showHeight: false,
+			// 			showArea: false,
+			// 			showCircle: true,
+			// 			showEdges: false,
+			// 			closed: false,
+			// 			maxMarkers: 3,
+			// 			name: i18n.options.lng==='en'&&'Circle'||'Kreis'});
 
-					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
-					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
-					$.jstree.reference(jsonNode.id).deselect_all();
-					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-					toggleBtn()
-				}
-			));
+			// 		let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
+			// 		let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
+			// 		$.jstree.reference(jsonNode.id).deselect_all();
+			// 		$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+			// 		toggleBtn()
+			// 	}
+			// ));
 
 			// AZIMUTH
-			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/azimuth.svg',
-				'[title]tt.azimuth_measurement',
-				() => {
-					$('#menu_measurements').next().slideDown();
-					let measurement = this.measuringTool.startInsertion({
-						showDistances: false,
-						showHeight: false,
-						showArea: false,
-						showCircle: false,
-						showEdges: false,
-						showAzimuth: true,
-						closed: false,
-						maxMarkers: 2,
-						name: i18n.options.lng==='en'&&'Azimuth'||'Azimut'});
+			// elToolbar.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/azimuth.svg',
+			// 	'[title]tt.azimuth_measurement',
+			// 	() => {
+			// 		$('#menu_measurements').next().slideDown();
+			// 		let measurement = this.measuringTool.startInsertion({
+			// 			showDistances: false,
+			// 			showHeight: false,
+			// 			showArea: false,
+			// 			showCircle: false,
+			// 			showEdges: false,
+			// 			showAzimuth: true,
+			// 			closed: false,
+			// 			maxMarkers: 2,
+			// 			name: i18n.options.lng==='en'&&'Azimuth'||'Azimut'});
 
-					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
-					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
-					$.jstree.reference(jsonNode.id).deselect_all();
-					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-					toggleBtn()
-				}
-			));
+			// 		let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
+			// 		let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
+			// 		$.jstree.reference(jsonNode.id).deselect_all();
+			// 		$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+			// 		toggleBtn()
+			// 	}
+			// ));
 
 			// AREA
 			elToolbar.append(this.createToolIcon(
@@ -79187,66 +79187,66 @@ ENDSEC
 			));
 
 			// VOLUME
-			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/volume.svg',
-				'[title]tt.volume_measurement',
-				() => {
-					let volume = this.volumeTool.startInsertion({name: i18n.options.lng==='en'&&'Volume'||'Volumen'}); 
-					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
-					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === volume.uuid);
-					$.jstree.reference(jsonNode.id).deselect_all();
-					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-					toggleBtn()
-				}
-			));
+			// elToolbar.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/volume.svg',
+			// 	'[title]tt.volume_measurement',
+			// 	() => {
+			// 		let volume = this.volumeTool.startInsertion({name: i18n.options.lng==='en'&&'Volume'||'Volumen'}); 
+			// 		let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
+			// 		let jsonNode = measurementsRoot.children.find(child => child.data.uuid === volume.uuid);
+			// 		$.jstree.reference(jsonNode.id).deselect_all();
+			// 		$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+			// 		toggleBtn()
+			// 	}
+			// ));
 
 			// SPHERE VOLUME
-			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/sphere_distances.svg',
-				'[title]tt.volume_measurement',
-				() => { 
-					let volume = this.volumeTool.startInsertion({type: SphereVolume,
-						name: i18n.options.lng==='en'&&'Volume'||'Volumen'}); 
+			// elToolbar.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/sphere_distances.svg',
+			// 	'[title]tt.volume_measurement',
+			// 	() => { 
+			// 		let volume = this.volumeTool.startInsertion({type: SphereVolume,
+			// 			name: i18n.options.lng==='en'&&'Volume'||'Volumen'}); 
 
-					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
-					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === volume.uuid);
-					$.jstree.reference(jsonNode.id).deselect_all();
-					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-					toggleBtn()
-				}
-			));
+			// 		let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
+			// 		let jsonNode = measurementsRoot.children.find(child => child.data.uuid === volume.uuid);
+			// 		$.jstree.reference(jsonNode.id).deselect_all();
+			// 		$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+			// 		toggleBtn()
+			// 	}
+			// ));
 
 			// PROFILE
-			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/profile.svg',
-				'[title]tt.height_profile',
-				() => {
-					$('#menu_measurements').next().slideDown(); ;
-					let profile = this.profileTool.startInsertion({name: i18n.options.lng==='en'&&'Profile'||'Profil'});
+			// elToolbar.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/profile.svg',
+			// 	'[title]tt.height_profile',
+			// 	() => {
+			// 		$('#menu_measurements').next().slideDown(); ;
+			// 		let profile = this.profileTool.startInsertion({name: i18n.options.lng==='en'&&'Profile'||'Profil'});
 
-					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
-					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === profile.uuid);
-					$.jstree.reference(jsonNode.id).deselect_all();
-					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-					toggleBtn()
-				}
-			));
+			// 		let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
+			// 		let jsonNode = measurementsRoot.children.find(child => child.data.uuid === profile.uuid);
+			// 		$.jstree.reference(jsonNode.id).deselect_all();
+			// 		$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+			// 		toggleBtn()
+			// 	}
+			// ));
 
 			// ANNOTATION
-			elToolbar.append(this.createToolIcon(
-				Potree.resourcePath + '/icons/annotation.svg',
-				'[title]tt.annotation',
-				() => {
-					$('#menu_measurements').next().slideDown(); ;
-					let annotation = this.viewer.annotationTool.startInsertion();
+			// elToolbar.append(this.createToolIcon(
+			// 	Potree.resourcePath + '/icons/annotation.svg',
+			// 	'[title]tt.annotation',
+			// 	() => {
+			// 		$('#menu_measurements').next().slideDown(); ;
+			// 		let annotation = this.viewer.annotationTool.startInsertion();
 
-					let annotationsRoot = $("#jstree_scene").jstree().get_json("annotations");
-					let jsonNode = annotationsRoot.children.find(child => child.data.uuid === annotation.uuid);
-					$.jstree.reference(jsonNode.id).deselect_all();
-					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-					toggleBtn()
-				}
-			));
+			// 		let annotationsRoot = $("#jstree_scene").jstree().get_json("annotations");
+			// 		let jsonNode = annotationsRoot.children.find(child => child.data.uuid === annotation.uuid);
+			// 		$.jstree.reference(jsonNode.id).deselect_all();
+			// 		$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+			// 		toggleBtn()
+			// 	}
+			// ));
 
 			// REMOVE ALL
 			elToolbar.append(this.createToolIcon(

@@ -1,21 +1,11 @@
 import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import { observer } from "mobx-react-lite";
-import { React, useState, useEffect } from "react";
-
-import {
-  CognitoUserPool
-} from "amazon-cognito-identity-js";
-
-const userPool = new CognitoUserPool({
-  UserPoolId: "eu-central-1_H3g8budxI",
-  ClientId: "3sood48e382k9l4c6j9p7n1lsl"
-})
+import { useState } from "react";
+import { userPool } from "../api/cognito";
 
 export const SignUp = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
- 
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +30,7 @@ export const SignUp = observer(() => {
         },
       });
     })
-      .catch((e) => console.log(e))
+      .catch((e) => console.error(e))
       .finally((e) => console.log(e));
   };
 
@@ -56,7 +46,6 @@ export const SignUp = observer(() => {
         ></input>
         <button type="submit">Sign in</button>
       </form>
-      <button style={{'cursor':'pointer'}} onClick={()=>{window.open('http://localhost:3000')}}>open viewer</button>
     </div>
   );
 });

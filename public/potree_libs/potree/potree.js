@@ -80418,25 +80418,25 @@ ENDSEC
 
 
 			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/west.png",
+				Potree.resourcePath + "/icons/west.svg",
 				"[title]tt.left_view_control",
 				() => {this.viewer.setLeftView();}
 			));
 
 			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/east.png",
+				Potree.resourcePath + "/icons/east.svg",
 				"[title]tt.right_view_control",
 				() => {this.viewer.setRightView();}
 			));
 
 			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/south.png",
+				Potree.resourcePath + "/icons/south.svg",
 				"[title]tt.front_view_control",
 				() => {this.viewer.setFrontView();}
 			));
 
 			elNavigation.append(this.createToolIcon(
-				Potree.resourcePath + "/icons/north.png",
+				Potree.resourcePath + "/icons/north.svg",
 				"[title]tt.back_view_control",
 				() => {this.viewer.setBackView();}
 			));
@@ -88901,20 +88901,21 @@ ENDSEC
 
 		toggleSidebar () {
 			let renderArea = $('#potree_render_area');
-			let sidebar = $('#potree_sidebar_container')
-			let toggleButton=$('#toggleButton')
+			let sidebar = $('#potree_sidebar_container');
+			let toggleButton=$('#toggleButton');
+			let cardinalDirections=$('#navigation');
 			let isVisible = renderArea.css('left') === '160px';
 			let potreeMap=$('#potree_map')
 			if (isVisible) {
 				renderArea.css('left', '0px');
 				sidebar.css('left', '-320px');
 				toggleButton.css('left', '0px');
-				// potreeMap.css('right', '20px')
+				cardinalDirections.css('left', '10px')
 			} else {
 				renderArea.css('left', '160px');
 				sidebar.css('left', '0px')
 				toggleButton.css('left','160px')
-				// potreeMap.css('right','180px')
+				cardinalDirections.css('left','170px')
 			}
 		};
 
@@ -88970,7 +88971,7 @@ ENDSEC
 				const toggleButton=document.getElementById('toggleButton')
 				toggleButton.addEventListener('click', ()=>{this.toggleSidebar()})
 				let imgMapToggle = document.createElement('img');
-				imgMapToggle.src = new URL(Potree.resourcePath + '/icons/map_icon.png').href;
+				imgMapToggle.src = new URL(Potree.resourcePath + '/icons/map_icon.svg').href;
 				imgMapToggle.style.display = 'none';
 				imgMapToggle.onclick = e => this.toggleMap();
 				imgMapToggle.id = 'potree_map_toggle';

@@ -23,7 +23,7 @@ const PotreeContainer: FC = observer(() => {
   useEffect(() => {
     user.verifySession().then(() => {
       user.refreshToken().then(() => {
-        user.getPointCloudChilds(params[1], params[4], params[3]);
+        user.getPointCloudChilds(Number(params[1]), Number(params[4]), params[3]);
       });
     });
   }, []);
@@ -38,7 +38,8 @@ const PotreeContainer: FC = observer(() => {
     </>
   );
 });
-const PotreeViewer = () => {
+
+const PotreeViewer: FC = () => {
   const { urlParams } = useParams<{ urlParams: string }>();
   const [fetchParams, setFetchParams] = React.useState<string[]>(
     urlParams!.split("&")
@@ -59,9 +60,9 @@ const PotreeViewer = () => {
     token = `Bearer ${user.accessToken}`,
     pointCloudUrl = `${protocol}://${domain}/${base}/${resource}/${projectId}/${fileId}/get-tiles/metadata.json`,
     cache = new Map(),
-    useCorsMode = true,
+    // useCorsMode = true,
     cachingDomain = `${domain}`,
-    redirectStatusCode = 200,
+    // redirectStatusCode = 200,
     expiresIn = 600_000;
 
   Function.prototype.clone = function () {
@@ -83,13 +84,13 @@ const PotreeViewer = () => {
     authHeader: string
   ) => {
     const modInit = { ...init };
-    let modUrl = `${url}`;
+    // let modUrl = `${url}`;
     if (!modInit.headers) modInit.headers = {};
     if (!modInit.headers["Authorization"]) {
       modInit.headers["Authorization"] = authHeader;
     }
     if (!cache.has(url) || Date.now() - cache.get(url).timestamp > expiresIn) {
-      const modifiedInit = { ...init };
+      // const modifiedInit = { ...init };
       modInit.method = "POST";
       const redRes = await window.originalFetch(url, modInit);
       cache.set(url, {
@@ -105,7 +106,7 @@ const PotreeViewer = () => {
     return realRes;
   };
 
-  function useFetchMiddleware(authHeader: any) {
+  function useFetchMiddleware(authHeader: string) {
     if (!window.originalFetch) {
       window.originalFetch = window.fetch.clone();
     }
@@ -124,7 +125,7 @@ const PotreeViewer = () => {
 
   useFetchMiddleware(token);
 
-  function toggleClassification() {
+  const toggleClassification=()=> {
     let fetchparams = `${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`;
 
     if (fetchParams[0] === "rgba") {
@@ -135,7 +136,7 @@ const PotreeViewer = () => {
     window.location.reload();
   }
 
-  function selectPointCloud(fileId: number) {
+  const selectPointCloud=(fileId: number)=> {
     if (fileId !== Number(fetchParams[2])) {
       navigate(
         `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${fetchParams[4]}`
@@ -160,7 +161,7 @@ const PotreeViewer = () => {
     viewer.setControls(viewer.orbitControls);
     viewer.loadGUI(() => {});
 
-    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e: any) => {
+    Potree.loadPointCloud("http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js", "pointcloud", (e: any) => {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
       material.activeAttributeName = fetchParams[0];
@@ -183,7 +184,6 @@ const PotreeViewer = () => {
     });
   }, [pointCloudUrl]);
 
-  console.log(user.pointCloudChilds);
 
   return (
     <div id="potree-root">
@@ -191,6 +191,7 @@ const PotreeViewer = () => {
         <div id="toggleButton" className={s.toggleButton}>
           <img src={toggleBtn} alt="btn" />
         </div>
+        <li id="navigation"></li>
       </div>
       <div id="potree_sidebar_container"></div>
       <div id="measurementsToggleBtn">
@@ -199,5 +200,6 @@ const PotreeViewer = () => {
     </div>
   );
 };
+console.log(window);
 
 export default PotreeContainer;

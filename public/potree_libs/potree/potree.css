@@ -180,14 +180,14 @@
 }
 
 #potree_map_toggle {
-	background: none;
-	width: 40px;
-	height: 40px;
+	background: #333333;
+	padding:10px;
 	z-index: 100;
 	cursor: pointer;
 	position: fixed;
 	bottom:20px;
 	right:20px;
+	border-radius:10px;
 }
 
 #potree_render_area {
@@ -201,7 +201,7 @@
 	-webkit-transition: left .2s;
 	transition: .3s;
 	background-color:#333333;
-	background-image: url('./resources/images/background.png');
+	background-image: url('./resources/images/background.svg');
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 100px 165px
@@ -557,14 +557,24 @@ body {
 	background-color:#666666;
 }
 #navigation{
-	list-style-type: none;
+	padding-top:5px;
+	position:absolute;
+	left:170px;
+	bottom:40px;
 	display: flex;
+	flex-direction: column;
+	z-index: 10000000000000000;
+	background-color:#333333;
+	border-radius:10px;
+	transition: 0.3s;
 }
 #navigation img {
 	width:32px;
 	height:32px;
 }
-
+#navigation .button-icon {
+	margin:0px 5px 5px 5px
+}
 .measurement_value_table {
 	font-size:16px;
 	padding:20px 20px 0px 20px;

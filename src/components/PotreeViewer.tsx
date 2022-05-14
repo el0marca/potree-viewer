@@ -17,20 +17,25 @@ declare global {
 }
 
 const PotreeContainer: FC = observer(() => {
-  const { urlParams } = useParams<{ urlParams: string }>();
-  let params = urlParams!.split("&")!;
+  const { urlParams } = useParams<{ urlParams: string }>(),
+    params: string[] | null = urlParams ? urlParams!.split("&") : null;
 
   useEffect(() => {
     user.verifySession().then(() => {
       user.refreshToken().then(() => {
-        user.getPointCloudChilds(Number(params[1]), Number(params[4]), params[3]);
+        if (params)
+          user.getPointCloudChilds(
+            Number(params[1]),
+            Number(params[4]),
+            params[3]
+          );
       });
     });
   }, []);
 
   return (
     <>
-      {user.pointCloudChildsWasFetched ? (
+      {user.pointCloudChildsWasFetched && params ? (
         <PotreeViewer />
       ) : (
         <div className={s.background}></div>
@@ -125,7 +130,7 @@ const PotreeViewer: FC = () => {
 
   useFetchMiddleware(token);
 
-  const toggleClassification=()=> {
+  const toggleClassification = () => {
     let fetchparams = `${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`;
 
     if (fetchParams[0] === "rgba") {
@@ -134,16 +139,16 @@ const PotreeViewer: FC = () => {
       navigate(`/rgba&${fetchparams}`);
     }
     window.location.reload();
-  }
+  };
 
-  const selectPointCloud=(fileId: number)=> {
+  const selectPointCloud = (fileId: number) => {
     if (fileId !== Number(fetchParams[2])) {
       navigate(
         `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${fetchParams[4]}`
       );
       window.location.reload();
     }
-  }
+  };
 
   React.useEffect(() => {
     setInterval(() => {
@@ -161,7 +166,7 @@ const PotreeViewer: FC = () => {
     viewer.setControls(viewer.orbitControls);
     viewer.loadGUI(() => {});
 
-    Potree.loadPointCloud("http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js", "pointcloud", (e: any) => {
+    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e: any) => {
       let pointcloud = e.pointcloud;
       let material = pointcloud.material;
       material.activeAttributeName = fetchParams[0];
@@ -175,7 +180,7 @@ const PotreeViewer: FC = () => {
         .addEventListener("click", toggleClassification);
       document.querySelectorAll(".pointcloudItems")!.forEach((item: any) => {
         if (item.id === fetchParams[2]) {
-          item.classList.add('selected');
+          item.classList.add("selected");
         }
         item.addEventListener("click", (e: any) => {
           selectPointCloud(e.target.id);
@@ -183,7 +188,6 @@ const PotreeViewer: FC = () => {
       });
     });
   }, [pointCloudUrl]);
-
 
   return (
     <div id="potree-root">

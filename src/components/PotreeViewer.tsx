@@ -1,5 +1,5 @@
 import s from "./PotreeView.module.css";
-import React, { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -46,11 +46,11 @@ const PotreeContainer: FC = observer(() => {
 
 const PotreeViewer: FC = () => {
   const { urlParams } = useParams<{ urlParams: string }>();
-  const [fetchParams, setFetchParams] = React.useState<string[]>(
+  const [fetchParams, setFetchParams] = useState<string[]>(
     urlParams!.split("&")
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setFetchParams(urlParams!.split("&"));
   }, [urlParams]);
 
@@ -150,10 +150,11 @@ const PotreeViewer: FC = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setInterval(() => {
       user.refreshToken();
     }, 1000 * 60 * 60);
+
     const Potree = window.Potree,
       potreeContainerDiv = document.getElementById("potree_render_area"),
       viewer = new Potree.Viewer(potreeContainerDiv);
@@ -162,31 +163,35 @@ const PotreeViewer: FC = () => {
     viewer.setFOV(60);
     viewer.setPointBudget(2 * 100 * 10000);
     viewer.setClipTask(Potree.ClipTask.SHOW_INSIDE);
-    viewer.loadSettingsFromURL();
+    // viewer.loadSettingsFromURL();
     viewer.setControls(viewer.orbitControls);
-    viewer.loadGUI(() => {});
+    viewer.loadGUI(() => console.log("GUI loaded"));
 
-    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e: any) => {
-      let pointcloud = e.pointcloud;
-      let material = pointcloud.material;
-      material.activeAttributeName = fetchParams[0];
-      material.minSize = 2;
-      material.pointSizeType = Potree.PointSizeType.FIXED;
-      viewer.scene.addPointCloud(pointcloud);
-      viewer.setLanguage(language || "en");
-      viewer.fitToScreen();
-      document
-        .getElementById("classificationToggle")!
-        .addEventListener("click", toggleClassification);
-      document.querySelectorAll(".pointcloudItems")!.forEach((item: any) => {
-        if (item.id === fetchParams[2]) {
-          item.classList.add("selected");
-        }
-        item.addEventListener("click", (e: any) => {
-          selectPointCloud(e.target.id);
+    Potree.loadPointCloud(
+      "http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js",
+      "pointcloud",
+      (e: any) => {
+        let pointcloud = e.pointcloud;
+        let material = pointcloud.material;
+        material.activeAttributeName = fetchParams[0];
+        material.minSize = 2;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        viewer.scene.addPointCloud(pointcloud);
+        viewer.setLanguage(language || "en");
+        viewer.fitToScreen();
+        document
+          .getElementById("classificationToggle")!
+          .addEventListener("click", toggleClassification);
+        document.querySelectorAll(".pointcloudItems")!.forEach((item: any) => {
+          if (item.id === fetchParams[2]) {
+            item.classList.add("selected");
+          }
+          item.addEventListener("click", (e: any) => {
+            selectPointCloud(e.target.id);
+          });
         });
-      });
-    });
+      }
+    );
   }, [pointCloudUrl]);
 
   return (
@@ -204,6 +209,5 @@ const PotreeViewer: FC = () => {
     </div>
   );
 };
-console.log(window);
 
 export default PotreeContainer;

@@ -71644,10 +71644,8 @@ void main() {
 	]);
 
 	class MapView{
-
 		constructor (viewer) {
 			this.viewer = viewer;
-
 			this.webMapService = 'WMTS';
 			this.mapProjectionName = 'EPSG:3857';
 			this.mapProjection = proj4.defs(this.mapProjectionName);
@@ -71761,7 +71759,7 @@ void main() {
 
 				let button = document.createElement('button');
 				button.innerHTML = 'D';
-				link.appendChild(button);
+				// link.appendChild(button);
 
 				let handleDownload = (e) => {
 					let features = selectedFeatures.getArray();
@@ -71804,12 +71802,12 @@ void main() {
 
 				// assemble container
 				let element = document.createElement('div');
-				element.className = 'ol-unselectable ol-control';
-				element.appendChild(link);
-				element.appendChild(btToggleTiles);
-				element.style.bottom = '0.5em';
-				element.style.left = '0.5em';
-				element.title = 'Download file or list of selected tiles. Select tile with left mouse button or area using ctrl + left mouse.';
+				// element.className = 'ol-unselectable ol-control';
+				// element.appendChild(link);
+				// element.appendChild(btToggleTiles);
+				// element.style.bottom = '0.5em';
+				// element.style.left = '0.5em';
+				// element.title = 'Download file or list of selected tiles. Select tile with left mouse button or area using ctrl + left mouse.';
 
 				ol.control.Control.call(this, {
 					element: element,
@@ -71919,6 +71917,8 @@ void main() {
 			});
 
 			this.onPointcloudAdded = e => {
+				console.log('pointcloud',e.pointcloud)
+
 				this.load(e.pointcloud);
 			};
 
@@ -72318,7 +72318,6 @@ void main() {
 
 			fetch(url).then(async (response) => {
 				let data = await response.json();
-			
 				let sources = data.sources;
 
 				for (let i = 0; i < sources.length; i++) {
@@ -72334,7 +72333,6 @@ void main() {
 						(mapBounds.min[0] + mapBounds.max[0]) / 2,
 						(mapBounds.min[1] + mapBounds.max[1]) / 2
 					];
-
 					let p1 = this.toMap.forward([bounds.min[0], bounds.min[1]]);
 					let p2 = this.toMap.forward([bounds.max[0], bounds.min[1]]);
 					let p3 = this.toMap.forward([bounds.max[0], bounds.max[1]]);
@@ -72422,7 +72420,6 @@ void main() {
 		set sourcesVisible (value) {
 			this.getSourcesLayer().setVisible(value);
 		}
-
 	}
 
 	class CSVExporter {
@@ -87792,9 +87789,9 @@ ENDSEC
 
 			this.messages = [];
 			this.elMessages = $(`
-		<div id="message_listing" 
-			style="position: absolute; z-index: 1000; left: 10px; bottom: 10px">
-		</div>`);
+				<div id="message_listing" 
+					style="position: absolute; z-index: 1000; left: 10px; bottom: 10px">
+				</div>`);
 			$(domElement).append(this.elMessages);
 			
 			try{
@@ -87809,53 +87806,11 @@ ENDSEC
 					$(domElement).append(potreeMap);
 				}
 
-				if ($(domElement).find('#potree_description').length === 0) {
-					let potreeDescription = $(`<div id="potree_description" class="potree_info_text"></div>`);
-					$(domElement).append(potreeDescription);
-				}
-
-				if ($(domElement).find('#potree_annotations').length === 0) {
-					let potreeAnnotationContainer = $(`
-					<div id="potree_annotation_container" 
-						style="position: absolute; z-index: 100000; width: 100%; height: 100%; pointer-events: none;"></div>`);
-					$(domElement).append(potreeAnnotationContainer);
-				}
-
 				if ($(domElement).find('#potree_quick_buttons').length === 0) {
 					let potreeMap = $(`
-					<div id="potree_quick_buttons" class="quick_buttons_container" style="">
+					<div id="potree_quick_buttons" class="quick_buttons_container" >
 					</div>
 				`);
-
-					// {
-					// 	let imgMenuToggle = document.createElement('img');
-					// 	imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
-					// 	imgMenuToggle.onclick = this.toggleSidebar;
-					// 	// imgMenuToggle.classList.add('potree_menu_toggle');
-
-					// 	potreeMap.append(imgMenuToggle);
-					// }
-
-					// {
-					// 	let imgMenuToggle = document.createElement('img');
-					// 	imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
-					// 	imgMenuToggle.onclick = this.toggleSidebar;
-					// 	// imgMenuToggle.classList.add('potree_menu_toggle');
-
-					// 	potreeMap.append(imgMenuToggle);
-					// }
-
-					// {
-					// 	let imgMenuToggle = document.createElement('img');
-					// 	imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
-					// 	imgMenuToggle.onclick = this.toggleSidebar;
-					// 	// imgMenuToggle.classList.add('potree_menu_toggle');
-
-					// 	potreeMap.append(imgMenuToggle);
-					// }
-
-					
-
 					$(domElement).append(potreeMap);
 				}
 			}
@@ -87867,7 +87822,6 @@ ENDSEC
 			// }
 
 			this.server = null;
-
 			this.fov = 60;
 			this.isFlipYZ = false;
 			this.useDEMCollisions = false;
@@ -88920,10 +88874,9 @@ ENDSEC
 		};
 
 		toggleMap () {
-			let mapp=document.querySelectorAll('.ol-viewport')
+			let mapp = document.querySelectorAll('.ol-viewport')
 				mapp.forEach((e,i)=>{if(i===0){e.style.display='block'}
 				else {e.style.display='none'}})
-				console.log(mapp)
 			if (this.mapView) {
 				this.mapView.toggle();
 			}

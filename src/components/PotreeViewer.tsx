@@ -179,6 +179,7 @@ const PotreeViewer: FC = () => {
         viewer.scene.addPointCloud(pointcloud);
         viewer.setLanguage(language || "en");
         viewer.fitToScreen();
+        
         document
           .getElementById("classificationToggle")!
           .addEventListener("click", toggleClassification);

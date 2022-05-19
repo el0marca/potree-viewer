@@ -54058,8 +54058,6 @@
 
 		setMarker (index, point) {
 			this.points[index] = point;
-			// console.log(index,point)
-			// console.log(this.name)
 			let event = {
 				type: 'marker_moved',
 				measure: this,
@@ -54520,7 +54518,6 @@
 		}
 
 		addMarker() {
-
 			let marker = new Mesh();
 
 			let cancel;
@@ -71659,11 +71656,37 @@ void main() {
 			this.images360Layer = null;
 			this.enabled = false;
 
+			this.addMeasurementsToMap=()=>{
+				const layers = [...this.map.getLayers().getArray()]
+				layers.forEach((layer, i) => {if(i>7)this.map.removeLayer(layer)})
+				this.viewer.scene.measurements.forEach((e,i)=>{
+					if(e.name==='Point'){console.log('e',e)
+						this.addPointToMap(this.toMap.forward([this.viewer.scene.measurements[i].points[0].position.x, 
+							this.viewer.scene.measurements[i].points[0].position.y]))
+					} else if(e.name==='Area'){
+						let coord=[]
+						this.viewer.scene.measurements[i].points.forEach(e=>{
+							const longlat = this.toMap.forward([e.position.x, e.position.y])
+							coord.push(longlat)
+							this.addPointToMap(longlat)
+						})
+						this.addPolygonToMap(coord)
+					} else if(e.name==='Distance'){
+						let coord=[]
+						this.viewer.scene.measurements[i].points.forEach(e=>{
+							const longlat = this.toMap.forward([e.position.x, e.position.y])
+							coord.push(longlat)
+							this.addPointToMap(longlat)
+						})
+						this.addLineToMap(coord)
+					}
+				})
+			}
 			this.createAnnotationStyle = (text) => {
 				return [
 					new ol.style.Style({
 						image: new ol.style.Circle({
-							radius: 10,
+							radius: 5,
 							stroke: new ol.style.Stroke({
 								color: [255, 255, 255, 0.5],
 								width: 2
@@ -71689,7 +71712,7 @@ void main() {
 						})
 					}),
 					text: new ol.style.Text({
-						font: '12px helvetica,sans-serif',
+						font: '12px helvetica, sans-serif',
 						text: text,
 						fill: new ol.style.Fill({
 							color: '#000'
@@ -71955,6 +71978,7 @@ void main() {
 				};
 
 				this.getAnnotationsLayer().getSource().addFeature(feature);
+
 			};
 
 			this.setScene(this.viewer.scene);
@@ -72009,7 +72033,7 @@ void main() {
 						color: 'rgba(255, 255, 255, 0.2)'
 					}),
 					stroke: new ol.style.Stroke({
-						color: '#0000ff',
+						color: 'rgba(0, 0, 150, 0.5)',
 						width: 2
 					}),
 					image: new ol.style.Circle({
@@ -72133,7 +72157,7 @@ void main() {
 						color: 'rgba(0, 0, 150, 0.1)'
 					}),
 					stroke: new ol.style.Stroke({
-						color: 'rgba(0, 0, 150, 1)',
+						color: 'rgba(0, 0, 150, 0.2)',
 						width: 1
 					})
 				})
@@ -72360,7 +72384,73 @@ void main() {
 			});
 
 		}
-
+		addPointToMap(coordinates){
+			const featurePoint = new ol.Feature({
+				geometry: new ol.geom.Point(coordinates)
+			  });
+			
+			const sourcePoint = new ol.source.Vector({
+				features: [featurePoint]
+			  });
+			
+			const vectorPoint = new ol.layer.Vector({
+				source: sourcePoint,
+				style: new ol.style.Style({
+						image: new ol.style.Circle({
+							radius: 5,
+							stroke: new ol.style.Stroke({
+								color: [255, 255, 255, 0.5],
+								width: 2
+							}),
+							fill: new ol.style.Fill({
+								color: 'red'
+							})
+						})
+				})
+			  });
+			this.map.addLayer(vectorPoint)
+		}
+		
+		addPolygonToMap(coordinates){
+			const featurePolygon = new ol.Feature({
+				geometry: new ol.geom.Polygon([coordinates])
+			  });
+			
+			const sourcePolygon = new ol.source.Vector({
+				features: [featurePolygon]
+			  });
+			
+			const vectorPolygon = new ol.layer.Vector({
+				source: sourcePolygon,
+				style: new ol.style.Style({
+							stroke: new ol.style.Stroke({
+								color: 'red',
+								width: 2
+							})
+						})
+			  });
+			this.map.addLayer(vectorPolygon)
+		}
+		addLineToMap(coordinates){
+			const featureLine = new ol.Feature({
+				geometry: new ol.geom.LineString(coordinates)
+			  });
+			
+			const sourceLine = new ol.source.Vector({
+				features: [featureLine]
+			  });
+			
+			const vectorLine = new ol.layer.Vector({
+				source: sourceLine,
+				style: new ol.style.Style({
+							stroke: new ol.style.Stroke({
+								color: 'red',
+								width: 2
+							})
+						})
+			  });
+			this.map.addLayer(vectorLine)
+		}
 		toggle () {
 			if (this.elMap.is(':visible')) {
 				this.elMap.css('display', 'none');
@@ -74218,7 +74308,6 @@ ENDSEC
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
-
 			let elAttributesContainer = this.elContent.find('.attributes_table_container');
 			elAttributesContainer.empty();
 			elAttributesContainer.append(this.createAttributesTable());
@@ -76323,7 +76412,6 @@ ENDSEC
 		
 
 		setMeasurement(object){
-
 			let TYPE = {
 				DISTANCE: {panel: DistancePanel},
 				AREA: {panel: AreaPanel},
@@ -80879,6 +80967,7 @@ ENDSEC
 		}
 
 		onMouseDown (e) {
+			this.viewer.mapView.addMeasurementsToMap()
 			if (this.logMessages) console.log(this.constructor.name + ': onMouseDown');
 
 			e.preventDefault();

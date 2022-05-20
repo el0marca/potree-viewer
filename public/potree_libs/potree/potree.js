@@ -71656,29 +71656,41 @@ void main() {
 			this.images360Layer = null;
 			this.enabled = false;
 
-			this.addMeasurementsToMap=()=>{
+			window.setLayerUnvisible = this.setLayerUnvisible.bind(this)
+			window.setLayerVisible = this.setLayerVisible.bind(this)
+
+			this.addMeasurementsToMap = () => {
+
 				const layers = [...this.map.getLayers().getArray()]
-				layers.forEach((layer, i) => {if(i>7)this.map.removeLayer(layer)})
+				
+
 				this.viewer.scene.measurements.forEach((e,i)=>{
-					if(e.name==='Point'){console.log('e',e)
-						this.addPointToMap(this.toMap.forward([this.viewer.scene.measurements[i].points[0].position.x, 
-							this.viewer.scene.measurements[i].points[0].position.y]))
+					let id=e.uuid
+					console.log('measureid',id)
+					layers.forEach((e)=>console.log('eeeeeeeeee',e))
+					if (e.name === 'Point'){
+						if (layers.some(e => e.B.id==id&&e.B.visible==false )){ return 
+						} else {this.addPointToMap(this.toMap.forward([this.viewer.scene.measurements[i].points[0].position.x, this.viewer.scene.measurements[i].points[0].position.y]),id)}
 					} else if(e.name==='Area'){
+						if (layers.some(e => e.B.id==id&&e.B.visible==false )){ return 
+						} else {
 						let coord=[]
 						this.viewer.scene.measurements[i].points.forEach(e=>{
 							const longlat = this.toMap.forward([e.position.x, e.position.y])
 							coord.push(longlat)
-							this.addPointToMap(longlat)
+							this.addPointToMap(longlat, id)
 						})
-						this.addPolygonToMap(coord)
-					} else if(e.name==='Distance'){
+						this.addPolygonToMap(coord, id)}
+					} else if (e.name === 'Distance'){
+						if (layers.some(e => e.B.id==id&&e.B.visible==false )){ return 
+						} else {
 						let coord=[]
-						this.viewer.scene.measurements[i].points.forEach(e=>{
+						this.viewer.scene.measurements[i].points.forEach(e => {
 							const longlat = this.toMap.forward([e.position.x, e.position.y])
 							coord.push(longlat)
-							this.addPointToMap(longlat)
+							this.addPointToMap(longlat, id)
 						})
-						this.addLineToMap(coord)
+						this.addLineToMap(coord, id)}
 					}
 				})
 			}
@@ -71733,8 +71745,32 @@ void main() {
 			this.sourcesLabelLayer.setVisible(show);
 		}
 
+		setLayerUnvisible (id) {
+			const layers = [...this.map.getLayers().getArray()]
+			if(id){
+			layers.forEach((layer) => {
+				if (layer.B.id == id) {layer.setVisible(false)}})}
+				else {
+					layers.forEach((layer,i) => {
+						if(i > 7)
+						layer.setVisible(false)
+					
+					})
+				};
+		}
+		setLayerVisible (id) {
+			const layers = [...this.map.getLayers().getArray()]
+			if(id){
+				layers.forEach((layer) => {
+					if (layer.B.id == id) {layer.setVisible(true)}
+				})}
+				else {
+					layers.forEach((layer,i) => {
+						if(i > 7)
+						layer.setVisible(true)})
+				};
+		}
 		init () {
-
 			if(typeof ol === "undefined"){
 				return;
 			}
@@ -72384,7 +72420,8 @@ void main() {
 			});
 
 		}
-		addPointToMap(coordinates){
+		addPointToMap(coordinates, id){
+			console.log('finalId',id)
 			const featurePoint = new ol.Feature({
 				geometry: new ol.geom.Point(coordinates)
 			  });
@@ -72395,6 +72432,7 @@ void main() {
 			
 			const vectorPoint = new ol.layer.Vector({
 				source: sourcePoint,
+				id,
 				style: new ol.style.Style({
 						image: new ol.style.Circle({
 							radius: 5,
@@ -72411,7 +72449,7 @@ void main() {
 			this.map.addLayer(vectorPoint)
 		}
 		
-		addPolygonToMap(coordinates){
+		addPolygonToMap(coordinates, id){
 			const featurePolygon = new ol.Feature({
 				geometry: new ol.geom.Polygon([coordinates])
 			  });
@@ -72422,6 +72460,7 @@ void main() {
 			
 			const vectorPolygon = new ol.layer.Vector({
 				source: sourcePolygon,
+				id,
 				style: new ol.style.Style({
 							stroke: new ol.style.Stroke({
 								color: 'red',
@@ -72431,7 +72470,7 @@ void main() {
 			  });
 			this.map.addLayer(vectorPolygon)
 		}
-		addLineToMap(coordinates){
+		addLineToMap(coordinates, id){
 			const featureLine = new ol.Feature({
 				geometry: new ol.geom.LineString(coordinates)
 			  });
@@ -72442,6 +72481,7 @@ void main() {
 			
 			const vectorLine = new ol.layer.Vector({
 				source: sourceLine,
+				id,
 				style: new ol.style.Style({
 							stroke: new ol.style.Stroke({
 								color: 'red',
@@ -80967,6 +81007,7 @@ ENDSEC
 		}
 
 		onMouseDown (e) {
+			
 			this.viewer.mapView.addMeasurementsToMap()
 			if (this.logMessages) console.log(this.constructor.name + ': onMouseDown');
 

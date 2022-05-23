@@ -5706,8 +5706,11 @@
 		 * @plugin checkbox
 		 */
 		this.check_node = function (obj, e) {
-			console.log('obj')
-			if(e&&e.currentTarget.id=='measurements_anchor'){window.setLayerVisible()}
+			
+			if(e && e.currentTarget.id === 'measurements_anchor'){
+				window.setLayerVisible(true);
+				this.check_all()
+			}
 		
 			if(this.settings.checkbox.tie_selection) { return this.select_node(obj, false, true, e); }
 			var dom, t1, t2, th;
@@ -5724,9 +5727,9 @@
 			}
 			dom = this.get_node(obj, true);
 			if(!obj.state.checked) {
-				console.log(obj.state)
-				if(obj.data&&e&&e.currentTarget.id!='measurements_anchor'){
-				window.setLayerVisible(obj.data.uuid)}
+				if(obj.data && e && e.currentTarget.id != 'measurements_anchor'){
+				window.setLayerVisible(true, obj.data.uuid)
+			}
 				obj.state.checked = true;
 				this._data.checkbox.selected.push(obj.id);
 				if(dom && dom.length) {
@@ -5752,8 +5755,11 @@
 		 * @plugin checkbox
 		 */
 		this.uncheck_node = function (obj, e) {
-			if(e&&e.currentTarget.id=='measurements_anchor'){window.setLayerUnvisible()}
-			console.log(obj.state)
+
+			if(e && e.currentTarget.id === 'measurements_anchor'){
+				window.setLayerVisible(false);
+				this.uncheck_all();
+			}
 
 			if(this.settings.checkbox.tie_selection) { return this.deselect_node(obj, false, e); }
 			var t1, t2, dom;
@@ -5771,7 +5777,7 @@
 			dom = this.get_node(obj, true);
 			if(obj.state.checked) {
 				if(obj.data&&e&&e.currentTarget.id!='measurements_anchor'){
-				window.setLayerUnvisible(obj.data.uuid)}			
+				window.setLayerVisible(false, obj.data.uuid)}			
 				obj.state.checked = false;
 				this._data.checkbox.selected = $.vakata.array_remove_item(this._data.checkbox.selected, obj.id);
 				if(dom.length) {

@@ -189,6 +189,16 @@
 	right:20px;
 	border-radius:10px;
 }
+#potree_map {
+	position: fixed; 
+	right: 20px; 
+	bottom: 76px; 
+	width: 400px; 
+	height: 400px; 
+	display: none; 
+	z-index: 999999999999;
+	transition: 0.5s
+}
 
 #potree_render_area {
 	position: absolute;

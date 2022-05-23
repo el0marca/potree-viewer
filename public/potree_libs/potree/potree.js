@@ -71656,42 +71656,72 @@ void main() {
 			this.images360Layer = null;
 			this.enabled = false;
 
-			window.setLayerUnvisible = this.setLayerUnvisible.bind(this)
 			window.setLayerVisible = this.setLayerVisible.bind(this)
 
+			this.removeAllLayers = () => {
+				const layers = [...this.map.getLayers().getArray()]
+				layers.forEach((layer, i) => {
+					const name = layer.B.name
+					if (name === 'Area' || name === 'Distance' || name === 'Point') {
+						this.map.removeLayer(layer)}
+					})
+				}
+			
 			this.addMeasurementsToMap = () => {
 
-				const layers = [...this.map.getLayers().getArray()]
-				
+				const distance = 'Distance', area = 'Area', point = 'Point';
+				const distanz = 'Distanz', bereich = 'Bereich', punkt = 'Punkt';
+				const layers = [...this.map.getLayers().getArray()];
 
-				this.viewer.scene.measurements.forEach((e,i)=>{
-					let id=e.uuid
-					console.log('measureid',id)
-					layers.forEach((e)=>console.log('eeeeeeeeee',e))
-					if (e.name === 'Point'){
-						if (layers.some(e => e.B.id==id&&e.B.visible==false )){ return 
-						} else {this.addPointToMap(this.toMap.forward([this.viewer.scene.measurements[i].points[0].position.x, this.viewer.scene.measurements[i].points[0].position.y]),id)}
-					} else if(e.name==='Area'){
-						if (layers.some(e => e.B.id==id&&e.B.visible==false )){ return 
+				this.viewer.scene.measurements.forEach((measure) => {
+
+					if (measure.name === point || measure.name === punkt){
+						if (layers.some(layer => layer.B.id === measure.uuid && layer.B.visible === false )){ return 
 						} else {
-						let coord=[]
-						this.viewer.scene.measurements[i].points.forEach(e=>{
-							const longlat = this.toMap.forward([e.position.x, e.position.y])
-							coord.push(longlat)
-							this.addPointToMap(longlat, id)
-						})
-						this.addPolygonToMap(coord, id)}
-					} else if (e.name === 'Distance'){
-						if (layers.some(e => e.B.id==id&&e.B.visible==false )){ return 
+							layers.forEach((layer) => { 
+								if (layer.B.name === point && layer.B.visible === true ) {this.map.removeLayer(layer)}
+							})
+							this.addPointToMap([measure.points[0].position.x, measure.points[0].position.y], point, measure.uuid)
+							}
+					} 
+					
+					else if(measure.name === area || measure.name === bereich){
+						if (layers.some(e => e.B.id === measure.uuid && e.B.visible === false )){ return 
 						} else {
-						let coord=[]
-						this.viewer.scene.measurements[i].points.forEach(e => {
-							const longlat = this.toMap.forward([e.position.x, e.position.y])
-							coord.push(longlat)
-							this.addPointToMap(longlat, id)
+							layers.forEach((layer) => { 
+								if (layer.B.name === area && layer.B.visible === true) {
+									this.map.removeLayer(layer)}
+							})
+
+						let coord = [];
+
+						measure.points.forEach(e => {
+							const longlat = this.toMap.forward([e.position.x, e.position.y]);
+							coord.push(longlat);
+							// this.addPointToMap(longlat, bereich, measure.uuid);
 						})
-						this.addLineToMap(coord, id)}
-					}
+						this.addPolygonToMap(coord, area, measure.uuid)}
+					} 
+					
+					else if (measure.name === distance || measure.name === distanz){
+						if (layers.some(layer => layer.B.id === measure.uuid && layer.B.visible === false )){ 
+							return 
+						} else {
+							layers.forEach((layer) => {
+								if (layer.B.name === distance && layer.B.visible === true) {
+									this.map.removeLayer(layer)
+								}
+							})
+
+						let coord = [];
+
+						measure.points.forEach(e => {
+							const longlat = this.toMap.forward([e.position.x, e.position.y]);
+							coord.push(longlat);
+							// this.addPointToMap(longlat, measure.uuid);
+						})
+						this.addLineToMap(coord, distance, measure.uuid);
+					}}
 				})
 			}
 			this.createAnnotationStyle = (text) => {
@@ -71745,31 +71775,23 @@ void main() {
 			this.sourcesLabelLayer.setVisible(show);
 		}
 
-		setLayerUnvisible (id) {
+		setLayerVisible (visible, id) {
 			const layers = [...this.map.getLayers().getArray()]
-			if(id){
-			layers.forEach((layer) => {
-				if (layer.B.id == id) {layer.setVisible(false)}})}
+			
+			if (id) {
+				layers.forEach((layer) => {
+					if (layer.B.id === id) {layer.setVisible(visible)}
+				})}
 				else {
-					layers.forEach((layer,i) => {
-						if(i > 7)
-						layer.setVisible(false)
-					
+					this.viewer.scene.measurements.forEach(e => e.visible = visible)
+					layers.forEach((layer, i) => {
+						const name = layer.B.name
+						if(name === 'Area' || name === 'Distance' || name === 'Point'){
+						layer.setVisible(visible)}
 					})
 				};
 		}
-		setLayerVisible (id) {
-			const layers = [...this.map.getLayers().getArray()]
-			if(id){
-				layers.forEach((layer) => {
-					if (layer.B.id == id) {layer.setVisible(true)}
-				})}
-				else {
-					layers.forEach((layer,i) => {
-						if(i > 7)
-						layer.setVisible(true)})
-				};
-		}
+
 		init () {
 			if(typeof ol === "undefined"){
 				return;
@@ -71874,6 +71896,19 @@ void main() {
 				});
 			};
 			ol.inherits(DownloadSelectionControl, ol.control.Control);
+			
+			var xyz1 = new ol.source.XYZ({
+				url: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
+			})
+			var xyz2 = new ol.source.XYZ({
+				url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+			})
+		
+			var layer = new ol.layer.Tile({
+				source: xyz1,
+				visible: false,
+				name:'mapView'
+			})
 
 		this.map = new ol.Map({
 				controls: ol.control.defaults({
@@ -71885,16 +71920,16 @@ void main() {
 					new DownloadSelectionControl(),
 					mousePositionControl
 				]),
-				
 				layers: [
 					new ol.layer.Tile({source: new ol.source.OSM()}),
+					// layer,
 					this.toolLayer,
-					this.annotationsLayer,
+					// this.annotationsLayer,
 					this.sourcesLayer,
-					this.sourcesLabelLayer,
-					this.images360Layer,
-					extentsLayer,
-					cameraLayer
+					// this.sourcesLabelLayer,
+					// this.images360Layer,
+					// extentsLayer,
+					// cameraLayer
 				],
 				target: 'potree_map_content',
 				view: new ol.View({
@@ -72420,10 +72455,9 @@ void main() {
 			});
 
 		}
-		addPointToMap(coordinates, id){
-			console.log('finalId',id)
+		addPointToMap(coordinates, name, id){
 			const featurePoint = new ol.Feature({
-				geometry: new ol.geom.Point(coordinates)
+				geometry: new ol.geom.Point(this.toMap.forward(coordinates))
 			  });
 			
 			const sourcePoint = new ol.source.Vector({
@@ -72433,6 +72467,8 @@ void main() {
 			const vectorPoint = new ol.layer.Vector({
 				source: sourcePoint,
 				id,
+				name,
+				coordinates,
 				style: new ol.style.Style({
 						image: new ol.style.Circle({
 							radius: 5,
@@ -72449,7 +72485,7 @@ void main() {
 			this.map.addLayer(vectorPoint)
 		}
 		
-		addPolygonToMap(coordinates, id){
+		addPolygonToMap(coordinates, name, id){
 			const featurePolygon = new ol.Feature({
 				geometry: new ol.geom.Polygon([coordinates])
 			  });
@@ -72461,6 +72497,7 @@ void main() {
 			const vectorPolygon = new ol.layer.Vector({
 				source: sourcePolygon,
 				id,
+				name,
 				style: new ol.style.Style({
 							stroke: new ol.style.Stroke({
 								color: 'red',
@@ -72470,7 +72507,7 @@ void main() {
 			  });
 			this.map.addLayer(vectorPolygon)
 		}
-		addLineToMap(coordinates, id){
+		addLineToMap(coordinates, name, id){
 			const featureLine = new ol.Feature({
 				geometry: new ol.geom.LineString(coordinates)
 			  });
@@ -72482,6 +72519,7 @@ void main() {
 			const vectorLine = new ol.layer.Vector({
 				source: sourceLine,
 				id,
+				name,
 				style: new ol.style.Style({
 							stroke: new ol.style.Stroke({
 								color: 'red',
@@ -79381,6 +79419,7 @@ ENDSEC
 					this.viewer.scene.removeAllMeasurements();
 					measurements.style.right='-320px';
 					measurementsToggleBtn.style.right='-20px';
+					this.viewer.mapView.removeAllLayers()
 				}
 			));
 
@@ -81007,7 +81046,6 @@ ENDSEC
 		}
 
 		onMouseDown (e) {
-			
 			this.viewer.mapView.addMeasurementsToMap()
 			if (this.logMessages) console.log(this.constructor.name + ': onMouseDown');
 
@@ -81058,6 +81096,8 @@ ENDSEC
 		}
 
 		onMouseUp (e) {
+			this.viewer.mapView.addMeasurementsToMap()
+
 			if (this.logMessages) console.log(this.constructor.name + ': onMouseUp');
 
 			e.preventDefault();
@@ -87922,15 +87962,15 @@ ENDSEC
 				<div id="message_listing" 
 					style="position: absolute; z-index: 1000; left: 10px; bottom: 10px">
 				</div>`);
-			$(domElement).append(this.elMessages);
+			// $(domElement).append(this.elMessages);
 			
 			try{
 
 			{ // generate missing dom hierarchy
 				if ($(domElement).find('#potree_map').length === 0) {
 					let potreeMap = $(`
-					<div id="potree_map" class="mapBox" style="position: fixed; right: 20px; bottom: 76px; width: 400px; height: 400px; display: none;z-index:99999">
-						<div id="potree_map_content" class="map" style="position: absolute; z-index: 100; top: 25px; width: 100%; height: calc(100% - 25px); box-sizing: border-box"></div>
+					<div id="potree_map" class="mapBox">
+						<div id="potree_map_content" class="map" style="position: absolute; z-index: 100; width: 100%; height: 100%; box-sizing: border-box"></div>
 					</div>
 				`);
 					$(domElement).append(potreeMap);

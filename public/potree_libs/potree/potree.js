@@ -71804,6 +71804,17 @@ void main() {
 			this.elTooltip = $(`<div style="position: relative; z-index: 100"></div>`);
 			this.elMap.append(this.elTooltip);
 
+			this.elExpand = $("<div id='expandMap'></div>")
+			this.elMap.append(this.elExpand)
+			document.getElementById('expandMap').addEventListener('click', ()=>{
+				let potreeMap = document.getElementById('potree_map');
+				if(!potreeMap.classList.contains('potree_map_expanded')){
+					potreeMap.classList.add('potree_map_expanded')}
+				else {
+					potreeMap.classList.remove('potree_map_expanded')
+				}
+				console.log(this.elMap)
+			})
 			let extentsLayer = this.getExtentsLayer();
 			let cameraLayer = this.getCameraLayer();
 			this.getToolLayer();
@@ -89038,7 +89049,7 @@ ENDSEC
 			} else {
 				renderArea.css('left', '160px');
 				sidebar.css('left', '0px')
-				toggleButton.css('left','160px')
+				toggleButton.css('left','320px')
 				cardinalDirections.css('left','170px')
 			}
 		};

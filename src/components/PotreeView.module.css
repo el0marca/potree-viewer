@@ -20,7 +20,7 @@
 }
 
 .toggleButton {
-    position: absolute;
+    position: fixed;
     background: #515151;
     width: 20px;
     height: 40px;
@@ -28,12 +28,12 @@
     cursor: pointer;
     top: 20px;
     border-radius: 0px 10px 10px 0px;
-    left: 160px;
+    left: 320px;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 900000;
-    transition: 0.2s;
+    z-index: 90000000;
+    transition: 0.3s;
 }
 
 .toggleButton:hover {

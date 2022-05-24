@@ -196,8 +196,14 @@
 	width: 400px; 
 	height: 400px; 
 	display: none; 
-	z-index: 999999999999;
-	transition: 0.5s
+	z-index: 999999;
+	transition: 0.2s;
+}
+.potree_map_expanded {
+	right:0px!important;
+	width:100%!important;
+	height:100%!important;
+	bottom:0px!important;
 }
 
 #potree_render_area {
@@ -215,6 +221,19 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 100px 165px
+}
+#expandMap {
+	position:absolute;
+	z-index:100;
+	bottom:25px;
+	right:10px;
+	width:20px;
+	height:20px;
+	cursor:pointer;
+	background-image: url('./resources/icons/expandMap.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 20px 20px
 }
 .potree-panel {
 	border: 1px solid black;

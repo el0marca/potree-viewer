@@ -222,18 +222,37 @@
 	background-repeat: no-repeat;
 	background-size: 100px 165px
 }
-#expandMap {
+#mapTools {
 	position:absolute;
 	z-index:100;
-	bottom:25px;
-	right:10px;
-	width:20px;
-	height:20px;
+	bottom:5px;
+	right:5px;
+	border-radius:10px;
+}
+#changeLayerType {
 	cursor:pointer;
-	background-image: url('./resources/icons/expandMap.png');
+}
+#expandMap {	
+	background-color: #515151;
+	width:36px;
+	height:36px;
+	border-radius:10px;
+	cursor:pointer;
+	background-image: url('./resources/icons/expandMap.svg');
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: 20px 20px
+}
+#changeLayerType {
+	margin-bottom:4px;
+	width:36px;
+	height:36px;
+	cursor:pointer;
+	background-image: url('./resources/icons/sateliteView.svg');
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.sateliteViewApplied {
+	background-image: url('./resources/icons/mapView.svg')!important;
 }
 .potree-panel {
 	border: 1px solid black;
@@ -396,6 +415,9 @@ body {
 	stroke: var(--font-color);
 	shape-rendering: crispEdges;
 	opacity: 0.7;
+}
+#changeLayerType{
+	color:white
 }
 #tools{
 	position: fixed;

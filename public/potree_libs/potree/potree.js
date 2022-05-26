@@ -71674,8 +71674,9 @@ void main() {
 				const layers = [...this.map.getLayers().getArray()];
 
 				this.viewer.scene.measurements.forEach((measure) => {
+					const name = measure.name
 
-					if (measure.name === point || measure.name === punkt){
+					if (name === point || name === punkt) {
 						if (layers.some(layer => layer.B.id === measure.uuid && layer.B.visible === false )){ return 
 						} else {
 							layers.forEach((layer) => { 
@@ -71685,7 +71686,7 @@ void main() {
 							}
 					} 
 					
-					else if(measure.name === area || measure.name === bereich){
+					else if (name === area || name === bereich) {
 						if (layers.some(e => e.B.id === measure.uuid && e.B.visible === false )){ return 
 						} else {
 							layers.forEach((layer) => { 
@@ -71698,12 +71699,11 @@ void main() {
 						measure.points.forEach(e => {
 							const longlat = this.toMap.forward([e.position.x, e.position.y]);
 							coord.push(longlat);
-							// this.addPointToMap(longlat, bereich, measure.uuid);
 						})
 						this.addPolygonToMap(coord, area, measure.uuid)}
 					} 
 					
-					else if (measure.name === distance || measure.name === distanz){
+					else if (name === distance || name === distanz) {
 						if (layers.some(layer => layer.B.id === measure.uuid && layer.B.visible === false )){ 
 							return 
 						} else {
@@ -71718,7 +71718,6 @@ void main() {
 						measure.points.forEach(e => {
 							const longlat = this.toMap.forward([e.position.x, e.position.y]);
 							coord.push(longlat);
-							// this.addPointToMap(longlat, measure.uuid);
 						})
 						this.addLineToMap(coord, distance, measure.uuid);
 					}}
@@ -71791,6 +71790,24 @@ void main() {
 					})
 				};
 		}
+		changeLayerType (){
+			const layers = [...this.map.getLayers().getArray()]
+				if (layers.some((layer) => layer.B.name === 'sateliteView' && layer.B.visible === false)) {
+					layers.forEach((e)=>{
+						if (e.B.name === 'sateliteView'){e.setVisible(true);
+							document.getElementById('changeLayerType').classList.add('sateliteViewApplied')}
+						else if (e.B.name === 'mapView'){e.setVisible(false)}
+					})
+				}
+				else {
+					layers.forEach((e)=>{
+						if (e.B.name === 'mapView'){e.setVisible(true);
+							document.getElementById('changeLayerType').classList.remove('sateliteViewApplied')}
+						else if (e.B.name === 'sateliteView'){e.setVisible(false)}
+					})
+				}					
+			}
+		
 
 		init () {
 			if(typeof ol === "undefined"){
@@ -71803,18 +71820,21 @@ void main() {
 
 			this.elTooltip = $(`<div style="position: relative; z-index: 100"></div>`);
 			this.elMap.append(this.elTooltip);
-
-			this.elExpand = $("<div id='expandMap'></div>")
-			this.elMap.append(this.elExpand)
-			document.getElementById('expandMap').addEventListener('click', ()=>{
+			this.elTools = $('<div id="mapTools"><div id="changeLayerType"></div><div id="expandMap"></div></div>')
+			this.elMap.append(this.elTools)
+			
+			document.getElementById('expandMap').addEventListener('click', () => {
 				let potreeMap = document.getElementById('potree_map');
 				if(!potreeMap.classList.contains('potree_map_expanded')){
 					potreeMap.classList.add('potree_map_expanded')}
 				else {
 					potreeMap.classList.remove('potree_map_expanded')
 				}
-				console.log(this.elMap)
 			})
+			document.getElementById('changeLayerType').addEventListener('click', () => {
+				this.changeLayerType()
+			})
+
 			let extentsLayer = this.getExtentsLayer();
 			let cameraLayer = this.getCameraLayer();
 			this.getToolLayer();
@@ -71831,8 +71851,7 @@ void main() {
 
 			let _this = this;
 			let DownloadSelectionControl = function (optOptions) {
-				let options = optOptions || {};
-
+				let options = optOptions || {};				
 				// TOGGLE TILES
 				let btToggleTiles = document.createElement('button');
 				btToggleTiles.innerHTML = 'T';
@@ -71915,11 +71934,22 @@ void main() {
 				url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			})
 		
-			var layer = new ol.layer.Tile({
-				source: xyz1,
-				visible: false,
+
+
+			let mapView = new ol.layer.Tile({
+				source: new ol.source.XYZ({
+					url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+				}),
+				visible: true,
 				name:'mapView'
-			})
+			});
+			let sateliteView = new ol.layer.Tile({
+				source: new ol.source.XYZ({
+					url: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
+				}),
+				visible: false,
+				name:'sateliteView'
+			});
 
 		this.map = new ol.Map({
 				controls: ol.control.defaults({
@@ -71932,8 +71962,8 @@ void main() {
 					mousePositionControl
 				]),
 				layers: [
-					new ol.layer.Tile({source: new ol.source.OSM()}),
-					// layer,
+					mapView,
+					sateliteView,
 					this.toolLayer,
 					// this.annotationsLayer,
 					this.sourcesLayer,
@@ -72064,7 +72094,10 @@ void main() {
 			};
 
 			this.setScene(this.viewer.scene);
+			let olatr = document.querySelectorAll('.ol-attribution');
+			olatr[0].insertAdjacentHTML('beforeend', "<a href='https://openlayers.org'>© OpenStreetMap</a>");
 		}
+		
 
 		setScene (scene) {
 			if (this.scene === scene) {

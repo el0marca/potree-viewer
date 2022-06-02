@@ -198,14 +198,14 @@ const PotreeViewer: FC = () => {
   return (
     <div id="potree-root">
       <div id="potree_render_area">
-        <div id="toggleButton" className={s.toggleButton}>
-          <img src={toggleBtn} alt="btn" />
+        <div id="toggleButton">
+          <img id="toggleButtonIcon" src={toggleBtn} alt="btn" />
         </div>
         <li id="navigation"></li>
       </div>
       <div id="potree_sidebar_container"></div>
       <div id="measurementsToggleBtn">
-        <img src={toggleBtn} alt="btn" />
+        <img id='measurementsToggleBtnIcon' src={toggleBtn} alt="btn" />
       </div>
     </div>
   );

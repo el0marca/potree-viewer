@@ -19,23 +19,6 @@
     z-index: 999;
 }
 
-.toggleButton {
-    position: fixed;
-    background: #515151;
-    width: 20px;
-    height: 40px;
-    z-index: 100;
-    cursor: pointer;
-    top: 20px;
-    border-radius: 0px 10px 10px 0px;
-    left: 320px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 90000000;
-    transition: 0.3s;
-}
-
 .toggleButton:hover {
     background-color: #666666;
 }

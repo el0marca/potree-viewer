@@ -6518,7 +6518,8 @@
 
 		this.name = '';
 		this.type = 'Object3D';
-
+		this.nameForDescription = 'Marker';
+		this.description = 'No description';
 		this.parent = null;
 		this.children = [];
 
@@ -6606,6 +6607,18 @@
 		onBeforeRender: function () {},
 		onAfterRender: function () {},
 
+		setNameForDescription: function (value) {
+			this.nameForDescription = value
+		},
+		setDescription: function (value) {
+			this.description = value
+		},
+		getNameForDescription: function () {
+			return this.nameForDescription
+		},
+		getDescription: function () {
+			return this.description
+		},
 		applyMatrix4: function ( matrix ) {
 
 			if ( this.matrixAutoUpdate ) this.updateMatrix();
@@ -53842,11 +53855,10 @@
 	}
 
 	class Measure extends Object3D {
-		constructor () {
-			super();
+		constructor (uuid) {
+			super(uuid);
 
 			this.constructor.counter = (this.constructor.counter === undefined) ? 0 : this.constructor.counter + 1;
-
 			this.name = 'Measure_' + this.constructor.counter;
 			this.points = [];
 			this._showDistances = true;
@@ -53859,7 +53871,6 @@
 			this._showEdges = true;
 			this._showAzimuth = false;
 			this.maxMarkers = Number.MAX_SAFE_INTEGER;
-
 			this.sphereGeometry = new SphereGeometry(0.4, 10, 10);
 			this.color = new Color(0xff0000);
 
@@ -54163,9 +54174,11 @@
 		// }
 
 		update () {
+			// console.log('fdfdsfsdfsd', this.uuid)
 			if (this.points.length === 0) {
 				return;
 			} else if (this.points.length === 1) {
+
 				let point = this.points[0];
 				let position = point.position;
 				this.spheres[0].position.copy(position);
@@ -71966,10 +71979,10 @@ void main() {
 					sateliteView,
 					this.toolLayer,
 					// this.annotationsLayer,
-					this.sourcesLayer,
+					// this.sourcesLayer,
 					// this.sourcesLabelLayer,
 					// this.images360Layer,
-					// extentsLayer,
+					extentsLayer,
 					// cameraLayer
 				],
 				target: 'potree_map_content',
@@ -72052,8 +72065,6 @@ void main() {
 			});
 
 			this.onPointcloudAdded = e => {
-				console.log('pointcloud',e.pointcloud)
-
 				this.load(e.pointcloud);
 			};
 
@@ -72269,7 +72280,7 @@ void main() {
 				source: new ol.source.Vector({}),
 				style: new ol.style.Style({
 					fill: new ol.style.Fill({
-						color: 'rgba(0, 0, 150, 0.1)'
+						color: 'rgba(0, 0, 150, 0.05)'
 					}),
 					stroke: new ol.style.Stroke({
 						color: 'rgba(0, 0, 150, 0.2)',
@@ -74219,13 +74230,13 @@ ENDSEC
 	}
 
 	class MeasurePanel{
-		constructor(viewer, measurement, propertiesPanel){
+		constructor(viewer, measurement, propertiesPanel, name){
 			this.viewer = viewer;
 			this.measurement = measurement;
 			this.propertiesPanel = propertiesPanel;
+			this.name = name;
 			this._update = () => { this.update(); };
 		}
-
 		createCoordinatesTable(points){
 			let table = $(`
 			<table class="measurement_value_table">
@@ -74306,8 +74317,8 @@ ENDSEC
 		}
 	};
 	class DistancePanel extends MeasurePanel{
-		constructor(viewer, measurement, propertiesPanel){
-			super(viewer, measurement, propertiesPanel);
+		constructor(viewer, measurement, propertiesPanel, name){
+			super(viewer, measurement, propertiesPanel, name);
 			let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
 			this.elContent = $(`
 			<div class="measurement_content selectable">
@@ -74319,6 +74330,12 @@ ENDSEC
 			</div>
 			<div data-i18n='measurements.distance' class='propertiesHeader'></div>
 			</div>
+			</div>
+			<div class='inputArea'>
+			<label class='labelForMeasurementInput'>Name<label/></br>
+			<input class="text-field__input" type='text' autocomplete="off" id='nameForDescription'/></br>
+			<label class='labelForMeasurementInput'>Description</label></br>
+			<input class="text-field__input" type='text' autocomplete="off" id='descriptionForMeasure' />
 			</div>
 			<span class="coordinates_table_container"></span>
 				<table id="distances_table" class="measurement_value_table"></table>
@@ -74350,12 +74367,33 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_removed", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
+			setTimeout(() => {
+
+				let name = document.getElementById("nameForDescription");
+				let descr = document.getElementById("descriptionForMeasure");
+
+				if (name && descr){
+
+				name.value = this.measurement.getNameForDescription()
+
+				name.addEventListener('input', (e) => {
+					this.measurement.setNameForDescription(e.target.value)
+				})
+
+				descr.value = this.measurement.getDescription()
+				
+				descr.addEventListener('input', (e) => {
+					this.measurement.setDescription(e.target.value)
+				})
+			}
+			}, 50)
+
 			this.update();
 			this.viewer.updateLanguage()
+
 		}
 
 		update(){
-			
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74406,6 +74444,12 @@ ENDSEC
 			<div data-i18n='measurements.point' class='propertiesHeader'></div>
 			</div>
 			</div>
+			<div class='inputArea'>
+			<label class='labelForMeasurementInput'>Name<label/></br>
+			<input class="text-field__input" type='text' autocomplete="off" id='nameForDescription'/></br>
+			<label class='labelForMeasurementInput'>Description</label></br>
+			<input class="text-field__input" type='text' autocomplete="off" id='descriptionForMeasure' />
+			</div>
 				<span class="coordinates_table_container"></span>
 				<br>
 				<span class="attributes_table_container"></span>
@@ -74421,12 +74465,33 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_removed", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
+			setTimeout(() => {
+
+				let name = document.getElementById("nameForDescription");
+				let descr = document.getElementById("descriptionForMeasure");
+
+				if (name && descr){
+
+				name.value = this.measurement.getNameForDescription()
+
+				name.addEventListener('input', (e) => {
+					this.measurement.setNameForDescription(e.target.value)
+				})
+
+				descr.value = this.measurement.getDescription()
+				
+				descr.addEventListener('input', (e) => {
+					this.measurement.setDescription(e.target.value)
+				})
+			}
+			}, 50)
+
 			this.update();
 			this.viewer.updateLanguage()
-		}
+			}
 
 		update(){
-			
+
 			let elCoordiantesContainer = this.elContent.find('.coordinates_table_container');
 			elCoordiantesContainer.empty();
 			elCoordiantesContainer.append(this.createCoordinatesTable(this.measurement.points.map(p => p.position)));
@@ -74452,6 +74517,12 @@ ENDSEC
 				<div data-i18n='measurements.area' class='propertiesHeader'></div>
 				</div>
 			</div>
+			<div class='inputArea'>
+			<label class='labelForMeasurementInput'>Name<label/></br>
+			<input class="text-field__input" type='text' autocomplete="off" id='nameForDescription'/></br>
+			<label class='labelForMeasurementInput'>Description</label></br>
+			<input class="text-field__input" type='text' autocomplete="off" id='descriptionForMeasure' />
+			</div>
 				<span class="coordinates_table_container"></span>
 				<table class="measurement_value_table">
 					<tr>
@@ -74476,6 +74547,28 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_added", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_removed", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
+
+			setTimeout(() => {
+
+				let name = document.getElementById("nameForDescription");
+				let descr = document.getElementById("descriptionForMeasure");
+
+				if (name && descr){
+
+				name.value = this.measurement.getNameForDescription()
+
+				name.addEventListener('input', (e) => {
+					this.measurement.setNameForDescription(e.target.value)
+				})
+
+				descr.value = this.measurement.getDescription()
+				
+				descr.addEventListener('input', (e) => {
+					this.measurement.setDescription(e.target.value)
+				})
+			}
+			}, 50)
+
 
 			this.update();
 			this.viewer.updateLanguage()
@@ -76530,8 +76623,6 @@ ENDSEC
 			}
 
 		}
-
-		
 
 		setMeasurement(object){
 			let TYPE = {
@@ -79226,15 +79317,26 @@ ENDSEC
 		}
 		initToolbar(){
 			const measurements = document.getElementById('scene_object_properties'),
-			measurementsToggleBtn = document.getElementById('measurementsToggleBtn');
-		
+			measurementsToggleBtn = document.getElementById('measurementsToggleBtn'),
+			measurementsToggleBtnIcon = document.getElementById('measurementsToggleBtnIcon');
+
 			function toggleBtn(){
 				measurements.style.right = '0px';
-				measurementsToggleBtn.style.right = '320px'};
+				measurementsToggleBtn.style.right = '320px';
+				// measurementsToggleBtnIcon.style.transform = 'rotate(0deg)';
+			};
 
-			measurementsToggleBtn.addEventListener('click', () => {			
-			if(window.getComputedStyle(measurements).getPropertyValue('right')=='0px'){measurements.style.right = '-320px'; measurementsToggleBtn.style.right = '0px'}
-			else { measurements.style.right = '0px'; measurementsToggleBtn.style.right = '320px'}
+			measurementsToggleBtn.addEventListener('click', () => {		
+
+			if	(window.getComputedStyle(measurements).getPropertyValue('right') == '0px'){
+				measurementsToggleBtnIcon.style.transform = 'rotate(0deg)';
+				measurements.style.right = '-320px'; 
+				measurementsToggleBtn.style.right = '0px'}
+
+			else { measurements.style.right = '0px';
+				   measurementsToggleBtn.style.right = '320px';
+				   measurementsToggleBtnIcon.style.transform = 'rotate(180deg)';
+				}
 			})
 			// ANGLE
 			let elToolbar = $('#tools');
@@ -89068,22 +89170,27 @@ ENDSEC
 		};
 
 		toggleSidebar () {
-			let renderArea = $('#potree_render_area');
-			let sidebar = $('#potree_sidebar_container');
-			let toggleButton=$('#toggleButton');
-			let cardinalDirections=$('#navigation');
-			let isVisible = renderArea.css('left') === '160px';
-			let potreeMap=$('#potree_map')
+			
+			let renderArea = $('#potree_render_area'),
+				sidebar = $('#potree_sidebar_container'),
+				toggleButton = $('#toggleButton'),
+				toggleBtnIcon = $('#toggleButtonIcon'),
+				cardinalDirections = $('#navigation'),
+				isVisible = renderArea.css('left') === '160px',
+				potreeMap=$('#potree_map')
+
 			if (isVisible) {
 				renderArea.css('left', '0px');
 				sidebar.css('left', '-320px');
 				toggleButton.css('left', '0px');
-				cardinalDirections.css('left', '10px')
+				cardinalDirections.css('left', '10px');
+				toggleBtnIcon.css('transform', 'rotate(180deg)');
 			} else {
 				renderArea.css('left', '160px');
 				sidebar.css('left', '0px')
 				toggleButton.css('left','320px')
-				cardinalDirections.css('left','170px')
+				cardinalDirections.css('left','170px');
+				toggleBtnIcon.css('transform', 'rotate(0deg)');
 			}
 		};
 

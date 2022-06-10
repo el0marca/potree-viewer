@@ -3346,6 +3346,7 @@
 		 * @trigger deselect_all.jstree, changed.jstree
 		 */
 		deselect_all : function (supress_event) {
+			
 			var tmp = this._data.core.selected.concat([]), i, j;
 			for(i = 0, j = this._data.core.selected.length; i < j; i++) {
 				if(this._model.data[this._data.core.selected[i]]) {
@@ -5706,9 +5707,7 @@
 		 * @plugin checkbox
 		 */
 		this.check_node = function (obj, e) {
-			
 			if(e && e.currentTarget.id === 'measurements_anchor'){
-				window.setLayerVisible(true);
 				this.check_all()
 			}
 		
@@ -5728,7 +5727,6 @@
 			dom = this.get_node(obj, true);
 			if(!obj.state.checked) {
 				if(obj.data && e && e.currentTarget.id != 'measurements_anchor'){
-				window.setLayerVisible(true, obj.data.uuid)
 			}
 				obj.state.checked = true;
 				this._data.checkbox.selected.push(obj.id);
@@ -5757,7 +5755,6 @@
 		this.uncheck_node = function (obj, e) {
 
 			if(e && e.currentTarget.id === 'measurements_anchor'){
-				window.setLayerVisible(false);
 				this.uncheck_all();
 			}
 
@@ -5775,9 +5772,7 @@
 				return false;
 			}
 			dom = this.get_node(obj, true);
-			if(obj.state.checked) {
-				if(obj.data&&e&&e.currentTarget.id!='measurements_anchor'){
-				window.setLayerVisible(false, obj.data.uuid)}			
+			if(obj.state.checked) {	
 				obj.state.checked = false;
 				this._data.checkbox.selected = $.vakata.array_remove_item(this._data.checkbox.selected, obj.id);
 				if(dom.length) {
@@ -5792,7 +5787,7 @@
 				 * @param {Object} event the event (if any) that triggered this uncheck_node
 				 * @plugin checkbox
 				 */
-				this.trigger('uncheck_node', { 'node' : obj, 'selected' : this._data.checkbox.selected, 'event' : e });
+				// this.trigger('uncheck_node', { 'node' : obj, 'selected' : this._data.checkbox.selected, 'event' : e });
 			}
 		};
 		
@@ -6849,7 +6844,6 @@
 						.find('.jstree-copy').first()[ is_copy ? 'show' : 'hide' ]();
 
 					// if are hovering the container itself add a new root node
-					//console.log(data.event);
 					if( (data.event.target === ins.element[0] || data.event.target === ins.get_container_ul()[0]) && ins.get_container_ul().children().length === 0) {
 						ok = true;
 						for(t1 = 0, t2 = data.data.nodes.length; t1 < t2; t1++) {

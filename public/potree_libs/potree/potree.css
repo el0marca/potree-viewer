@@ -217,9 +217,25 @@
 	-moz-appearance: none;
 	appearance: none;
 }
+.text-field__measurements{
+	background-color: #333333;
+	font-size:18px;
+	width:80%
+}
 .text-field__input:focus {
 	border-bottom: 1px solid #fff;
 	outline: 0;
+}
+#addMeasurement {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 30px;
+}
+#addMeasurement img {
+	width:20px;
+	height:20px;
+	cursor: pointer
 }
 .labelForMeasurementInput {
 	margin-bottom: 5px;
@@ -742,9 +758,11 @@ body {
 }
 
 .checkbox:checked + .fake::before {
-opacity:1;
-
+	opacity:1;
 }
+/* .fake.checked::before  {
+	opacity:1
+} */
 #properties {
 	padding: 15px 20px;
 	font-size: 16px;
@@ -809,6 +827,16 @@ opacity:1;
 }
 #sidebar-layers:hover {
 	cursor:pointer
+}
+#layers-type{
+	width:0px; 
+	height:0px;
+	position:relative;
+	margin-bottom: 200px;
+}
+.measurement_header {
+	width: 100%;
+    height: 100%;
 }
 #invertBtn:hover {
 	background-color:#666666;
@@ -888,6 +916,39 @@ opacity:1;
  #pcListWrapper li:last-child:before {
 	width: calc(1.4em - 1px); border-left: 1px solid #666666;
  }
+
+
+ .msListWrapper, .msListWrapper ul, .msListWrapper li {
+	margin: 0; padding: 0; line-height: 1.2; list-style: none; font-size:16px
+ }
+ .msListWrapper ul {margin: 0 0 0 15px; /* отступ вертикальной линии */}
+ .msListWrapper > li:not(:only-child), .msListWrapper li li {
+	position: relative;
+	padding: 3px 0 0 20px; /* отступ текста */
+ }
+ /* Стиль вертикальной линии */
+ .msListWrapper li:not(:last-child) { border-left: 1px solid #666666;}
+ /* Стили горизонтальной линии*/  
+ .msListWrapper li li:before, .msListWrapper > li:not(:only-child):before {
+	content: ""; 
+	position: absolute; 
+	top: 0; 
+	left: 0;
+	width: 15px; 
+	height: 1.4em; 
+	border-bottom:1px solid #666666;
+ }
+
+ .msListItems div:hover {
+	background-color:#515151;
+	cursor:pointer
+}
+ /* Вертикальная линия последнего пункта в списка */  
+ .msListWrapper li:last-child:before {
+	width: 15px; border-left: 1px solid #666666;
+ }
+
+
 .accordion>h3 {
 	background-color: var(--bg-color-2) !important;
 	background: #f6f6f6 50% 50% repeat-x;
@@ -957,12 +1018,7 @@ opacity:1;
 .selected {
 	background-color:#616161;
 }
-#coverLine{
-	background-color:#333333;
-	width:30px;
-	height: 100%;
-	position:absolute
-}
+
 #annotations{display:none}
 #pointclouds{display:none}
 #pointCloudChilds{
@@ -976,7 +1032,23 @@ opacity:1;
 	transition:0.2s;
 }
 .pointcloudItems{
-	transition:0.3s
+	transition:0.3s;
+	border-radius:10px; 
+	padding:8px 8px 8px 5px;
+	display: flex;
+}
+#scene_objects{
+	display: none;
+}
+#measurementsWrapper {
+	margin-top:20px;
+}
+.measurementItems {
+	transition:0.3s;
+	padding:10px;
+	border-radius:10px;
+	display:flex;
+	align-items: center;
 }
 #closeFilesBtn:hover{
 	cursor:pointer

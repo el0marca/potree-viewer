@@ -92,17 +92,32 @@
 				<ul id="classificationList" class="pv-menu-list"></ul>
 			</div>
 		</div>
-		<div style="width:0px; height:100px;position:relative" id="layers-type">
+		<div id="layers-type">
+			<div id='measurementsWrapper'>
+				<ul class="msListWrapper">
+					<li>
+						<div class='measurementItems'>
+							<label>
+								<input class='checkbox' type="checkbox" checked/>
+								<span class='fake'></span>
+							</label>
+							<div style="display:flex"><input class="text-field__input text-field__measurements" type='text' value='Measurements'/><div id="addMeasurement"><img src='./potree_libs/potree/resources/icons/addMeasurement.png'></div></div>
+						</div>
+						<ul class="msListItems">
+						</ul>
+					</li>
+				</ul>
+			</div>
 			<div>
 				<h3 id="menu_scene"></h3>
 				<div class="pv-menu-list">
 					<div id="scene_objects" style='position:relative'>
-						<div id="coverLine"></div>
 					</div>
 					<div id="scene_object_properties">
 					</div>
 				</div>
 			</div>
+			<div style='height: 150px'></div>
 		</div>
 		<div style='display:none' id="potree_menu" class="accordion">
 			<!-- APPEARANCE -->

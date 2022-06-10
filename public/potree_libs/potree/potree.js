@@ -68458,7 +68458,6 @@ void main() {
 			measure.name = args.name || 'Measurement';
 
 			this.scene.add(measure);
-
 			let cancel = {
 				removeLastMarker: measure.maxMarkers > 3,
 				callback: null
@@ -71669,8 +71668,6 @@ void main() {
 			this.images360Layer = null;
 			this.enabled = false;
 
-			window.setLayerVisible = this.setLayerVisible.bind(this)
-
 			this.removeAllLayers = () => {
 				const layers = [...this.map.getLayers().getArray()]
 				layers.forEach((layer, i) => {
@@ -71690,8 +71687,8 @@ void main() {
 					const name = measure.name
 
 					if (name === point || name === punkt) {
-						if (layers.some(layer => layer.B.id === measure.uuid && layer.B.visible === false )){ return 
-						} else {
+						if (layers.some(layer => layer.B.id === measure.uuid && layer.B.visible === false )) return 
+						 else {
 							layers.forEach((layer) => { 
 								if (layer.B.name === point && layer.B.visible === true ) {this.map.removeLayer(layer)}
 							})
@@ -71700,8 +71697,8 @@ void main() {
 					} 
 					
 					else if (name === area || name === bereich) {
-						if (layers.some(e => e.B.id === measure.uuid && e.B.visible === false )){ return 
-						} else {
+						if (layers.some(e => e.B.id === measure.uuid && e.B.visible === false )) return 
+						else {
 							layers.forEach((layer) => { 
 								if (layer.B.name === area && layer.B.visible === true) {
 									this.map.removeLayer(layer)}
@@ -71717,9 +71714,9 @@ void main() {
 					} 
 					
 					else if (name === distance || name === distanz) {
-						if (layers.some(layer => layer.B.id === measure.uuid && layer.B.visible === false )){ 
+						if (layers.some(layer => layer.B.id === measure.uuid && layer.B.visible === false )) 
 							return 
-						} else {
+						 else {
 							layers.forEach((layer) => {
 								if (layer.B.name === distance && layer.B.visible === true) {
 									this.map.removeLayer(layer)
@@ -71735,6 +71732,27 @@ void main() {
 						this.addLineToMap(coord, distance, measure.uuid);
 					}}
 				})
+			}
+			this.setLayerVisible = (visible, id) => {
+				const layers = [...this.map.getLayers().getArray()]
+				
+				if (id) {
+					layers.forEach((layer) => {
+						if (layer.B.id === id) {layer.setVisible(visible)}
+					})
+					this.viewer.scene.measurements.forEach(e => {
+						if	(e.uuid	=== id){
+							e.visible = visible}
+						})
+				}
+					else {
+						this.viewer.scene.measurements.forEach(e => e.visible = visible)
+						layers.forEach((layer, i) => {
+							const name = layer.B.name
+							if(name === 'Area' || name === 'Distance' || name === 'Point'){
+							layer.setVisible(visible)}
+						})
+					};
 			}
 			this.createAnnotationStyle = (text) => {
 				return [
@@ -71787,22 +71805,6 @@ void main() {
 			this.sourcesLabelLayer.setVisible(show);
 		}
 
-		setLayerVisible (visible, id) {
-			const layers = [...this.map.getLayers().getArray()]
-			
-			if (id) {
-				layers.forEach((layer) => {
-					if (layer.B.id === id) {layer.setVisible(visible)}
-				})}
-				else {
-					this.viewer.scene.measurements.forEach(e => e.visible = visible)
-					layers.forEach((layer, i) => {
-						const name = layer.B.name
-						if(name === 'Area' || name === 'Distance' || name === 'Point'){
-						layer.setVisible(visible)}
-					})
-				};
-		}
 		changeLayerType (){
 			const layers = [...this.map.getLayers().getArray()]
 				if (layers.some((layer) => layer.B.name === 'sateliteView' && layer.B.visible === false)) {
@@ -74368,25 +74370,40 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			setTimeout(() => {
+				let uuid = this.measurement.uuid
+				let name = document.getElementById("nameForDescription"),
+				descr = document.getElementById("descriptionForMeasure"),
+				msListItems = document.querySelectorAll('.msListItems'),
+				pointcloudItems = document.querySelectorAll('.pointcloudItems');
 
-				let name = document.getElementById("nameForDescription");
-				let descr = document.getElementById("descriptionForMeasure");
-
-				if (name && descr){
-
-				name.value = this.measurement.getNameForDescription()
-
-				name.addEventListener('input', (e) => {
-					this.measurement.setNameForDescription(e.target.value)
+				this.viewer.scene.measurements.forEach((measure)=>{
+					console.log()
+					if (measure.name !== 'Distance') return
+					else if ([...pointcloudItems].some((pk) => pk.id === measure.uuid)) return 
+					else {
+					msListItems.forEach((item,index)=>{
+						if(index === msListItems.length-1){
+							item.insertAdjacentHTML('beforeend', `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
+						  <label>
+						  <input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
+						  <div class='fake'></div>
+							</label> 
+						  <img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/distance.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+							}
+						})
+					}
 				})
-
-				descr.value = this.measurement.getDescription()
 				
+				name.addEventListener('input', (e) => {
+					this.measurement.setNameForDescription(e.target.value);
+					document.querySelector(`#${uuid.replace(/[^a-zа-яё\s]/gi, '')}`).innerText=e.target.value
+				});
 				descr.addEventListener('input', (e) => {
 					this.measurement.setDescription(e.target.value)
-				})
-			}
-			}, 50)
+				});
+				name.value = this.measurement.getNameForDescription() + ' ' + this.viewer.scene.measurements.length;
+				descr.value = this.measurement.getDescription();
+			}, 10)
 
 			this.update();
 			this.viewer.updateLanguage()
@@ -74465,26 +74482,41 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_removed", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
-			setTimeout(() => {
-
-				let name = document.getElementById("nameForDescription");
-				let descr = document.getElementById("descriptionForMeasure");
-
-				if (name && descr){
-
-				name.value = this.measurement.getNameForDescription()
-
-				name.addEventListener('input', (e) => {
-					this.measurement.setNameForDescription(e.target.value)
-				})
-
-				descr.value = this.measurement.getDescription()
 				
+			setTimeout(() => {
+				let uuid=this.measurement.uuid
+				let name = document.getElementById("nameForDescription"),
+					descr = document.getElementById("descriptionForMeasure"),
+					msListItems = document.querySelectorAll('.msListItems'),
+					pointcloudItems = document.querySelectorAll('.pointcloudItems');
+
+					this.viewer.scene.measurements.forEach((measure)=>{
+						if (measure.name !== 'Point') return
+						else if ([...pointcloudItems].some((pk)=>pk.id===measure.uuid))return 
+						else {
+						msListItems.forEach((item,index)=>{
+							if(index===msListItems.length-1){
+								item.insertAdjacentHTML('beforeend', `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
+					 		 <label>
+					  		<input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
+					  		<div class='fake'></div>
+				  	  		</label> 
+				  			<img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/point.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+								}
+							})
+						}
+					})
+				
+				name.addEventListener('input', (e) => {
+					this.measurement.setNameForDescription(e.target.value);
+					document.querySelector(`#${uuid.replace(/[^a-zа-яё\s]/gi, '')}`).innerText=e.target.value
+				});
 				descr.addEventListener('input', (e) => {
 					this.measurement.setDescription(e.target.value)
-				})
-			}
-			}, 50)
+				});
+				name.value = this.measurement.getNameForDescription() + ' ' + this.viewer.scene.measurements.length;
+				descr.value = this.measurement.getDescription();
+			}, 10)
 
 			this.update();
 			this.viewer.updateLanguage()
@@ -74549,26 +74581,40 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
 			setTimeout(() => {
+				let uuid=this.measurement.uuid
+				let name = document.getElementById("nameForDescription"),
+				descr = document.getElementById("descriptionForMeasure"),
+				msListItems = document.querySelectorAll('.msListItems'),
+				pointcloudItems = document.querySelectorAll('.pointcloudItems');
 
-				let name = document.getElementById("nameForDescription");
-				let descr = document.getElementById("descriptionForMeasure");
-
-				if (name && descr){
-
-				name.value = this.measurement.getNameForDescription()
-
-				name.addEventListener('input', (e) => {
-					this.measurement.setNameForDescription(e.target.value)
+				this.viewer.scene.measurements.forEach((measure)=>{
+					if (measure.name !== 'Area') return
+					else if ([...pointcloudItems].some((pk)=>pk.id===measure.uuid))return 
+					else {
+					msListItems.forEach((item,index)=>{
+						if(index===msListItems.length-1){
+							item.insertAdjacentHTML('beforeend', `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
+						  <label>
+						  <input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
+						  <div class='fake'></div>
+							</label> 
+						  <img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/area.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+							}
+						})
+					}
 				})
-
-				descr.value = this.measurement.getDescription()
 				
+				
+				name.addEventListener('input', (e) => {
+					this.measurement.setNameForDescription(e.target.value);
+					document.querySelector(`#${uuid.replace(/[^a-zа-яё\s]/gi, '')}`).innerText=e.target.value
+				});
 				descr.addEventListener('input', (e) => {
 					this.measurement.setDescription(e.target.value)
-				})
-			}
-			}, 50)
-
+				});
+				name.value = this.measurement.getNameForDescription() + ' ' + this.viewer.scene.measurements.length;
+				descr.value = this.measurement.getDescription();
+			}, 10)
 
 			this.update();
 			this.viewer.updateLanguage()
@@ -79323,7 +79369,6 @@ ENDSEC
 			function toggleBtn(){
 				measurements.style.right = '0px';
 				measurementsToggleBtn.style.right = '320px';
-				// measurementsToggleBtnIcon.style.transform = 'rotate(0deg)';
 			};
 
 			measurementsToggleBtn.addEventListener('click', () => {		
@@ -79395,12 +79440,12 @@ ENDSEC
 						showArea: false,
 						closed: false,
 						name: i18n.options.lng==='en'&&'Distance'||'Distanz'});
-
 					let measurementsRoot = $("#jstree_scene").jstree().get_json("measurements");
 					let jsonNode = measurementsRoot.children.find(child => child.data.uuid === measurement.uuid);
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
 					toggleBtn()
+					console.log(measurement)
 				}
 			));
 
@@ -79566,6 +79611,14 @@ ENDSEC
 					measurements.style.right='-320px';
 					measurementsToggleBtn.style.right='-20px';
 					this.viewer.mapView.removeAllLayers()
+					document.querySelectorAll('.msListWrapper').forEach((e, i) => {
+						if (i>0){
+							e.remove()
+						}
+					})
+					document.querySelectorAll('.msListItems').forEach((e, i) => {
+							e.innerHTML = ''
+					})
 				}
 			));
 
@@ -79657,18 +79710,20 @@ ENDSEC
 			
 			document.getElementById('exportItem').addEventListener('mousedown', showMenu)
 			document.getElementById('exportItem').addEventListener('mouseleave', hideMenu)
+
 				function showMenu(){
-					if(this.children.length>1){
-						this.children[1].style.height='auto';
-						this.children[1].style.overflow='visible';
-						this.children[1].style.opacity='1';
+					if (this.children.length > 1) {
+						this.children[1].style.height = 'auto';
+						this.children[1].style.overflow = 'visible';
+						this.children[1].style.opacity = '1';
 					}
 				}
+
 				function hideMenu(){
-					if(this.children.length>1){
-						this.children[1].style.height='0px';
-						this.children[1].style.overflow='hidden';
-						this.children[1].style.opacity='0';
+					if (this.children.length > 1) {
+						this.children[1].style.height = '0px';
+						this.children[1].style.overflow = 'hidden';
+						this.children[1].style.opacity = '0';
 					}
 				}
 
@@ -79729,8 +79784,62 @@ ENDSEC
 			tree.on('create_node.jstree', (e, data) => {
 				tree.jstree("open_all");
 			});
-
+			const addEvents = () =>{
+			document.querySelectorAll('.msListItems').
+			forEach((item) => {
+			item.addEventListener('click', (e) => {
+				if(e.target.nodeName === 'INPUT'){
+					this.viewer.scene.measurements.forEach((measure)=>{
+						if (measure.uuid === e.target.id){
+							this.viewer.mapView.setLayerVisible(e.target.checked, measure.uuid)
+						}
+					})
+				}
+				if (e.target.offsetParent){
+				this.viewer.scene.measurements.forEach((measure)=>{
+					if (measure.uuid === e.target.offsetParent.id){
+						propertiesPanel.set(measure)
+					}
+				})}
+			})
+			})
+			document.querySelectorAll('.measurementItems label input')
+			.forEach((item, index) => {
+				item.addEventListener('click', (e) => {
+					document.querySelectorAll('.msListItems')[index].childNodes.forEach((node) => {
+						document.querySelectorAll('.msListItems input').forEach( input => {
+							if(input.id === node.id){
+								input.checked = e.target.checked
+								this.viewer.mapView.setLayerVisible(e.target.checked, input.id)
+							}
+						})
+					})
+				})
+			})}
+			addEvents()
+			document.querySelector('#addMeasurement')
+			.addEventListener('click', () => {
+				let number = document.querySelectorAll('.msListWrapper').length + 1,
+				name = 'Measurements_' + number
+				document.querySelector('#measurementsWrapper')
+				.insertAdjacentHTML('beforeend', `<ul class="msListWrapper">
+					<li>
+						<div class='measurementItems'>
+							<label>
+								<input class='checkbox' type="checkbox" checked/>
+								<span class='fake'></span>
+							</label>
+							<div style="display:flex;flex:1"><input class="text-field__input text-field__measurements" type='text' value=${name} /></div>
+						</div>
+						<ul class="msListItems">
+						</ul>
+					</li>
+				</ul>`);
+			addEvents()
+			})
 			tree.on("select_node.jstree", (e, data) => {
+				console.log(data)
+				//here we need to return
 				let object = data.node.data;
 				propertiesPanel.set(object);
 
@@ -89239,7 +89348,7 @@ ENDSEC
 				let sidebarLayersBtn=document.getElementById('sidebar-layers');
 				let sidebarView=document.getElementById('view-type');
 				let layersView=document.getElementById('layers-type');
-				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.width='0px'; layersView.style.height='100px'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
+				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.width='0px'; layersView.style.height='0px'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
 				sidebarLayersBtn.addEventListener('click', (e)=>{layersView.style.width='280px'; sidebarView.style.display='none'; sidebarLayersBtn.style.background='#515151'; sidebarViewBtn.style.background='#272727'})
 
 				const toggleButton=document.getElementById('toggleButton')
@@ -89260,10 +89369,10 @@ ENDSEC
 					
 				if(pointCloudChildsData){
 				 pointCloudChildsData.forEach((e,i)=>{
-					if(i===0){
+					if(i === 0){
 						pointCloudsChildsElement1.insertAdjacentHTML('afterbegin', `<div id=${e.fileId} class='pointcloudItems'>${e.name}</div>`)
 					}
-					else if (i>0){
+					else if ( i> 0){
 						pointCloudsChildsElement2.insertAdjacentHTML('beforeend', `<li style='padding-left:15px'><div style='border-radius:10px;padding:8px 8px 8px 5px;' id=${e.fileId} class='pointcloudItems'>${e.name}</div></li>`)
 					}
 				})}

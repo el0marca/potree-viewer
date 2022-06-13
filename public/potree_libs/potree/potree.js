@@ -74374,29 +74374,29 @@ ENDSEC
 				let name = document.getElementById("nameForDescription"),
 				descr = document.getElementById("descriptionForMeasure"),
 				msListItems = document.querySelectorAll('.msListItems'),
-				pointcloudItems = document.querySelectorAll('.pointcloudItems');
-
-				this.viewer.scene.measurements.forEach((measure)=>{
-					console.log()
-					if (measure.name !== 'Distance') return
-					else if ([...pointcloudItems].some((pk) => pk.id === measure.uuid)) return 
-					else {
-					msListItems.forEach((item,index)=>{
-						if(index === msListItems.length-1){
-							item.insertAdjacentHTML('beforeend', `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
-						  <label>
-						  <input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
-						  <div class='fake'></div>
-							</label> 
-						  <img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/distance.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
-							}
+				pointcloudItems = document.querySelectorAll('.pointcloudItems'),
+				measurementNameDiv = document.querySelectorAll('.measurementNameDiv');
+				this.viewer.scene.measurements.forEach((measure) => {
+					if (measure.name === 'Distance' || measure.name === 'Distanz') {
+					  if ([...pointcloudItems].some((pk) => pk.id === measure.uuid)) return
+					  else {
+						measurementNameDiv.forEach((item, index) => {
+						  if (item.classList.contains('measurementActive')) {
+							msListItems[index].insertAdjacentHTML('beforeend', `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
+						<label>
+						<input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
+						<div class='fake'></div>
+						  </label> 
+						<img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/distance.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+						  }
 						})
+					  }
 					}
-				})
+				  })
 				
 				name.addEventListener('input', (e) => {
 					this.measurement.setNameForDescription(e.target.value);
-					document.querySelector(`#${uuid.replace(/[^a-zа-яё\s]/gi, '')}`).innerText=e.target.value
+					document.querySelector(`#${uuid.replace(/[^a-zа-яё\s]/gi, '')}`).innerText = e.target.value
 				});
 				descr.addEventListener('input', (e) => {
 					this.measurement.setDescription(e.target.value)
@@ -74488,24 +74488,26 @@ ENDSEC
 				let name = document.getElementById("nameForDescription"),
 					descr = document.getElementById("descriptionForMeasure"),
 					msListItems = document.querySelectorAll('.msListItems'),
-					pointcloudItems = document.querySelectorAll('.pointcloudItems');
+					pointcloudItems = document.querySelectorAll('.pointcloudItems'),
+					measurementNameDiv = document.querySelectorAll('.measurementNameDiv');
 
-					this.viewer.scene.measurements.forEach((measure)=>{
-						if (measure.name !== 'Point') return
-						else if ([...pointcloudItems].some((pk)=>pk.id===measure.uuid))return 
-						else {
-						msListItems.forEach((item,index)=>{
-							if(index===msListItems.length-1){
-								item.insertAdjacentHTML('beforeend', `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
-					 		 <label>
-					  		<input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
-					  		<div class='fake'></div>
-				  	  		</label> 
-				  			<img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/point.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
-								}
+					this.viewer.scene.measurements.forEach((measure) => {
+						if (measure.name === 'Point' || measure.name === 'Punkt') {
+						  if ([...pointcloudItems].some((pk) => pk.id === measure.uuid)) return
+						  else {
+							measurementNameDiv.forEach((item, index) => {
+							  if (item.classList.contains('measurementActive')) {
+								msListItems[index].insertAdjacentHTML('beforeend', `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
+							<label>
+							<input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
+							<div class='fake'></div>
+							  </label> 
+							<img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/point.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+							  }
 							})
+						  }
 						}
-					})
+					  })
 				
 				name.addEventListener('input', (e) => {
 					this.measurement.setNameForDescription(e.target.value);
@@ -74583,26 +74585,29 @@ ENDSEC
 			setTimeout(() => {
 				let uuid=this.measurement.uuid
 				let name = document.getElementById("nameForDescription"),
-				descr = document.getElementById("descriptionForMeasure"),
-				msListItems = document.querySelectorAll('.msListItems'),
-				pointcloudItems = document.querySelectorAll('.pointcloudItems');
+					descr = document.getElementById("descriptionForMeasure"),
+					msListItems = document.querySelectorAll('.msListItems'),
+					pointcloudItems = document.querySelectorAll('.pointcloudItems'),
+					measurementNameDiv = document.querySelectorAll('.measurementNameDiv');
 
-				this.viewer.scene.measurements.forEach((measure)=>{
-					if (measure.name !== 'Area') return
-					else if ([...pointcloudItems].some((pk)=>pk.id===measure.uuid))return 
-					else {
-					msListItems.forEach((item,index)=>{
-						if(index===msListItems.length-1){
-							item.insertAdjacentHTML('beforeend', `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
-						  <label>
-						  <input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
-						  <div class='fake'></div>
-							</label> 
-						  <img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/area.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
-							}
-						})
-					}
-				})
+					this.viewer.scene.measurements.forEach((measure) => {
+						if (measure.name === 'Area' || measure.name === 'Bereich') {
+						  if ([...pointcloudItems].some((pk) => pk.id === measure.uuid)) return
+						  else {
+							measurementNameDiv.forEach((item, index) => {
+							  if (item.classList.contains('measurementActive')) {
+								msListItems[index].insertAdjacentHTML('beforeend',
+								  `<li style='padding-left:15px' id=${measure.uuid} ><div id=${measure.uuid} class='pointcloudItems'>
+								  <label>
+								  <input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
+								  <div class='fake'></div>
+								  </label> 
+								  <img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/area.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+							  }
+							})
+						  }
+						}
+					  })
 				
 				
 				name.addEventListener('input', (e) => {
@@ -79445,7 +79450,6 @@ ENDSEC
 					$.jstree.reference(jsonNode.id).deselect_all();
 					$.jstree.reference(jsonNode.id).select_node(jsonNode.id);
 					toggleBtn()
-					console.log(measurement)
 				}
 			));
 
@@ -79784,7 +79788,34 @@ ENDSEC
 			tree.on('create_node.jstree', (e, data) => {
 				tree.jstree("open_all");
 			});
-			const addEvents = () =>{
+			const addEvents = () => {
+
+				const toggleEditMode = (index, boolean) => {
+					document.querySelectorAll('.confirmMeasurement')
+						.forEach((e, i) => {
+							if(i === index){
+								e.style.display = boolean ? 'flex' : 'none'  }
+							})
+					document.querySelectorAll('.editMeasurement')
+					.forEach((e, i) => {
+						if(i === index){
+							e.style.display = boolean ? 'none' : 'flex' }
+						})
+					}
+				const toggleTextField = (index, boolean) => {
+					document.querySelectorAll('.text-field__measurements')
+					.forEach((e, i) => {
+						if(i === index){
+							e.style.display = boolean ? 'block' : 'none'
+						}
+					})
+					document.querySelectorAll('.measurementNameDiv')
+					.forEach((e, i) => {
+						if(i === index){
+							e.style.display = boolean ? 'none' : 'block' }
+						})
+				}
+
 			document.querySelectorAll('.msListItems').
 			forEach((item) => {
 			item.addEventListener('click', (e) => {
@@ -79815,10 +79846,83 @@ ENDSEC
 						})
 					})
 				})
-			})}
+			})
+			document.querySelectorAll('.editMeasurement')
+			.forEach((item, index)=>{
+				item.addEventListener('click', () => {
+					toggleTextField(index, true)
+					toggleEditMode(index, true)
+				})
+			})
+			document.querySelectorAll('.text-field__measurements')
+			.forEach((item, index) => {
+				item.addEventListener('focusout', (e) => {
+					toggleTextField(index, false)
+					toggleEditMode(index, false)
+				})
+			})
+			document.querySelectorAll('.confirmMeasurement')
+			.forEach((item,index)=>{
+				item.addEventListener('click', () => {
+					toggleEditMode(index, false)
+					toggleTextField(index, false)
+				})
+			})
+			let measurementNameDiv =  document.querySelectorAll('.measurementNameDiv');
+			measurementNameDiv.forEach((item, index) => {
+				item.addEventListener('click', () => {
+					measurementNameDiv.forEach((e, i) => {
+						e.classList.remove('measurementActive')
+						if (i===index){
+							e.classList.add('measurementActive')
+						}
+					})
+				})
+			})
+			document.querySelectorAll('.text-field__measurements')
+			.forEach((item, index) => {
+				item.addEventListener('input', (e) => {
+					if(e.target.value.length <= 17){
+					measurementNameDiv[index].innerText = e.target.value }
+					else {
+						measurementNameDiv[index].innerText = e.target.value.slice(0, 16) + '...'
+					}
+				})
+			})
+			
+			document.addEventListener('keydown', function(e) {
+				if( e.which == 27 || e.which == 13 ){
+					document.querySelectorAll('.editMeasurement')
+					.forEach((item, index) => {
+						if (window.getComputedStyle(item).display === 'none'){
+							toggleEditMode(index, false)
+							toggleTextField(index, false)
+						}
+					})
+				};
+				if ( e.which == 27 ) {
+					let potreeMap = document.getElementById('potree_map');
+					if(potreeMap.classList.contains('potree_map_expanded')){
+					potreeMap.classList.remove('potree_map_expanded')}
+				};
+				
+			});
+
+			document.addEventListener('click', (e) => {
+				let textFiled = document.querySelectorAll('.measurementItems')
+				textFiled.forEach((item, index) => {
+					if (!e.composedPath().includes(item)){
+						toggleEditMode(index, false)
+						toggleTextField(index, false)
+					}
+				})
+			})
+		}
 			addEvents()
-			document.querySelector('#addMeasurement')
-			.addEventListener('click', () => {
+			
+			document.querySelectorAll('.addMeasurement').
+			forEach((item,index)=>{
+			item.addEventListener('click', () => {
 				let number = document.querySelectorAll('.msListWrapper').length + 1,
 				name = 'Measurements_' + number
 				document.querySelector('#measurementsWrapper')
@@ -79829,16 +79933,33 @@ ENDSEC
 								<input class='checkbox' type="checkbox" checked/>
 								<span class='fake'></span>
 							</label>
-							<div style="display:flex;flex:1"><input class="text-field__input text-field__measurements" type='text' value=${name} /></div>
+							<div style="display:flex;flex:1">
+							<div class='measurementNameDiv' style='font-size:18px'>${name}</div>
+							<input style='display:none' class="text-field__input text-field__measurements" type='text' value=${name} />
+							<div class="editMeasurement">
+								<img src='./potree_libs/potree/resources/icons/editMeasurement.svg'>
+							</div>
+							<div class="confirmMeasurement">
+								<img src='./potree_libs/potree/resources/icons/confirm.svg'>
+							</div>
+							</div>
 						</div>
 						<ul class="msListItems">
 						</ul>
 					</li>
 				</ul>`);
-			addEvents()
+			addEvents();
+			let measurementNameDiv =  document.querySelectorAll('.measurementNameDiv');
+				measurementNameDiv.forEach((e, i) => {
+					e.classList.remove('measurementActive')
+					if (i===measurementNameDiv.length-1){
+						e.classList.add('measurementActive')
+					}
+				})
 			})
+		})
+			
 			tree.on("select_node.jstree", (e, data) => {
-				console.log(data)
 				//here we need to return
 				let object = data.node.data;
 				propertiesPanel.set(object);
@@ -89347,9 +89468,9 @@ ENDSEC
 				let sidebarViewBtn=document.getElementById('sidebar-view');
 				let sidebarLayersBtn=document.getElementById('sidebar-layers');
 				let sidebarView=document.getElementById('view-type');
-				let layersView=document.getElementById('layers-type');
-				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block'; layersView.style.width='0px'; layersView.style.height='0px'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
-				sidebarLayersBtn.addEventListener('click', (e)=>{layersView.style.width='280px'; sidebarView.style.display='none'; sidebarLayersBtn.style.background='#515151'; sidebarViewBtn.style.background='#272727'})
+				let measurementsWrapper=document.getElementById('measurementsWrapper');
+				sidebarViewBtn.addEventListener('click', (e)=>{sidebarView.style.display='block';  measurementsWrapper.style.display='none'; sidebarViewBtn.style.background='#515151'; sidebarLayersBtn.style.background='#272727'});
+				sidebarLayersBtn.addEventListener('click', (e)=>{measurementsWrapper.style.display='block'; sidebarView.style.display='none'; sidebarLayersBtn.style.background='#515151'; sidebarViewBtn.style.background='#272727'})
 
 				const toggleButton=document.getElementById('toggleButton')
 				toggleButton.addEventListener('click', ()=>{this.toggleSidebar()})

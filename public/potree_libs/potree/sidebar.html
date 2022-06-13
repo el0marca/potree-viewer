@@ -101,7 +101,21 @@
 								<input class='checkbox' type="checkbox" checked/>
 								<span class='fake'></span>
 							</label>
-							<div style="display:flex"><input class="text-field__input text-field__measurements" type='text' value='Measurements'/><div id="addMeasurement"><img src='./potree_libs/potree/resources/icons/addMeasurement.png'></div></div>
+							<div style="display:flex;flex:1">
+								<div class="measurementNameDiv measurementActive" style="font-size:18px">Measurements</div>
+								<input class="text-field__input text-field__measurements" type='text' value='Measurements'/>
+								<div style='width:50px;display:flex;justify-content:space-between;align-items:center'>
+									<div class="editMeasurement">
+										<img src='./potree_libs/potree/resources/icons/editMeasurement.svg'>
+									</div>
+									<div class="confirmMeasurement">
+										<img src='./potree_libs/potree/resources/icons/confirm.svg'>
+									</div>
+									<div class="addMeasurement">
+										<img src='./potree_libs/potree/resources/icons/addMeasurement.svg'>
+									</div>
+								</div>
+							</div>
 						</div>
 						<ul class="msListItems">
 						</ul>

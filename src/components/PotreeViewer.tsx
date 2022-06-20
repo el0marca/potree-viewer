@@ -171,6 +171,7 @@ const PotreeViewer: FC = () => {
       "http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js",
       "pointcloud",
       (e: any) => {
+        
         let pointcloud = e.pointcloud;
         let material = pointcloud.material;
         material.activeAttributeName = fetchParams[0];

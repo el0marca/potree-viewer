@@ -6518,7 +6518,7 @@
 
 		this.name = '';
 		this.type = 'Object3D';
-		this.nameForDescription = 'Marker';
+		this.nameForDescription = null;
 		this.description = 'No description';
 		this.parent = null;
 		this.children = [];
@@ -71942,30 +71942,28 @@ void main() {
 			};
 			ol.inherits(DownloadSelectionControl, ol.control.Control);
 			
-			var xyz1 = new ol.source.XYZ({
-				url: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
-			})
-			var xyz2 = new ol.source.XYZ({
-				url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-			})
-		
-
-
 			let mapView = new ol.layer.Tile({
 				source: new ol.source.XYZ({
 					url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 				}),
 				visible: true,
-				name:'mapView'
+				name:'mapView',
+				preload: Infinity
 			});
 			let sateliteView = new ol.layer.Tile({
 				source: new ol.source.XYZ({
 					url: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
 				}),
 				visible: false,
-				name:'sateliteView'
+				name:'sateliteView',
+				preload: Infinity
 			});
-
+		
+		var extent = [-93941, 6650480, 64589, 6766970];
+		var vectorLayer = new ol.layer.Vector({
+			source: new ol.source.Vector()
+		});
+		
 		this.map = new ol.Map({
 				controls: ol.control.defaults({
 					attributionOptions: ({
@@ -71980,20 +71978,56 @@ void main() {
 					mapView,
 					sateliteView,
 					this.toolLayer,
+					new ol.layer.Tile({
+						source: new ol.source.TileWMS({
+							url: 'http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/wms',
+							params: {
+								LAYERS: 'BGS_EN_Bedrock_and_Superficial_Geology'
+							},
+						}),
+						opacity: 0.7,
+						// extent: extent
+					}),
+					vectorLayer,
 					// this.annotationsLayer,
 					// this.sourcesLayer,
 					// this.sourcesLabelLayer,
 					// this.images360Layer,
 					extentsLayer,
-					// cameraLayer
+					cameraLayer
 				],
 				target: 'potree_map_content',
 				view: new ol.View({
 					center: this.olCenter,
-					zoom: 9
+					zoom: 9,
+					minZoom: 5,
 				})
 			});
 
+			var geomRadios = $('[name=geometries]');
+			var drawControl;
+			
+			let updateDrawControl = () => {
+				var geometryType = geomRadios.filter(':checked').val();
+			
+				this.map.removeInteraction(drawControl);
+			
+				if (geometryType === 'None') return;
+				drawControl = new ol.interaction.Draw({
+					type: geometryType,
+					source: this.map.getLayers().item(4).getSource()
+				});
+				
+				this.map.addInteraction(drawControl);
+			};
+			
+			geomRadios.on('change', updateDrawControl)
+			
+			this.map.getLayers().item(4).getSource().on('addfeature', function(evt){
+				var feature = evt.feature;
+				var coords = feature.getGeometry().getCoordinates();
+				console.log(coords)
+			});
 			// DRAGBOX / SELECTION
 			this.dragBoxLayer = new ol.layer.Vector({
 				source: new ol.source.Vector({}),
@@ -72506,6 +72540,9 @@ void main() {
 					});
 					feature.setStyle(this.createLabelStyle(name));
 					this.sourcesLabelLayer.getSource().addFeature(feature);
+					var extent = [-93941, 6650480, 64589, 6766970];
+					this.map.getView().setCenter(ol.extent.getCenter(extent));
+					this.map.getView().setZoom(5)
 				}
 			}).catch(() => {
 				
@@ -74369,6 +74406,10 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_removed", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
+			if (!this.measurement.getNameForDescription()) {
+				this.measurement.setNameForDescription('Marker' + ' ' + this.viewer.scene.measurements.length)
+			}
+
 			setTimeout(() => {
 				let uuid = this.measurement.uuid
 				let name = document.getElementById("nameForDescription"),
@@ -74387,7 +74428,7 @@ ENDSEC
 						<input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
 						<div class='fake'></div>
 						  </label> 
-						<img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/distance.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+						<img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/distance.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription}</span></div></li>`)
 						  }
 						})
 					  }
@@ -74401,7 +74442,8 @@ ENDSEC
 				descr.addEventListener('input', (e) => {
 					this.measurement.setDescription(e.target.value)
 				});
-				name.value = this.measurement.getNameForDescription() + ' ' + this.viewer.scene.measurements.length;
+				
+				name.value = this.measurement.getNameForDescription();
 				descr.value = this.measurement.getDescription();
 			}, 10)
 
@@ -74482,7 +74524,9 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_removed", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
 
-				
+			if (!this.measurement.getNameForDescription()) {
+				this.measurement.setNameForDescription('Marker' + ' ' + this.viewer.scene.measurements.length)
+			}
 			setTimeout(() => {
 				let uuid=this.measurement.uuid
 				let name = document.getElementById("nameForDescription"),
@@ -74502,7 +74546,7 @@ ENDSEC
 							<input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
 							<div class='fake'></div>
 							  </label> 
-							<img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/point.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+							<img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/point.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription}</span></div></li>`)
 							  }
 							})
 						  }
@@ -74516,7 +74560,7 @@ ENDSEC
 				descr.addEventListener('input', (e) => {
 					this.measurement.setDescription(e.target.value)
 				});
-				name.value = this.measurement.getNameForDescription() + ' ' + this.viewer.scene.measurements.length;
+				name.value = this.measurement.getNameForDescription();
 				descr.value = this.measurement.getDescription();
 			}, 10)
 
@@ -74581,7 +74625,9 @@ ENDSEC
 			this.propertiesPanel.addVolatileListener(measurement, "marker_added", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_removed", this._update);
 			this.propertiesPanel.addVolatileListener(measurement, "marker_moved", this._update);
-
+			if (!this.measurement.getNameForDescription()) {
+				this.measurement.setNameForDescription('Marker' + ' ' + this.viewer.scene.measurements.length)
+			}
 			setTimeout(() => {
 				let uuid=this.measurement.uuid
 				let name = document.getElementById("nameForDescription"),
@@ -74602,7 +74648,7 @@ ENDSEC
 								  <input id="${measure.uuid}" class='checkbox' type="checkbox" checked/>
 								  <div class='fake'></div>
 								  </label> 
-								  <img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/area.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription} ${this.viewer.scene.measurements.length}</span></div></li>`)
+								  <img style='margin-right:5px; max-width:22px; max-height:22px' src='./potree_libs/potree/resources/icons/area.svg'><span id=${uuid.replace(/[^a-zа-яё\s]/gi, '')}>${this.measurement.nameForDescription}</span></div></li>`)
 							  }
 							})
 						  }
@@ -74617,7 +74663,8 @@ ENDSEC
 				descr.addEventListener('input', (e) => {
 					this.measurement.setDescription(e.target.value)
 				});
-				name.value = this.measurement.getNameForDescription() + ' ' + this.viewer.scene.measurements.length;
+
+				name.value = this.measurement.getNameForDescription();
 				descr.value = this.measurement.getDescription();
 			}, 10)
 
@@ -79614,15 +79661,16 @@ ENDSEC
 					this.viewer.scene.removeAllMeasurements();
 					measurements.style.right='-320px';
 					measurementsToggleBtn.style.right='-20px';
-					this.viewer.mapView.removeAllLayers()
+					this.viewer.mapView.removeAllLayers();
 					document.querySelectorAll('.msListWrapper').forEach((e, i) => {
-						if (i>0){
+						if (i > 0){
 							e.remove()
 						}
-					})
+					});
 					document.querySelectorAll('.msListItems').forEach((e, i) => {
 							e.innerHTML = ''
-					})
+					});
+					document.querySelectorAll('.measurementNameDiv')[0].classList.add('measurementActive');
 				}
 			));
 
@@ -88347,6 +88395,52 @@ ENDSEC
 					let potreeMap = $(`
 					<div id="potree_map" class="mapBox">
 						<div id="potree_map_content" class="map" style="position: absolute; z-index: 100; width: 100%; height: 100%; box-sizing: border-box"></div>
+						<div style='position:absolute;z-index:101;right:10px;top:10px;display:none' class="pane">
+						<div class="panel panel-default">
+							<form class="geom-types">
+								<div class="form-group">
+									<div class="radio">
+										<label>
+											<input type="radio" name="geometries" value="None" checked>
+											None
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="radio">
+										<label>
+											<input type="radio" name="geometries" value="Point">
+											Point
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="radio">
+										<label>
+											<input type="radio" name="geometries" value="LineString">
+											Distance
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="radio">
+										<label>
+											<input type="radio" name="geometries" value="Polygon">
+											Area
+										</label>
+									</div>
+								</div>
+								<div style='display:none' class="form-group">
+									<div class="radio">
+										<label>
+											<input type="radio" name="geometries" value="Circle">
+											Circle
+										</label>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
 					</div>
 				`);
 					$(domElement).append(potreeMap);

@@ -71959,10 +71959,16 @@ void main() {
 				preload: Infinity
 			});
 		
-		var extent = [-93941, 6650480, 64589, 6766970];
 		var vectorLayer = new ol.layer.Vector({
 			source: new ol.source.Vector()
 		});
+		let projExtent = ol.proj.get('EPSG:3857').getExtent(),
+			startResolution = ol.extent.getWidth(projExtent) / 256,
+			resolutions = new Array(22)
+
+		for (let i = 0, ii = resolutions.length; i < ii; ++i) {
+			resolutions[i] = startResolution / Math.pow(2, i);
+		  }
 		
 		this.map = new ol.Map({
 				controls: ol.control.defaults({
@@ -71978,16 +71984,27 @@ void main() {
 					mapView,
 					sateliteView,
 					this.toolLayer,
+
 					new ol.layer.Tile({
-						source: new ol.source.TileWMS({
-							url: 'http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/wms',
-							params: {
-								LAYERS: 'BGS_EN_Bedrock_and_Superficial_Geology'
-							},
-						}),
-						opacity: 0.7,
-						// extent: extent
+						source: new ol.source.XYZ({
+							tileGrid: new ol.tilegrid.TileGrid({
+								extent: [1098697.0033624198, 6288641.279362458, 1098753.6569915968, 6288716.890801593],
+								origin: [projExtent[0], projExtent[3]],
+								resolutions 
+							}),
+							tileUrlFunction: function (tileCoord, pixelRatio, projection) {
+								// console.log(resolutions)
+								var z = tileCoord[0].toString();
+								var x = tileCoord[1].toString();
+								var y = (Math.pow(2, z) -tileCoord[2]-1).toString();
+								console.log(z + '/' + x + '/' + y + ".png")
+								return "https://4p53o92mx4.execute-api.eu-central-1.amazonaws.com/api/orthophoto/" +
+							z + '/' + x + '/' + y + ".png"
+						}
 					}),
+					opacity:0.8
+				  }),
+
 					vectorLayer,
 					// this.annotationsLayer,
 					// this.sourcesLayer,
@@ -71999,14 +72016,19 @@ void main() {
 				target: 'potree_map_content',
 				view: new ol.View({
 					center: this.olCenter,
-					zoom: 9,
-					minZoom: 5,
+					zoom: 22,
+					projection: "EPSG:3857"
+					// minZoom: 5,
 				})
 			});
 
+			// console.log( ol.proj.transform([ 9.870272035577695, 49.08159014399056], 'EPSG:4326','EPSG:3857'))
 			var geomRadios = $('[name=geometries]');
 			var drawControl;
-			
+			const getres=()=>{
+				return this.map.getView().getResolution()
+			}
+			// let getres= this.map.getView().getResolutions())
 			let updateDrawControl = () => {
 				var geometryType = geomRadios.filter(':checked').val();
 			
@@ -72023,11 +72045,11 @@ void main() {
 			
 			geomRadios.on('change', updateDrawControl)
 			
-			this.map.getLayers().item(4).getSource().on('addfeature', function(evt){
-				var feature = evt.feature;
-				var coords = feature.getGeometry().getCoordinates();
-				console.log(coords)
-			});
+			// this.map.getLayers().item(3).getSource().on('addfeature', function(evt){
+			// 	var feature = evt.feature;
+			// 	var coords = feature.getGeometry().getCoordinates();
+			// 	console.log(coords)
+			// });
 			// DRAGBOX / SELECTION
 			this.dragBoxLayer = new ol.layer.Vector({
 				source: new ol.source.Vector({}),
@@ -72481,7 +72503,7 @@ void main() {
 			let mapCenter = this.getMapCenter();
 
 			let view = this.map.getView();
-			view.setCenter(mapCenter);
+			view.setCenter(ol.extent.getCenter([1098629.4073899,1098667.625904,6288627.1902026,6288588.9716885]));
 
 			this.gExtent.setCoordinates([
 				mapExtent.bottomLeft,

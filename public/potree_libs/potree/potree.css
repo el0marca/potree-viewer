@@ -224,7 +224,7 @@
 	margin-right:10px;
 	padding: 8px
 }
-.measurementNameDiv {
+.measurementNameDiv, .outputNameDiv {
 	display:block;
 	font-size: 18px;
     width: 70%;
@@ -966,6 +966,32 @@ body {
 	width: 15px; border-left: 1px solid #666666;
  }
 
+ .otListWrapper, .otListWrapper ul, .otListWrapper li {
+	margin: 0; padding: 0; line-height: 1.2; list-style: none; font-size:16px
+ }
+ .otListWrapper ul {margin: 0 0 0 15px; /* отступ вертикальной линии */}
+ .otListWrapper > li:not(:only-child), .otListWrapper li li {
+	position: relative;
+	padding: 3px 0 0 20px; /* отступ текста */
+ }
+ /* Стиль вертикальной линии */
+ .otListWrapper li:not(:last-child) { border-left: 1px solid #666666;}
+ /* Стили горизонтальной линии*/  
+ .otListWrapper li li:before, .otListWrapper > li:not(:only-child):before {
+	content: ""; 
+	position: absolute; 
+	top: 0; 
+	left: 0;
+	width: 15px; 
+	height: 1.4em; 
+	border-bottom:1px solid #666666;
+ }
+
+ /* Вертикальная линия последнего пункта в списка */  
+ .otListWrapper li:last-child:before {
+	width: 15px; border-left: 1px solid #666666;
+ }
+
 
 .accordion>h3 {
 	background-color: var(--bg-color-2) !important;
@@ -1049,7 +1075,7 @@ body {
 	padding-bottom:20px;
 	transition:0.2s;
 }
-.pointcloudItems{
+.pointcloudItems, .outputItems {
 	transition:0.3s;
 	border-radius:10px; 
 	padding: 7px 7px 7px 5px;
@@ -1062,7 +1088,7 @@ body {
 	margin-top:20px;
 	display:none
 }
-.measurementItems {
+.measurementItems, .outputItems {
 	transition:0.3s;
 	padding:10px;
 	border-radius:10px;

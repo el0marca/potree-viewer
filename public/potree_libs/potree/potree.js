@@ -71669,16 +71669,26 @@ void main() {
 			this.enabled = false;
 
 			this.removeAllLayers = () => {
-				const layers = [...this.map.getLayers().getArray()]
+				const layers = [...this.map.getLayers().getArray()];
 				layers.forEach((layer, i) => {
 					const name = layer.B.name
 					if (name === 'Area' || name === 'Distance' || name === 'Point') {
 						this.map.removeLayer(layer)}
 					})
 				}
-			
+			this.setOrthDSMLayersVisible = (type, value) => {
+				const layers = [...this.map.getLayers().getArray()];
+				layers.forEach((layer) => {
+					const name = layer.B.name
+					if (!type) {
+						if (name === 'dsm' || name === 'orthophoto'){
+						layer.setVisible(value)}
+					}
+					else if (name === type) {
+						layer.setVisible(value)}
+					})
+			}
 			this.addMeasurementsToMap = () => {
-
 				const distance = 'Distance', area = 'Area', point = 'Point';
 				const distanz = 'Distanz', bereich = 'Bereich', punkt = 'Punkt';
 				const layers = [...this.map.getLayers().getArray()];
@@ -71962,14 +71972,38 @@ void main() {
 		var vectorLayer = new ol.layer.Vector({
 			source: new ol.source.Vector()
 		});
+		
 		let projExtent = ol.proj.get('EPSG:3857').getExtent(),
 			startResolution = ol.extent.getWidth(projExtent) / 256,
-			resolutions = new Array(22)
+			pExtent = [1098697.0033624198, 6288641.279362458, 1098753.6569915968, 6288716.890801593],
+			resolutions = new Array(22);
 
 		for (let i = 0, ii = resolutions.length; i < ii; ++i) {
 			resolutions[i] = startResolution / Math.pow(2, i);
 		  }
 		
+		  function getLayer(type){
+			return new ol.layer.Tile({
+				source: new ol.source.XYZ({
+					tileGrid: new ol.tilegrid.TileGrid({
+						extent: pExtent,
+						origin: [projExtent[0], projExtent[1]],
+						resolutions 
+					}),
+					tileUrlFunction: function (tileCoord, pixelRatio, projection) {
+						var z = tileCoord[0].toString();
+						var x = tileCoord[1].toString();
+						var y = tileCoord[2].toString();
+
+						return "https://4p53o92mx4.execute-api.eu-central-1.amazonaws.com/api/" + type + '/' +
+					z + '/' + x + '/' + y + ".png"
+				}
+			}),
+			name: type,
+			opacity: 'orthophoto'? 0.8 : 0.5
+		  })
+		  }
+
 		this.map = new ol.Map({
 				controls: ol.control.defaults({
 					attributionOptions: ({
@@ -71984,27 +72018,8 @@ void main() {
 					mapView,
 					sateliteView,
 					this.toolLayer,
-
-					new ol.layer.Tile({
-						source: new ol.source.XYZ({
-							tileGrid: new ol.tilegrid.TileGrid({
-								extent: [1098697.0033624198, 6288641.279362458, 1098753.6569915968, 6288716.890801593],
-								origin: [projExtent[0], projExtent[3]],
-								resolutions 
-							}),
-							tileUrlFunction: function (tileCoord, pixelRatio, projection) {
-								// console.log(resolutions)
-								var z = tileCoord[0].toString();
-								var x = tileCoord[1].toString();
-								var y = (Math.pow(2, z) -tileCoord[2]-1).toString();
-								console.log(z + '/' + x + '/' + y + ".png")
-								return "https://4p53o92mx4.execute-api.eu-central-1.amazonaws.com/api/orthophoto/" +
-							z + '/' + x + '/' + y + ".png"
-						}
-					}),
-					opacity:0.8
-				  }),
-
+					getLayer('orthophoto'),
+					getLayer('dsm'),
 					vectorLayer,
 					// this.annotationsLayer,
 					// this.sourcesLayer,
@@ -72015,20 +72030,17 @@ void main() {
 				],
 				target: 'potree_map_content',
 				view: new ol.View({
-					center: this.olCenter,
-					zoom: 22,
-					projection: "EPSG:3857"
-					// minZoom: 5,
+					center: ol.extent.getCenter(pExtent),
+					zoom: 20,
+					projection: "EPSG:3857",
+					minZoom: 4,
 				})
 			});
 
-			// console.log( ol.proj.transform([ 9.870272035577695, 49.08159014399056], 'EPSG:4326','EPSG:3857'))
+			// console.log( ol.proj.transform([ -121.23, 35.72], 'EPSG:4326','EPSG:3857'))
 			var geomRadios = $('[name=geometries]');
 			var drawControl;
-			const getres=()=>{
-				return this.map.getView().getResolution()
-			}
-			// let getres= this.map.getView().getResolutions())
+		
 			let updateDrawControl = () => {
 				var geometryType = geomRadios.filter(':checked').val();
 			
@@ -72050,6 +72062,7 @@ void main() {
 			// 	var coords = feature.getGeometry().getCoordinates();
 			// 	console.log(coords)
 			// });
+
 			// DRAGBOX / SELECTION
 			this.dragBoxLayer = new ol.layer.Vector({
 				source: new ol.source.Vector({}),
@@ -72503,7 +72516,6 @@ void main() {
 			let mapCenter = this.getMapCenter();
 
 			let view = this.map.getView();
-			view.setCenter(ol.extent.getCenter([1098629.4073899,1098667.625904,6288627.1902026,6288588.9716885]));
 
 			this.gExtent.setCoordinates([
 				mapExtent.bottomLeft,
@@ -72562,9 +72574,8 @@ void main() {
 					});
 					feature.setStyle(this.createLabelStyle(name));
 					this.sourcesLabelLayer.getSource().addFeature(feature);
-					var extent = [-93941, 6650480, 64589, 6766970];
-					this.map.getView().setCenter(ol.extent.getCenter(extent));
-					this.map.getView().setZoom(5)
+					this.map.getView().setCenter(ol.extent.getCenter([1098697.0033624198, 6288641.279362458, 1098753.6569915968, 6288716.890801593]));
+					this.map.getView().setZoom(19);
 				}
 			}).catch(() => {
 				
@@ -79917,8 +79928,24 @@ ENDSEC
 					})
 				})
 			})
+			document.querySelectorAll('.outputWrapper input')
+			.forEach((item) => {
+				item.addEventListener('click', (e) => {
+					this.viewer.mapView.setOrthDSMLayersVisible(e.target.name, e.target.checked)
+					
+				})
+			})
+			document.querySelectorAll('.outputHeader input')
+			.forEach((item) => {
+				item.addEventListener('click', (e) => {
+					this.viewer.mapView.setOrthDSMLayersVisible(false, e.target.checked)
+					document.querySelectorAll('.outputWrapper input').forEach((item, i) => {
+						item.checked = e.target.checked
+					})
+				})
+			})
 			document.querySelectorAll('.editMeasurement')
-			.forEach((item, index)=>{
+			.forEach((item, index) => {
 				item.addEventListener('click', () => {
 					toggleTextField(index, true)
 					toggleEditMode(index, true)

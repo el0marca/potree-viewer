@@ -71975,18 +71975,19 @@ void main() {
 		
 		let projExtent = ol.proj.get('EPSG:3857').getExtent(),
 			startResolution = ol.extent.getWidth(projExtent) / 256,
-			pExtent = [1098697.0033624198, 6288641.279362458, 1098753.6569915968, 6288716.890801593],
 			resolutions = new Array(22);
+
 
 		for (let i = 0, ii = resolutions.length; i < ii; ++i) {
 			resolutions[i] = startResolution / Math.pow(2, i);
 		  }
 		
-		  function getLayer(type){
+		// console.log(pExtent.A, this.gExtent)
+		   const getLayer = (type) => {
 			return new ol.layer.Tile({
 				source: new ol.source.XYZ({
 					tileGrid: new ol.tilegrid.TileGrid({
-						extent: pExtent,
+						extent: [0, 0, 1098762.3248159369, 6288716.475532888],
 						origin: [projExtent[0], projExtent[1]],
 						resolutions 
 					}),
@@ -72003,7 +72004,7 @@ void main() {
 			opacity: 'orthophoto'? 0.8 : 0.5
 		  })
 		  }
-
+		 
 		this.map = new ol.Map({
 				controls: ol.control.defaults({
 					attributionOptions: ({
@@ -72030,7 +72031,8 @@ void main() {
 				],
 				target: 'potree_map_content',
 				view: new ol.View({
-					center: ol.extent.getCenter(pExtent),
+					// center: ol.extent.getCenter([0, 0,this.gExtent.A[2], this.gExtent.A[3]]
+					// ),
 					zoom: 20,
 					projection: "EPSG:3857",
 					minZoom: 4,
@@ -72142,7 +72144,6 @@ void main() {
 			this.on360ImagesAdded = e => {
 				this.addImages360(e.images);
 			};
-
 			this.onAnnotationAdded = e => {
 				if (!this.sceneProjection) {
 					return;
@@ -72217,7 +72218,7 @@ void main() {
 			}
 
 			this.gExtent = new ol.geom.LineString([[0, 0], [0, 0]]);
-
+			
 			let feature = new ol.Feature(this.gExtent);
 			let featureVector = new ol.source.Vector({
 				features: [feature]
@@ -72392,8 +72393,9 @@ void main() {
 			this.toMap = proj4(this.sceneProjection, this.mapProjection);
 			this.toScene = proj4(this.mapProjection, this.sceneProjection);
 		};
-
+		
 		getMapExtent () {
+			this.setSceneProjection('+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 			let bb = this.viewer.getBoundingBox();
 
 			let bottomLeft = this.toMap.forward([bb.min.x, bb.min.y]);
@@ -72514,7 +72516,6 @@ void main() {
 
 			let mapExtent = this.getMapExtent();
 			let mapCenter = this.getMapCenter();
-
 			let view = this.map.getView();
 
 			this.gExtent.setCoordinates([
@@ -72544,7 +72545,7 @@ void main() {
 					let source = sources[i];
 					let name = source.name;
 					let bounds = source.bounds;
-
+					
 					let mapBounds = {
 						min: this.toMap.forward([bounds.min[0], bounds.min[1]]),
 						max: this.toMap.forward([bounds.max[0], bounds.max[1]])
@@ -72574,9 +72575,11 @@ void main() {
 					});
 					feature.setStyle(this.createLabelStyle(name));
 					this.sourcesLabelLayer.getSource().addFeature(feature);
-					this.map.getView().setCenter(ol.extent.getCenter([1098697.0033624198, 6288641.279362458, 1098753.6569915968, 6288716.890801593]));
-					this.map.getView().setZoom(19);
-				}
+					// this.map.getView().setCenter(ol.extent.getCenter([1098697.0033624198, 6288641.279362458, 1098753.6569915968, 6288716.890801593]));
+					
+					
+				};
+				this.map.getView().setZoom(19);
 			}).catch(() => {
 				
 			});
@@ -89703,6 +89706,7 @@ ENDSEC
 				});
 
 				this.mapView = new MapView(this);
+				
 				this.mapView.init();
 
 				i18n.init({

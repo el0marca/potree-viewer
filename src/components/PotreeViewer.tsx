@@ -35,11 +35,11 @@ const PotreeContainer: FC = observer(() => {
 
   return (
     <>
-      {/* {user.pointCloudChildsWasFetched && params ? ( */}
+      {user.pointCloudChildsWasFetched && params ? (
         <PotreeViewer />
-      {/* ) : ( */}
-        {/* <div className={s.background}></div> */}
-      {/* )} */}
+       ) : ( 
+         <div className={s.background}></div> 
+       )} 
     </>
   );
 });
@@ -168,10 +168,11 @@ const PotreeViewer: FC = () => {
     viewer.loadGUI(() => console.log("GUI loaded"));
 
     Potree.loadPointCloud(
-      "http://5.9.65.151/mschuetz/potree/resources/pointclouds/opentopography/CA13_1.4/cloud.js",
+     pointCloudUrl,
       "pointcloud",
       (e: any) => {
         let pointcloud = e.pointcloud;
+        pointcloud.projection = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
         let material = pointcloud.material;
         material.activeAttributeName = fetchParams[0];
         material.minSize = 2;

@@ -71981,13 +71981,12 @@ void main() {
 		for (let i = 0, ii = resolutions.length; i < ii; ++i) {
 			resolutions[i] = startResolution / Math.pow(2, i);
 		  }
-		
-		// console.log(pExtent.A, this.gExtent)
-		   const getLayer = (type) => {
+
+		  const getLayer = (type) => {
 			return new ol.layer.Tile({
 				source: new ol.source.XYZ({
 					tileGrid: new ol.tilegrid.TileGrid({
-						extent: [0, 0, 1098762.3248159369, 6288716.475532888],
+						extent: this.gExtent.A,
 						origin: [projExtent[0], projExtent[1]],
 						resolutions 
 					}),
@@ -72213,17 +72212,17 @@ void main() {
 		}
 
 		getExtentsLayer () {
+	
 			if (this.extentsLayer) {
 				return this.extentsLayer;
 			}
 
 			this.gExtent = new ol.geom.LineString([[0, 0], [0, 0]]);
-			
+			// console.log(this.gExtent.A)
 			let feature = new ol.Feature(this.gExtent);
 			let featureVector = new ol.source.Vector({
 				features: [feature]
 			});
-
 			this.extentsLayer = new ol.layer.Vector({
 				source: featureVector,
 				style: new ol.style.Style({
@@ -72242,6 +72241,7 @@ void main() {
 					})
 				})
 			});
+            
 
 			return this.extentsLayer;
 		}
@@ -72393,9 +72393,8 @@ void main() {
 			this.toMap = proj4(this.sceneProjection, this.mapProjection);
 			this.toScene = proj4(this.mapProjection, this.sceneProjection);
 		};
-		
+	
 		getMapExtent () {
-			this.setSceneProjection('+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 			let bb = this.viewer.getBoundingBox();
 
 			let bottomLeft = this.toMap.forward([bb.min.x, bb.min.y]);
@@ -72576,8 +72575,6 @@ void main() {
 					feature.setStyle(this.createLabelStyle(name));
 					this.sourcesLabelLayer.getSource().addFeature(feature);
 					// this.map.getView().setCenter(ol.extent.getCenter([1098697.0033624198, 6288641.279362458, 1098753.6569915968, 6288716.890801593]));
-					
-					
 				};
 				this.map.getView().setZoom(19);
 			}).catch(() => {

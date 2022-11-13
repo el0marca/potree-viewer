@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { CognitoRefreshToken } from "amazon-cognito-identity-js";
 import axios from "axios";
 import { userPool } from "../../api/cognito";
-import { PointCloudChilds, UserInfo } from "./types";
+import { FileFormat, PointCloudChilds, TileStatus, UserInfo } from "./types";
 
 export const getFileName = (name: string): string => {
   return name.split(".").slice(0, -1).join(".");
@@ -22,7 +22,7 @@ class User {
     makeAutoObservable(this);
   }
 
-  verifySession() {
+  async verifySession() {
     this.cognitoUser = userPool.getCurrentUser();
     return new Promise<void>((res, rej) => {
       this.cognitoUser.getSession((err: string, info: UserInfo) => {
@@ -46,7 +46,7 @@ class User {
       })
       .catch((err) => console.error(err));
   }
-  refreshToken() {
+  async refreshToken() {
     const cognitoRefreshToken = new CognitoRefreshToken({
       RefreshToken: this.userInfo!.refreshToken.token,
     });
@@ -75,27 +75,33 @@ class User {
         axiosConfig
       )
       .then((res) => {
-        let childs = res.data.data.childs;
+        const childs = res.data.data.childs as PointCloudChilds[];
 
-        const isPointCloudValid = (e: PointCloudChilds, pushData: boolean) => {
-          const fileFormat: string = e.name.slice(-4);
-          if (e.size! > 1024 * 10000 && e.tileStatus === "available") {
-            if (fileFormat === ".laz" || fileFormat === ".las") {
+        const isPointCloudValid = (pc: PointCloudChilds, pushData: boolean) => {
+          const { name, size, tileStatus } = pc;
+          const fileFormat = getFileExt(name);
+          if (size! > 1024 * 10000 && tileStatus === TileStatus.available) {
+            if (
+              fileFormat === FileFormat.laz ||
+              fileFormat === FileFormat.las
+            ) {
               if (pushData) {
                 this.pointCloudChilds!.push({
-                  ...e,
-                  name: getFileName(e.name),
+                  ...pc,
+                  name: getFileName(name),
                 });
               } else return true;
             }
           }
         };
-        if (childs.some((e: PointCloudChilds) => isPointCloudValid(e, false))) {
+        if (childs.some((pc) => isPointCloudValid(pc, false))) {
           this.pointCloudChilds.push({
             fileId,
             name: getFileName(name),
           });
-          childs.forEach((e: PointCloudChilds) => isPointCloudValid(e, true));
+
+          childs.forEach((pc) => isPointCloudValid(pc, true));
+
           window.localStorage.setItem(
             "pointCloudChilds",
             JSON.stringify(this.pointCloudChilds)

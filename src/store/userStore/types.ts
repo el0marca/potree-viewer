@@ -11,3 +11,12 @@ export interface PointCloudChilds {
   fileId: number;
   projectId?: number;
 }
+
+export enum FileFormat {
+  las = "las",
+  laz = "laz"
+}
+
+export enum TileStatus {
+  available = "available"
+}

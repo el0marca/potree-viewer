@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import toggleBtn from "../img/icons/menu_button.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import user from "../store/user";
+import { userStore } from "../store/userStore";
 const language = window.localStorage.getItem("language");
 
 declare global {
@@ -16,15 +16,15 @@ declare global {
   }
 }
 
-const PotreeContainer: FC = observer(() => {
+export const PotreeContainer: FC = observer(() => {
   const { urlParams } = useParams<{ urlParams: string }>(),
     params: string[] | null = urlParams ? urlParams!.split("&") : null;
 
   useEffect(() => {
-    user.verifySession().then(() => {
-      user.refreshToken().then(() => {
+    userStore.verifySession().then(() => {
+      userStore.refreshToken().then(() => {
         if (params)
-          user.getPointCloudChilds(
+          userStore.getPointCloudChilds(
             Number(params[1]),
             Number(params[4]),
             params[3]
@@ -35,11 +35,11 @@ const PotreeContainer: FC = observer(() => {
 
   return (
     <>
-      {user.pointCloudChildsWasFetched && params ? (
+      {userStore.pointCloudChildsWasFetched && params ? (
         <PotreeViewer />
-       ) : ( 
-         <div className={s.background}></div> 
-       )} 
+      ) : (
+        <div className={s.background}></div>
+      )}
     </>
   );
 });
@@ -62,7 +62,7 @@ const PotreeViewer: FC = () => {
     resource = "files",
     projectId = fetchParams[1],
     fileId = fetchParams[2],
-    token = `Bearer ${user.accessToken}`,
+    token = `Bearer ${userStore.accessToken}`,
     pointCloudUrl = `${protocol}://${domain}/${base}/${resource}/${projectId}/${fileId}/get-tiles/metadata.json`,
     cache = new Map(),
     // useCorsMode = true,
@@ -152,7 +152,7 @@ const PotreeViewer: FC = () => {
 
   useEffect(() => {
     setInterval(() => {
-      user.refreshToken();
+      userStore.refreshToken();
     }, 1000 * 60 * 60);
 
     const Potree = window.Potree,
@@ -167,33 +167,30 @@ const PotreeViewer: FC = () => {
     viewer.setControls(viewer.orbitControls);
     viewer.loadGUI(() => console.log("GUI loaded"));
 
-    Potree.loadPointCloud(
-     pointCloudUrl,
-      "pointcloud",
-      (e: any) => {
-        let pointcloud = e.pointcloud;
-        pointcloud.projection = '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
-        let material = pointcloud.material;
-        material.activeAttributeName = fetchParams[0];
-        material.minSize = 2;
-        material.pointSizeType = Potree.PointSizeType.FIXED;
-        viewer.scene.addPointCloud(pointcloud);
-        viewer.setLanguage(language || "en");
-        viewer.fitToScreen();
-        
-        document
-          .getElementById("classificationToggle")!
-          .addEventListener("click", toggleClassification);
-        document.querySelectorAll(".pointcloudItems")!.forEach((item: any) => {
-          if (item.id === fetchParams[2]) {
-            item.classList.add("selected");
-          }
-          item.addEventListener("click", (e: any) => {
-            selectPointCloud(e.target.id);
-          });
+    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e: any) => {
+      let pointcloud = e.pointcloud;
+      pointcloud.projection =
+        "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+      let material = pointcloud.material;
+      material.activeAttributeName = fetchParams[0];
+      material.minSize = 2;
+      material.pointSizeType = Potree.PointSizeType.FIXED;
+      viewer.scene.addPointCloud(pointcloud);
+      viewer.setLanguage(language || "en");
+      viewer.fitToScreen();
+
+      document
+        .getElementById("classificationToggle")!
+        .addEventListener("click", toggleClassification);
+      document.querySelectorAll(".pointcloudItems")!.forEach((item: any) => {
+        if (item.id === fetchParams[2]) {
+          item.classList.add("selected");
+        }
+        item.addEventListener("click", (e: any) => {
+          selectPointCloud(e.target.id);
         });
-      }
-    );
+      });
+    });
   }, [pointCloudUrl]);
 
   return (
@@ -206,10 +203,8 @@ const PotreeViewer: FC = () => {
       </div>
       <div id="potree_sidebar_container"></div>
       <div id="measurementsToggleBtn">
-        <img id='measurementsToggleBtnIcon' src={toggleBtn} alt="btn" />
+        <img id="measurementsToggleBtnIcon" src={toggleBtn} alt="btn" />
       </div>
     </div>
   );
 };
-
-export default PotreeContainer;

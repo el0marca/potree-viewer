@@ -4,6 +4,8 @@ import axios from "axios";
 import { userPool } from "../../api/cognito";
 import { FileFormat, PointCloudChilds, TileStatus, UserInfo } from "./types";
 
+const baseUrl = process.env.REACT_APP_BASE_URL;
+
 export const getFileName = (name: string): string => {
   return name.split(".").slice(0, -1).join(".");
 };
@@ -71,7 +73,7 @@ class User {
     };
     axios
       .get(
-        `${process.env.baseUrl}/api/files/${projectId}/${fileId}/get-childs`,
+        `${baseUrl}/api/files/${projectId}/${fileId}/get-childs`,
         axiosConfig
       )
       .then((res) => {

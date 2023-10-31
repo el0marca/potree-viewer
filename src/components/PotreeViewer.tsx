@@ -21,25 +21,25 @@ export const PotreeContainer: FC = observer(() => {
     params: string[] | null = urlParams ? urlParams.split("&") : null;
 
   useEffect(() => {
-    userStore.verifySession().then(() => {
-      userStore.refreshToken().then(() => {
-        if (params)
-          userStore.getPointCloudChilds(
-            Number(params[1]),
-            Number(params[4]),
-            params[3]
-          );
-      });
-    });
+    // userStore.verifySession().then(() => {
+    //   userStore.refreshToken().then(() => {
+    if (params)
+      userStore.getPointCloudChilds(
+        Number(params[1]),
+        Number(params[4]),
+        params[3]
+      );
+    // });
+    // });
   }, []);
 
   return (
     <>
-      {userStore.pointCloudChildsWasFetched && params ? (
-        <PotreeViewer />
-      ) : (
+      {/* {params ? ( */}
+      <PotreeViewer />
+      {/* ) : (
         <div className={s.background}></div>
-      )}
+      )} */}
     </>
   );
 });
@@ -47,11 +47,11 @@ export const PotreeContainer: FC = observer(() => {
 const PotreeViewer: FC = () => {
   const { urlParams } = useParams<{ urlParams: string }>();
   const [fetchParams, setFetchParams] = useState<string[]>(
-    urlParams!.split("&")
+    'urlParams'.split("&")
   );
 
   useEffect(() => {
-    setFetchParams(urlParams!.split("&"));
+    setFetchParams('urlParams'!.split("&"));
   }, [urlParams]);
 
   const navigate = useNavigate();
@@ -131,14 +131,14 @@ const PotreeViewer: FC = () => {
   useFetchMiddleware(token);
 
   const toggleClassification = () => {
-    let fetchparams = `${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`;
+    // let fetchparams = `${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`;
 
-    if (fetchParams[0] === "rgba") {
-      navigate(`/classification&${fetchparams}`);
-    } else {
-      navigate(`/rgba&${fetchparams}`);
-    }
-    window.location.reload();
+    // if (fetchParams[0] === "rgba") {
+    //   navigate(`/classification&${fetchparams}`);
+    // } else {
+    //   navigate(`/rgba&${fetchparams}`);
+    // }
+    // window.location.reload();
   };
 
   const selectPointCloud = (fileId: number) => {
@@ -167,30 +167,34 @@ const PotreeViewer: FC = () => {
     viewer.setControls(viewer.orbitControls);
     viewer.loadGUI(() => console.log("GUI loaded"));
 
-    Potree.loadPointCloud(pointCloudUrl, "pointcloud", (e: any) => {
-      let pointcloud = e.pointcloud;
-      pointcloud.projection =
-        "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
-      let material = pointcloud.material;
-      material.activeAttributeName = fetchParams[0];
-      material.minSize = 2;
-      material.pointSizeType = Potree.PointSizeType.FIXED;
-      viewer.scene.addPointCloud(pointcloud);
-      viewer.setLanguage(language || "en");
-      viewer.fitToScreen();
+    Potree.loadPointCloud(
+      "http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js",
+      "pointcloud",
+      (e: any) => {
+        let pointcloud = e.pointcloud;
+        pointcloud.projection =
+          "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+        let material = pointcloud.material;
+        material.activeAttributeName = fetchParams[0];
+        material.minSize = 2;
+        material.pointSizeType = Potree.PointSizeType.FIXED;
+        viewer.scene.addPointCloud(pointcloud);
+        viewer.setLanguage(language || "en");
+        viewer.fitToScreen();
 
-      document
-        .getElementById("classificationToggle")
-        ?.addEventListener("click", toggleClassification);
-      document.querySelectorAll(".pointcloudItems").forEach((item: any) => {
-        if (item.id === fetchParams[2]) {
-          item.classList.add("selected");
-        }
-        item.addEventListener("click", (e: any) => {
-          selectPointCloud(e.target.id);
+        document
+          .getElementById("classificationToggle")
+          ?.addEventListener("click", toggleClassification);
+        document.querySelectorAll(".pointcloudItems").forEach((item: any) => {
+          if (item.id === fetchParams[2]) {
+            item.classList.add("selected");
+          }
+          item.addEventListener("click", (e: any) => {
+            selectPointCloud(e.target.id);
+          });
         });
-      });
-    });
+      }
+    );
   }, [pointCloudUrl]);
 
   return (

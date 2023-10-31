@@ -7,7 +7,7 @@ export const SignUp = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const authenticationDetails = new AuthenticationDetails({
       Username: email,
@@ -31,7 +31,9 @@ export const SignUp = observer(() => {
       });
     })
       .catch((e) => console.error(e))
-      .finally((e) => console.log(e));
+      .finally(() => {
+        console.log("done");
+      });
   };
 
   return (

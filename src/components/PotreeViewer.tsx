@@ -18,7 +18,7 @@ declare global {
 
 export const PotreeContainer: FC = observer(() => {
   const { urlParams } = useParams<{ urlParams: string }>(),
-    params: string[] | null = urlParams ? urlParams!.split("&") : null;
+    params: string[] | null = urlParams ? urlParams.split("&") : null;
 
   useEffect(() => {
     userStore.verifySession().then(() => {
@@ -180,9 +180,9 @@ const PotreeViewer: FC = () => {
       viewer.fitToScreen();
 
       document
-        .getElementById("classificationToggle")!
-        .addEventListener("click", toggleClassification);
-      document.querySelectorAll(".pointcloudItems")!.forEach((item: any) => {
+        .getElementById("classificationToggle")
+        ?.addEventListener("click", toggleClassification);
+      document.querySelectorAll(".pointcloudItems").forEach((item: any) => {
         if (item.id === fetchParams[2]) {
           item.classList.add("selected");
         }

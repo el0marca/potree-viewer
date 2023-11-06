@@ -47,11 +47,11 @@ export const PotreeContainer: FC = observer(() => {
 const PotreeViewer: FC = () => {
   const { urlParams } = useParams<{ urlParams: string }>();
   const [fetchParams, setFetchParams] = useState<string[]>(
-    'urlParams'.split("&")
+    "urlParams".split("&")
   );
 
   useEffect(() => {
-    setFetchParams('urlParams'!.split("&"));
+    setFetchParams("urlParams"!.split("&"));
   }, [urlParams]);
 
   const navigate = useNavigate();
@@ -132,7 +132,6 @@ const PotreeViewer: FC = () => {
 
   const toggleClassification = () => {
     // let fetchparams = `${fetchParams[1]}&${fetchParams[2]}&${fetchParams[3]}&${fetchParams[4]}`;
-
     // if (fetchParams[0] === "rgba") {
     //   navigate(`/classification&${fetchparams}`);
     // } else {
@@ -167,14 +166,17 @@ const PotreeViewer: FC = () => {
     viewer.setControls(viewer.orbitControls);
     viewer.loadGUI(() => console.log("GUI loaded"));
 
+    const filename = "kaechele.las";
+    const tilename = "metadata.json";
+
     Potree.loadPointCloud(
-      "http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js",
+      `https://cqywkvqw5c.execute-api.eu-west-1.amazonaws.com/dev/viewer-showcase/tiles/${filename}/${tilename}`,
       "pointcloud",
       (e: any) => {
-        let pointcloud = e.pointcloud;
+        const { pointcloud } = e;
+        const { material } = pointcloud;
         pointcloud.projection =
           "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
-        let material = pointcloud.material;
         material.activeAttributeName = fetchParams[0];
         material.minSize = 2;
         material.pointSizeType = Potree.PointSizeType.FIXED;

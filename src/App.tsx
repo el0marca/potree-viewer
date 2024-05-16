@@ -7,8 +7,7 @@ import { SignUp } from "./components/SignUp";
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<PotreeContainer />} />
-      <Route path="/:urlParams" element={<PotreeContainer />} />
+      <Route path="/" element={<PotreeContainer urlParams=""/>} />
       <Route path="/signup" element={<SignUp />} />
     </Routes>
   );

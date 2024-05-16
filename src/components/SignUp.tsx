@@ -1,7 +1,7 @@
 import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
-import { userPool } from "../api/cognito";
+import { userPool } from "../store/userStore";
 
 export const SignUp = observer(() => {
   const [email, setEmail] = useState("");
@@ -17,6 +17,7 @@ export const SignUp = observer(() => {
       Username: email,
       Pool: userPool,
     });
+
     new Promise((res, rej) => {
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {

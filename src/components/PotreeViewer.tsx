@@ -15,61 +15,70 @@ declare global {
     clone: Function;
   }
 }
+interface PotreeContainerProps {
+  urlParams: string;
+}
+export const PotreeContainer: FC<PotreeContainerProps> = observer(
+  ({ urlParams }) => {
+    // const { urlParams } = useParams<{ urlParams: string }>(),
+    const params = urlParams ? urlParams.split("&") : null;
 
-export const PotreeContainer: FC = observer(() => {
-  const { urlParams } = useParams<{ urlParams: string }>(),
-    params: string[] | null = urlParams ? urlParams.split("&") : null;
+    useEffect(() => {
+      // userStore.verifySession().then(() => {
+      //   userStore.refreshToken().then(() => {
+      if (params)
+        userStore.getPointCloudChilds(
+          Number(params[1]),
+          Number(params[4]),
+          params[3]
+        );
+      // });
+      // });
+    }, []);
 
-  useEffect(() => {
-    // userStore.verifySession().then(() => {
-    //   userStore.refreshToken().then(() => {
-    if (params)
-      userStore.getPointCloudChilds(
-        Number(params[1]),
-        Number(params[4]),
-        params[3]
-      );
-    // });
-    // });
-  }, []);
-
-  return (
-    <>
-      {/* {params ? ( */}
-      <PotreeViewer />
-      {/* ) : (
+    return (
+      <>
+        {/* {params ? ( */}
+        <PotreeViewer />
+        {/* ) : (
         <div className={s.background}></div>
       )} */}
-    </>
-  );
-});
+      </>
+    );
+  }
+);
+// interface PotreeViewerProps {
+//   urlParams: string;
+// }
 
 const PotreeViewer: FC = () => {
-  const { urlParams } = useParams<{ urlParams: string }>();
-  const [fetchParams, setFetchParams] = useState<string[]>(
-    "urlParams".split("&")
-  );
+  // const { urlParams } = useParams<{ urlParams: string }>();
+  // const [fetchParams, setFetchParams] = useState<string[]>(
+  //   "urlParams".split("&")
+  // );
 
-  useEffect(() => {
-    setFetchParams("urlParams"!.split("&"));
-  }, [urlParams]);
+  // useEffect(() => {
+  //   setFetchParams("urlParams"!.split("&"));
+  // }, [urlParams]);
 
   const navigate = useNavigate();
+
   const protocol = "https",
     // domain = "potree.vitest.ninja",
     domain = "zqhq8ti8nf.execute-api.eu-central-1.amazonaws.com",
     base = "api",
     resource = "files",
-    projectId = fetchParams[1],
-    fileId = fetchParams[2],
+    // projectId = fetchParams[1],
+    // fileId = fetchParams[2],
     token = `Bearer ${userStore.accessToken}`,
-    pointCloudUrl = `${protocol}://${domain}/${base}/${resource}/${projectId}/${fileId}/get-tiles/metadata.json`,
+    // pointCloudUrl = `${protocol}://${domain}/${base}/${resource}/${projectId}/${fileId}/get-tiles/metadata.json`,
     cache = new Map(),
     // useCorsMode = true,
     cachingDomain = `${domain}`,
     // redirectStatusCode = 200,
     expiresIn = 600_000;
 
+  // eslint-disable-next-line no-extend-native
   Function.prototype.clone = function () {
     var that = this;
     var temp: any = function temporary() {
@@ -140,14 +149,14 @@ const PotreeViewer: FC = () => {
     // window.location.reload();
   };
 
-  const selectPointCloud = (fileId: number) => {
-    if (fileId !== Number(fetchParams[2])) {
-      navigate(
-        `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${fetchParams[4]}`
-      );
-      window.location.reload();
-    }
-  };
+  // const selectPointCloud = (fileId: number) => {
+  //   if (fileId !== Number(fetchParams[2])) {
+  //     navigate(
+  //       `/${fetchParams[0]}&${fetchParams[1]}&${fileId}&${fetchParams[3]}&${fetchParams[4]}`
+  //     );
+  //     window.location.reload();
+  //   }
+  // };
 
   useEffect(() => {
     setInterval(() => {
@@ -169,35 +178,36 @@ const PotreeViewer: FC = () => {
     const filename = "kaechele.las";
     const tilename = "metadata.json";
 
-    Potree.loadPointCloud(
-      `https://cqywkvqw5c.execute-api.eu-west-1.amazonaws.com/dev/viewer-showcase/tiles/${filename}/${tilename}`,
-      "pointcloud",
-      (e: any) => {
-        const { pointcloud } = e;
-        const { material } = pointcloud;
-        pointcloud.projection =
-          "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
-        material.activeAttributeName = fetchParams[0];
-        material.minSize = 2;
-        material.pointSizeType = Potree.PointSizeType.FIXED;
-        viewer.scene.addPointCloud(pointcloud);
-        viewer.setLanguage(language || "en");
-        viewer.fitToScreen();
+    const url1 =
+      "http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js";
 
-        document
-          .getElementById("classificationToggle")
-          ?.addEventListener("click", toggleClassification);
-        document.querySelectorAll(".pointcloudItems").forEach((item: any) => {
-          if (item.id === fetchParams[2]) {
-            item.classList.add("selected");
-          }
-          item.addEventListener("click", (e: any) => {
-            selectPointCloud(e.target.id);
-          });
-        });
-      }
-    );
-  }, [pointCloudUrl]);
+    Potree.loadPointCloud(url1, "pointcloud", (e: any) => {
+      const { pointcloud } = e;
+      const { material } = pointcloud;
+      pointcloud.projection =
+        "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+      // material.activeAttributeName = fetchParams[0];
+      material.minSize = 2;
+      material.pointSizeType = Potree.PointSizeType.FIXED;
+      viewer.scene.addPointCloud(pointcloud);
+      viewer.setLanguage(language || "en");
+      viewer.fitToScreen();
+
+      document
+        .getElementById("classificationToggle")
+        ?.addEventListener("click", toggleClassification);
+      // document.querySelectorAll(".pointcloudItems").forEach((item: any) => {
+      //   if (item.id === fetchParams[2]) {
+      //     item.classList.add("selected");
+      //   }
+      //   item.addEventListener("click", (e: any) => {
+      //     selectPointCloud(e.target.id);
+      //   });
+      // });
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div id="potree-root">

@@ -1,10 +1,15 @@
 import { makeAutoObservable } from "mobx";
 import { CognitoRefreshToken } from "amazon-cognito-identity-js";
 import axios from "axios";
-import { userPool } from "../../api/cognito";
 import { FileFormat, PointCloudChilds, TileStatus, UserInfo } from "./types";
+import { CognitoUserPool } from "amazon-cognito-identity-js";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
+
+export const userPool = new CognitoUserPool({
+  UserPoolId: "eu-central-1_7PBGxs6Qb",
+  ClientId: "77gp5fjth1n8irbche3aj4tpd7",
+});
 
 export const getFileName = (name: string): string => {
   return name.split(".").slice(0, -1).join(".");

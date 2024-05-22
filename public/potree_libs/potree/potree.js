@@ -68426,6 +68426,7 @@ void main() {
 		}
 
 		startInsertion (args = {}) {
+			console.log('startInsertion')
 			let domElement = this.viewer.renderer.domElement;
 
 			let measure = new Measure();
@@ -68464,6 +68465,11 @@ void main() {
 			};
 
 			let insertionCallback = (e) => {
+				
+				if (e.key === 'Backspace') {
+					cancel.callback()
+				}
+
 				if (e.button === MOUSE.LEFT) {
 					measure.addMarker(measure.points[measure.points.length - 1].position.clone());
 
@@ -68484,11 +68490,15 @@ void main() {
 				}
 				domElement.removeEventListener('mouseup', insertionCallback, false);
 				this.viewer.removeEventListener('cancel_insertions', cancel.callback);
+				domElement.removeEventListener('keydown', insertionCallback, false);
+
 			};
 
 			if (measure.maxMarkers > 1) {
 				this.viewer.addEventListener('cancel_insertions', cancel.callback);
 				domElement.addEventListener('mouseup', insertionCallback, false);
+				domElement.addEventListener('keydown', insertionCallback, false);
+
 			}
 
 			measure.addMarker(new Vector3(0, 0, 0));
@@ -68511,7 +68521,7 @@ void main() {
 
 			this.light.position.copy(camera.position);
 
-			// make size independant of distance
+			// make size independent of distance
 			for (let measure of measurements) {
 				measure.lengthUnit = this.viewer.lengthUnit;
 				measure.lengthUnitDisplay = this.viewer.lengthUnitDisplay;

@@ -5,7 +5,33 @@ import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { userStore } from "../store/userStore";
 const language = window.localStorage.getItem("language");
+class CustomMeasuringTool extends window.Potree.MeasuringTool {
+  constructor(viewer: any) {
+    super(viewer);
+    this.addKeyboardListeners();
+  }
 
+  // Добавляем обработчики событий клавиатуры
+  addKeyboardListeners() {
+    window.addEventListener("keydown", (event) => this.onKeyDown(event));
+  }
+
+  onKeyDown(event: any) {
+    if (event.key === "Enter") {
+      this.finishInsertion();
+    }
+  }
+
+  // Переопределяем метод finishInsertion
+  finishInsertion() {
+    super.finishInsertion(); // Вызов оригинального метода
+
+    // Ваш код для завершения рисования линии
+    alert("Линия завершена!");
+
+    // Можно добавить дополнительную логику, например, экспорт линии в GeoJSON или выполнение других действий
+  }
+}
 declare global {
   interface Window {
     originalFetch: Function;
@@ -163,9 +189,9 @@ const PotreeViewer: FC = () => {
       userStore.refreshToken();
     }, 1000 * 60 * 60);
 
-    const Potree = window.Potree,
-      potreeContainerDiv = document.getElementById("potree_render_area"),
-      viewer = new Potree.Viewer(potreeContainerDiv);
+    const Potree = window.Potree;
+    const potreeContainerDiv = document.getElementById("potree_render_area");
+    const viewer = new Potree.Viewer(potreeContainerDiv);
 
     viewer.setEDLEnabled(true);
     viewer.setFOV(60);
@@ -177,11 +203,9 @@ const PotreeViewer: FC = () => {
 
     const filename = "kaechele.las";
     const tilename = "metadata.json";
-
-    const url1 =
+    const pc =
       "http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js";
-
-    Potree.loadPointCloud(url1, "pointcloud", (e: any) => {
+    Potree.loadPointCloud(pc, "pointcloud", (e: any) => {
       const { pointcloud } = e;
       const { material } = pointcloud;
       pointcloud.projection =
